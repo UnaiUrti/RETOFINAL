@@ -6,12 +6,15 @@ import modelo.JugadorInterface;
 import modelo.JugadorMySQLImplementation;
 import modelo.LigaInterface;
 import modelo.LigaMySQLImplementation;
+import modelo.PartidoInterface;
+import modelo.PartidoMySQLImplementation;
 import modelo.UsuarioInterface;
 import modelo.UsuarioMySQLImplementation;
 import vista.VConsultarEquipo;
 import vista.VInsertarEquipo;
 import vista.VInsertarJugador;
 import vista.VInsertarLiga;
+import vista.VInsertarPartido;
 import vista.VPrincipal;
 
 public class Main {
@@ -28,9 +31,14 @@ public class Main {
 		ventanaEquipo.setVisible(true);
 		*/
 		
-		
+		/*
 		VInsertarJugador  ventanaJugador = new VInsertarJugador();
 		ventanaJugador.setVisible(true);
+		*/
+		
+		
+		VInsertarPartido  ventanaPartido = new VInsertarPartido();
+		ventanaPartido.setVisible(true);
 		
 		
 		/*
@@ -51,7 +59,9 @@ public class Main {
 	public static JugadorInterface cargarJugador() {
 		return new JugadorMySQLImplementation();
 	}
-	
+	public static PartidoInterface cargarPartido() {
+		return new PartidoMySQLImplementation();
+	}
 	
 	
 	
