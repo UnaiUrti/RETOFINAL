@@ -29,7 +29,7 @@ public class LigaMySQLImplementation implements LigaInterface {
 	private final String modificaLiga = "UPDATE liga SET Nombre_L=?, Pais_L=? WHERE Cod_L=?";
 	private final String bajaLiga = "DELETE FROM liga WHERE Cod_L=?";
 	private final String listarLigas = "SELECT * FROM liga";
-	private final String clasificacionLiga = "{CALL calcular_clasificacion(?)}";
+	private final String clasificacionLiga = "{CALL calcularClasificacion(?)}";
 	
 	/*CONEXION CON EL ARCHIVO DE CONFIGURACION*/
 	public LigaMySQLImplementation() {

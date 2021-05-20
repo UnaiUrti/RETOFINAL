@@ -31,6 +31,7 @@ public class PClasificacionLiga extends JPanel {
 	private VUsuarioMenu usuarioMenu;
 	private Liga liga;
 	private JButton btnVerEquipo;
+	private JButton btnVerPartidos;
 
 	
 	/**
@@ -44,7 +45,7 @@ public class PClasificacionLiga extends JPanel {
 		setLayout(null);
 		this.setBounds(230, 23, 697, 403);
 		
-		JLabel lblLigaNombre = new JLabel("Nombre");
+		JLabel lblLigaNombre = new JLabel("Liga");
 		lblLigaNombre.setHorizontalAlignment(SwingConstants.CENTER);
 		lblLigaNombre.setBounds(27, 29, 117, 29);
 		add(lblLigaNombre);
@@ -113,13 +114,28 @@ public class PClasificacionLiga extends JPanel {
 		btnVerEquipo.setBounds(531, 354, 131, 38);
 		add(btnVerEquipo);
 		
+		btnVerPartidos = new JButton("VER PARTIDOS");
+		btnVerPartidos.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				verPartidos();
+			}
+		});
+		btnVerPartidos.setBounds(382, 356, 131, 34);
+		add(btnVerPartidos);
+		
+	}
+	
+	public void verPartidos() {
+		
+		
+		
 	}
 	
 	public void verEquipo() {
 		
-		if (tablaClasificacion.getSelectedColumnCount()>1) {
+		if (tablaClasificacion.getSelectedRowCount()>1) {
 			JOptionPane.showMessageDialog(this, "Selecciona solo un equipo");
-		} else if (tablaClasificacion.getSelectedColumnCount()<=0) {
+		} else if (tablaClasificacion.getSelectedRowCount()==0) {
 			JOptionPane.showMessageDialog(this, "Debes seleccionar un equipo");
 		} else {
 			String codE = tablaClasificacion.getModel().getValueAt(tablaClasificacion.getSelectedRow(), 1).toString();
@@ -127,11 +143,9 @@ public class PClasificacionLiga extends JPanel {
 			usuarioMenu.cambiarJPanel(verEquipos);
 		}
 		
-		
-		
-		
-		
 	}
+	
+	
 	
 	
 	

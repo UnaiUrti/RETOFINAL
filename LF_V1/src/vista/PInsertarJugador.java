@@ -256,7 +256,7 @@ public class PInsertarJugador extends JPanel {
 			JOptionPane.showMessageDialog(this, "DEBES PONERLE UNA POSICION AL JUGADOR");
 		} else if (cmbEquipo.getSelectedIndex() == -1) {
 			JOptionPane.showMessageDialog(this, "EL JUGADOR TIENE QUE SER DE ALGUN EQUIPO");
-		} else if (textDorsal.getText().equals()
+		//}else if (textDorsal.getText().equals() //FALTA VALIDAR FORSAL
 		
 		}else {
 			int pos = cmbEquipo.getSelectedIndex();

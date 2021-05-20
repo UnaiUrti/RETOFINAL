@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import modelo.interfaces.JugadorInterface;
+import modelo.entidades.Equipo;
 import modelo.entidades.Jugador;
 
 public class JugadorMySQLImplementation implements JugadorInterface {
@@ -28,6 +29,7 @@ public class JugadorMySQLImplementation implements JugadorInterface {
 	private final String altaJugador = "{CALL altaJugador( ? , ? , ? , ? , ? )}";
 	private final String modificaJugador = "UPDATE jugador SET Nombre_J=? , Dorsal=? , Pais_J=? , Posicion=? , Cod_E=? WHERE Cod_J=?";
 	private final String bajaJugador = "DELETE FROM jugador WHERE Cod_J=?";
+	private final String buscarJugador = "SELECT * FROM jugador WHERE Cod_J=? ";
 	private final String listarJugadores = "SELECT * FROM jugador WHERE Cod_E=?";
 
 	/* CONEXION CON EL ARCHIVO DE CONFIGURACION */
@@ -146,6 +148,51 @@ public class JugadorMySQLImplementation implements JugadorInterface {
 
 	}
 
+	public Jugador buscarJugador(String codJ) {
+
+		Jugador jugador = null;
+		ResultSet rs = null;
+		this.openConnection();
+
+		try {
+			stmt = con.prepareStatement(buscarJugador);
+
+			stmt.setString(1, codJ);
+
+			rs = stmt.executeQuery();
+
+			if (rs.next()) {
+				jugador = new Jugador();
+				jugador.setCodJ(rs.getString("Cod_J"));
+				jugador.setNombreJ(rs.getString("Nombre_J"));
+				jugador.setDorsal(rs.getInt("Dorsal"));
+				jugador.setPaisJ(rs.getString("Pais_J"));
+				jugador.setPosicion(rs.getString("Posicion"));
+				jugador.setCodE(rs.getString("Cod_E"));
+			}
+
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+
+		if (rs != null) {
+			try {
+				rs.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
+		try {
+			this.closeConnection();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return jugador;
+
+	}
+	
 	@Override
 	public ArrayList<Jugador> todosJugador(String codEquipo) {
 

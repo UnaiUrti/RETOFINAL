@@ -15,6 +15,7 @@ import modelo.entidades.Partido;
 import modelo.interfaces.PartidoInterface;
 
 public class PartidoMySQLImplementation implements PartidoInterface {
+	
 	// ATRIBUTOS DE LA CONEXION A BD
 	private Connection con;
 	private PreparedStatement stmt;

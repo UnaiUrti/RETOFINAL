@@ -12,8 +12,12 @@ public interface EquipoInterface {
 	
 	public void bajaEquipo(Equipo equipo);
 	
+	public Equipo buscarEquipo(String codE);
+	
 	public ArrayList<Equipo> todosEquipo(String codL);
 
 	public ArrayList<Equipo> listarTodosEquipo();
+	
+	public String[][] ultimosPartidos(String codE);
 
 }

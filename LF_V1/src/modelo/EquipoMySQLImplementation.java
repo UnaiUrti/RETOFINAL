@@ -29,8 +29,10 @@ public class EquipoMySQLImplementation implements EquipoInterface {
 	private final String altaEquipo = "{CALL altaEquipo( ? , ? )}";
 	private final String modificaEquipo = "UPDATE equipo SET Nombre_E=? , Cod_L=? WHERE Cod_E=?";
 	private final String bajaEquipo = "DELETE FROM equipo WHERE Cod_E=?";
+	private final String buscarEquipo="SELECT * FROM equipo WHERE Cod_E=?";
 	private final String listarEquipos = "SELECT * FROM equipo WHERE Cod_L=?";
 	private final String listarTodosEquipos = "SELECT * FROM equipo";
+	private final String ultimosPartidos = "{CALL ultimosPartidos(?)}";
 
 	/* CONEXION CON EL ARCHIVO DE CONFIGURACION */
 	public EquipoMySQLImplementation() {
@@ -141,6 +143,48 @@ public class EquipoMySQLImplementation implements EquipoInterface {
 
 	}
 
+	public Equipo buscarEquipo(String codE) {
+
+		Equipo equipo = new Equipo();
+		ResultSet rs = null;
+		this.openConnection();
+
+		try {
+			stmt = con.prepareStatement(buscarEquipo);
+
+			stmt.setString(1, codE);
+
+			rs = stmt.executeQuery();
+
+			if (rs.next()) {
+
+				equipo.setCodE(rs.getString("Cod_E"));
+				equipo.setNombreE(rs.getString("Nombre_E"));
+				equipo.setCodL(rs.getString("Cod_L"));
+			}
+
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+
+		if (rs != null) {
+			try {
+				rs.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
+		try {
+			this.closeConnection();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return equipo;
+
+	}
+
 	@Override
 	public ArrayList<Equipo> todosEquipo(String codLiga) {
 
@@ -229,6 +273,67 @@ public class EquipoMySQLImplementation implements EquipoInterface {
 		}
 
 		return equipos;
+		
+	}
+	
+	public String[][] ultimosPartidos(String codE) {
+
+		String[][] ultimosTresPartidos = null;
+
+		ResultSet rs = null;
+
+		this.openConnection();
+
+		try {
+			stmt = con.prepareStatement(ultimosPartidos);
+
+			stmt.setString(1, codE);
+
+			rs = stmt.executeQuery();
+
+			int i = 0;
+
+			rs.last();
+			i = rs.getRow();
+			rs.beforeFirst();
+
+			ultimosTresPartidos = new String[i][5];
+
+			i = 0;
+
+			while (rs.next()) {
+
+				ultimosTresPartidos[i][0] = rs.getDate("fecha").toLocalDate().toString();
+				ultimosTresPartidos[i][1] = rs.getString("equipoL");
+				ultimosTresPartidos[i][2] = String.valueOf(rs.getInt("golesL"));
+				ultimosTresPartidos[i][3] = String.valueOf(rs.getInt("golesV"));
+				ultimosTresPartidos[i][4] = rs.getString("equipoV");
+
+				i++;
+
+			}
+
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+
+		if (rs != null) {
+			try {
+				rs.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
+		try {
+			this.closeConnection();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return ultimosTresPartidos;
 
 	}
+	
+	
 }

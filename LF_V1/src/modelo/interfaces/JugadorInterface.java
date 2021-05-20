@@ -11,6 +11,8 @@ public interface JugadorInterface {
 	
 	public void bajaJugador(Jugador jugador);
 	
+	public Jugador buscarJugador(String codJ);
+	
 	public ArrayList<Jugador> todosJugador(String codEquipo);
 	
 }
