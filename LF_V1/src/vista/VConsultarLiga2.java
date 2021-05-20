@@ -13,6 +13,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 import aplicacion.Main;
+import modelo.EquipoInterface;
 import modelo.Liga;
 import modelo.LigaInterface;
 
@@ -35,6 +36,7 @@ public class VConsultarLiga2 extends JDialog {
 	private VConsultaPrincipal vConsultaPrincipal;
 	private String[][] clasificacion;
 	private LigaInterface datosLiga = Main.cargarLiga();
+	private EquipoInterface datosEquipo = Main.cargarEquipo();
 	private JTable tablaClasificacion;
 
 	public VConsultarLiga2(VConsultaPrincipal vConsultaPrincipal ,Liga liga) {
@@ -81,7 +83,7 @@ public class VConsultarLiga2 extends JDialog {
 		textPaisL.setEditable(false);
 		
 		String titulos[] = { "#","COD_EQ","EQUIPO","PJ","PG","PE","PE","GA","GE","PTS" };
-		clasificacion = datosLiga.tabla(liga.getCodL());
+		clasificacion = datosLiga.tablaClasificacion(liga.getCodL());
 	
 		DefaultTableModel model = new DefaultTableModel(clasificacion,titulos);
 		tablaClasificacion = new JTable(model);

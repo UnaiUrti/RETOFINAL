@@ -166,9 +166,9 @@ public class LigaMySQLImplementation implements LigaInterface {
 		
 	}
 	
-	public String[][] tabla(String codLiga) {
+	public String[][] tablaClasificacion(String codL) {
 
-		String[][] clasi= new String[20][10];
+		String[][] clasi = null; 
 		
 		ResultSet rs = null;
 		
@@ -177,11 +177,19 @@ public class LigaMySQLImplementation implements LigaInterface {
 		try {
 			stmt = con.prepareStatement(clasificacionLiga);
 	
-			stmt.setString(1, codLiga);
+			stmt.setString(1, codL);
 			
 			rs = stmt.executeQuery();
 			
 			int i = 0;
+			
+			rs.last();
+			i = rs.getRow();
+	        rs.beforeFirst();
+		
+			clasi = new String[i][10];
+			
+			i = 0;
 			
 			while(rs.next()) {
 				
@@ -199,6 +207,8 @@ public class LigaMySQLImplementation implements LigaInterface {
 				i++;
 					
 			}
+			
+	
 			
 		} catch (SQLException e1) {
 			e1.printStackTrace();
@@ -221,6 +231,5 @@ public class LigaMySQLImplementation implements LigaInterface {
 		return clasi;
 		
 	}
-	
 	
 }

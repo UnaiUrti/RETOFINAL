@@ -1,5 +1,9 @@
-	package aplicacion;
+package aplicacion;
 
+import modelo.EquipoInterface;
+import modelo.EquipoMySQLImplementation;
+import modelo.JugadorInterface;
+import modelo.JugadorMySQLImplementation;
 import modelo.LigaInterface;
 import modelo.LigaMySQLImplementation;
 import modelo.UsuarioInterface;
@@ -23,6 +27,12 @@ public class Main {
 		return new LigaMySQLImplementation();
 	}
 	
+	public static EquipoInterface cargarEquipo() {
+		return new EquipoMySQLImplementation();
+	}
 	
+	public static JugadorInterface cargarJugador() {
+		return new JugadorMySQLImplementation();
+	}
 
 }
