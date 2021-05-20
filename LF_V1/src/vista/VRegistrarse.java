@@ -1,6 +1,7 @@
 package vista;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 
 import javax.swing.JButton;
@@ -16,12 +17,18 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.Font;
+import java.awt.Toolkit;
+
 import javax.swing.JTextField;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class VRegistrarse extends JDialog {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
 	private JTextField textUsuario;
 	private JTextField textContraseña;
@@ -36,6 +43,12 @@ public class VRegistrarse extends JDialog {
 		this.datosUsuario = datosUsuario;
 		
 		setBounds(100, 100, 602, 430);
+		
+		Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
+	    int x = (int) ((dimension.getWidth() - this.getWidth()) / 2);
+	    int y = (int) ((dimension.getHeight() - this.getHeight()) / 2);
+	    this.setLocation(x, y);
+		
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -102,6 +115,11 @@ public class VRegistrarse extends JDialog {
 			}
 			{
 				JButton btnRetroceder = new JButton("RETROCEDER");
+				btnRetroceder.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						volverVPrincipal();
+					}
+				});
 				btnRetroceder.setActionCommand("Cancel");
 				buttonPane.add(btnRetroceder);
 			}
@@ -119,6 +137,13 @@ public class VRegistrarse extends JDialog {
 
 		//Mensaje de confirmación
 		JOptionPane.showMessageDialog(this, "Usuario dado de alta");
+		volverVPrincipal();
+	}
+	
+	private void volverVPrincipal() {
+		VPrincipal volverVPrincipal = new VPrincipal(datosUsuario);
+		this.dispose();
+		volverVPrincipal.setVisible(true);
 	}
 	
 }

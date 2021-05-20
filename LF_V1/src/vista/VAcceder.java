@@ -1,6 +1,7 @@
 package vista;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 
 import javax.swing.JButton;
@@ -15,10 +16,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import java.awt.Font;
+import java.awt.Toolkit;
 import java.util.Map;
-import java.util.TreeMap;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -32,30 +31,23 @@ public class VAcceder extends JDialog {
 	private JTextField textUsuario;
 	private JTextField textContraseña;
 	private UsuarioInterface datosUsuario;
-
-
-	/**
-	 * Launch the application.
-	 */
-	/*public static void main(String[] args) {
-		try {
-			VAcceder dialog = new VAcceder(datosUsuario);
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}*/
-
+	private Map<String, Usuario> usuarios;
+	
 	/**
 	 * Create the dialog.
 	 */
 	public VAcceder(UsuarioInterface datosUsuario) {
 		
 		this.datosUsuario = datosUsuario;
-		Map<String, Usuario> usuarios = datosUsuario.todosUsuarios();
+		usuarios = datosUsuario.todosUsuarios();
 		
 		setBounds(100, 100, 604, 429);
+		
+		Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
+	    int x = (int) ((dimension.getWidth() - this.getWidth()) / 2);
+	    int y = (int) ((dimension.getHeight() - this.getHeight()) / 2);
+	    this.setLocation(x, y);
+		
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -97,20 +89,7 @@ public class VAcceder extends JDialog {
 				JButton btnAcceder = new JButton("ACCEDER");
 				btnAcceder.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						if (buscarUsuario(usuarios)) {
-							if (comprobarContrasena(usuarios)) {
-								System.out.println(esAdmin(usuarios));
-								if (!esAdmin(usuarios)) {
-									consultaPrincipal();
-								} else if (esAdmin(usuarios)) {
-									modoAdmin();
-								}
-							} else {
-								JOptionPane.showMessageDialog(null, "Usuario/Contraseña incorrecto.");
-							}
-						} else {
-							JOptionPane.showMessageDialog(null, "El usuario no existe.");
-						}
+						accederUsuario();
 					}
 				});
 				btnAcceder.setActionCommand("OK");
@@ -119,6 +98,11 @@ public class VAcceder extends JDialog {
 			}
 			{
 				JButton btnRetroceder = new JButton("RETROCEDER");
+				btnRetroceder.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						volverVPrincipal();
+					}
+				});
 				btnRetroceder.setActionCommand("Cancel");
 				buttonPane.add(btnRetroceder);
 			}
@@ -126,51 +110,44 @@ public class VAcceder extends JDialog {
 		
 	}
 	
-	private boolean buscarUsuario(Map<String, Usuario> usuarios) {
-		
-		boolean encontrado=false;
-		
-			if (usuarios.containsKey(textUsuario.getText())) {
-				encontrado=true;
+	private void accederUsuario() {
+		if (usuarios.containsKey(textUsuario.getText())) {
+			for (Usuario usuario : usuarios.values()) {
+				if (usuario.getNombreU().equalsIgnoreCase(textUsuario.getText()) && usuario.getContrasenaU().equals(textContraseña.getText())) {
+					if (usuario.isAdmin()) {
+						modoAdmin();
+					} else {
+						consultaPrincipal();
+					}
+				} else if (usuario.getNombreU().equalsIgnoreCase(textUsuario.getText()) && !usuario.getContrasenaU().equals(textContraseña.getText())){
+					JOptionPane.showMessageDialog(null, "Contraseña incorrecta.");
+					textContraseña.setText("");
+				}
 			}
-		
-		return encontrado;
-	}
-	
-	private boolean comprobarContrasena(Map<String, Usuario> usuarios) {
-		
-		boolean encontrado=false;
-		
-		for (Usuario usuario : usuarios.values()) {
-			if (buscarUsuario(usuarios) && usuario.getContrasenaU().equals(textContraseña.getText())) {
-				encontrado=true;
-			}
+		} else {
+			JOptionPane.showMessageDialog(null, "El usuario no existe.");
+			textUsuario.setText("");
+			textContraseña.setText("");
 		}
-		
-		return encontrado;
-		
-	}
-	
-	private boolean esAdmin(Map<String, Usuario> usuarios) {
-		
-		for (Usuario usuario : usuarios.values()) {
-			if (buscarUsuario(usuarios) && usuario.isAdmin()) {
-				return true;
-			}
-		}
-		
-		return false;
 		
 	}
 	
 	private void modoAdmin() {
 		VModoAdmin modoAdmin = new VModoAdmin(datosUsuario);
+		this.dispose();
 		modoAdmin.setVisible(true);
 	}
 	
 	private void consultaPrincipal() {
 		VConsultaPrincipal consultaPrincipal = new VConsultaPrincipal(datosUsuario);
+		this.dispose();
 		consultaPrincipal.setVisible(true);
+	}
+	
+	private void volverVPrincipal() {
+		VPrincipal volverVPrincipal = new VPrincipal(datosUsuario);
+		this.dispose();
+		volverVPrincipal.setVisible(true);
 	}
 	
 }

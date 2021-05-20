@@ -16,7 +16,7 @@ public class UsuarioMySQLImplementation implements UsuarioInterface{
 	
 	//SENTENCIAS SQL
 	private final String altaUsuario="INSERT INTO usuario VALUES(?, ?, ?)";
-	private final String buscarUsuario="SELECT * FROM usuario";
+	private final String listarUsuarios="SELECT * FROM usuario";
 	
 	//CONEXION CON LA BD
 	public void openConnection() {
@@ -78,7 +78,7 @@ public class UsuarioMySQLImplementation implements UsuarioInterface{
 		
 		try {
 			
-			stmt = con.prepareStatement(buscarUsuario);
+			stmt = con.prepareStatement(listarUsuarios);
 			
 			rs = stmt.executeQuery();
 				

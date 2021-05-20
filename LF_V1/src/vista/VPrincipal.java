@@ -1,17 +1,16 @@
 package vista;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import modelo.UsuarioInterface;
-import modelo.UsuarioMySQLImplementation;
-
 import javax.swing.JLabel;
+
+import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Toolkit;
+
 import javax.swing.JButton;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -21,9 +20,13 @@ import java.awt.event.ActionEvent;
 
 public class VPrincipal extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private UsuarioInterface datosUsuario;
-	//private UsuarioInterface datosUsuario;
+	
 	/**
 	 * Create the frame.
 	 */
@@ -33,6 +36,12 @@ public class VPrincipal extends JFrame {
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 603, 440);
+		
+		Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
+	    int x = (int) ((dimension.getWidth() - this.getWidth()) / 2);
+	    int y = (int) ((dimension.getHeight() - this.getHeight()) / 2);
+	    this.setLocation(x, y);
+		
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -87,11 +96,13 @@ public class VPrincipal extends JFrame {
 	
 	private void registrarUsuario() {
 		VRegistrarse registrar = new VRegistrarse(datosUsuario);
+		this.dispose();
 		registrar.setVisible(true);
 	}
 	
 	private void accederUsuario() {
 		VAcceder acceder = new VAcceder(datosUsuario);
+		this.dispose();
 		acceder.setVisible(true);
 	}
 	
