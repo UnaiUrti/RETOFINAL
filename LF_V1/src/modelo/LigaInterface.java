@@ -1,6 +1,5 @@
 package modelo;
 
-import java.util.ArrayList;
 import java.util.Map;
 
 public interface LigaInterface {
@@ -11,8 +10,6 @@ public interface LigaInterface {
 	
 	public void bajaLiga(Liga liga);
 	
-	public ArrayList<Liga> todasLiga();
-	
-	public String[][] tablaClasificacion(String codL);
+	public Map<String, Liga> todasLiga();
 	
 }

@@ -5,7 +5,6 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -16,11 +15,10 @@ public class LigaMySQLImplementation implements LigaInterface {
 	private PreparedStatement stmt;
 	
 	//SENTENCIAS SQL
-	private final String altaLiga = "INSERT INTO liga VALUES(?, ?, ?)";
-	private final String modificaLiga = "UPDATE liga SET Nombre_L=?, Pais_L=? WHERE Cod_L=?";
-	private final String bajaLiga = "DELETE FROM liga WHERE Cod_L=?";
-	private final String listarLigas = "SELECT * FROM liga";
-	private final String clasificacionLiga = "{CALL calcular_clasificacion(?)}";
+	private final String altaLiga="INSERT INTO liga VALUES(?, ?, ?)";
+	private final String modificaLiga="UPDATE liga SET Nombre_L=?, Pais_L=? WHERE Cod_L=?";
+	private final String bajaLiga="DELETE FROM liga WHERE Cod_L=?";
+	private final String listarLigas="SELECT * FROM liga";
 	
 	//CONEXION CON LA BD
 	public void openConnection() {
@@ -121,9 +119,9 @@ public class LigaMySQLImplementation implements LigaInterface {
 	}
 
 	@Override
-	public ArrayList<Liga> todasLiga() {
+	public Map<String, Liga> todasLiga() {
 		
-		ArrayList<Liga> ligas = new ArrayList<>();
+		Map<String, Liga> ligas = new TreeMap<>();
 		Liga liga = null;
 		
 		ResultSet rs = null;
@@ -141,7 +139,7 @@ public class LigaMySQLImplementation implements LigaInterface {
 				liga.setCodL(rs.getString("Cod_L"));
 				liga.setNombreL(rs.getString("Nombre_L"));
 				liga.setPaisL(rs.getString("Pais_L"));
-				ligas.add(liga);
+				ligas.put(liga.getCodL(), liga);
 			}
 			
 		} catch (SQLException e1) {
@@ -165,71 +163,7 @@ public class LigaMySQLImplementation implements LigaInterface {
 		return ligas;
 		
 	}
-	
-	public String[][] tablaClasificacion(String codL) {
 
-		String[][] clasi = null; 
-		
-		ResultSet rs = null;
-		
-		this.openConnection();
-		
-		try {
-			stmt = con.prepareStatement(clasificacionLiga);
 	
-			stmt.setString(1, codL);
-			
-			rs = stmt.executeQuery();
-			
-			int i = 0;
-			
-			rs.last();
-			i = rs.getRow();
-	        rs.beforeFirst();
-		
-			clasi = new String[i][10];
-			
-			i = 0;
-			
-			while(rs.next()) {
-				
-				clasi[i][0] = String.valueOf(rs.getInt("Puesto"));
-				clasi[i][1] = rs.getString("Cod_E");
-				clasi[i][2] = rs.getString("Nombre_E");
-				clasi[i][3] = String.valueOf(rs.getInt("P_jugados"));
-				clasi[i][4] = String.valueOf(rs.getInt("P_ganados"));
-				clasi[i][5] = String.valueOf(rs.getInt("P_empatados"));
-				clasi[i][6] = String.valueOf(rs.getInt("P_perdidos"));
-				clasi[i][7] = String.valueOf(rs.getInt("G_aFavor"));
-				clasi[i][8] = String.valueOf(rs.getInt("G_enContra"));
-				clasi[i][9] = String.valueOf(rs.getInt("Pts_total"));
-				
-				i++;
-					
-			}
-			
-	
-			
-		} catch (SQLException e1) {
-			e1.printStackTrace();
-		}
-		
-		if(rs!=null) {
-			try {
-				rs.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-		
-		try {
-			this.closeConnection();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-		return clasi;
-		
-	}
 	
 }

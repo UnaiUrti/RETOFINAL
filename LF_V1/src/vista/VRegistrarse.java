@@ -9,9 +9,11 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import aplicacion.Main;
+import modelo.LigaInterface;
 import modelo.Usuario;
 import modelo.UsuarioInterface;
+import modelo.UsuarioMySQLImplementation;
+
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
@@ -32,18 +34,14 @@ public class VRegistrarse extends JDialog {
 	private JTextField textUsuario;
 	private JTextField textContraseña;
 	private JTextField textRepContraseña;
-	private UsuarioInterface datosUsuario = Main.cargarUsuario();
-	private VPrincipal vPrincipal;
+	private UsuarioInterface datosUsuario;
 
 	/**
 	 * Create the dialog.
 	 */
-	public VRegistrarse(VPrincipal vPrincipal, boolean modal) {
+	public VRegistrarse(UsuarioInterface datosUsuario, LigaInterface datosLiga) {
 		
-		super(vPrincipal);
-		setModal(modal);
-		
-		this.vPrincipal = vPrincipal;
+		this.datosUsuario = datosUsuario;
 		
 		setBounds(100, 100, 602, 430);
 		
@@ -109,7 +107,7 @@ public class VRegistrarse extends JDialog {
 				JButton btnRegistrarse = new JButton("REGISTRARSE");
 				btnRegistrarse.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						comprobarUsuario();
+						altaUsuario(datosLiga);
 					}
 				});
 				btnRegistrarse.setActionCommand("OK");
@@ -120,7 +118,7 @@ public class VRegistrarse extends JDialog {
 				JButton btnRetroceder = new JButton("RETROCEDER");
 				btnRetroceder.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						volverVPrincipal();
+						volverVPrincipal(datosLiga);
 					}
 				});
 				btnRetroceder.setActionCommand("Cancel");
@@ -129,53 +127,24 @@ public class VRegistrarse extends JDialog {
 		}
 	}
 
-	private void altaUsuario() {
-		
+	private void altaUsuario(LigaInterface datosLiga) {
 		Usuario usuario = new Usuario();
-			
+		
 		usuario.setNombreU(textUsuario.getText());
 		usuario.setContrasenaU(textContraseña.getText());
 		usuario.setAdmin(false);
-				
+		
 		datosUsuario.altaUsuario(usuario);
 
-		//MENSAJE DE CONFIRMACION
+		//Mensaje de confirmación
 		JOptionPane.showMessageDialog(this, "Usuario dado de alta");
-				
-		//LIMPIAMOS LA PANTALLA POR SI QUIERE REGISTRARSE DE NUEVO
-		limpiarPantalla();
-		
-		//FALTA COMPROBAR QUE NO META UN NOMBRE DE USUARIO QUE YA EXISTE EN LA BD
-		
+		volverVPrincipal(datosLiga);
 	}
 	
-	private void comprobarUsuario() {
-		if (textUsuario.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(this, "Introduce un nombre de usuario");
-		} else if (textContraseña.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(this, "Introduce una contraseña");
-		} else if (textRepContraseña.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(this, "Vuelve a introducir la contraseña");
-		} else if (!textContraseña.getText().equalsIgnoreCase(textRepContraseña.getText())) {
-			JOptionPane.showMessageDialog(this, "La contraseña no coincide");
-			textContraseña.setText("");
-			textRepContraseña.setText("");
-		} else {
-			altaUsuario();
-		}
-		
-	}
-
-	private void limpiarPantalla() {
-		textUsuario.setText("");
-		textContraseña.setText("");
-		textRepContraseña.setText("");
-	}
-	
-	private void volverVPrincipal() {
+	private void volverVPrincipal(LigaInterface datosLiga) {
+		VPrincipal volverVPrincipal = new VPrincipal(datosUsuario, datosLiga);
 		this.dispose();
-		vPrincipal.setVisible(true);
+		volverVPrincipal.setVisible(true);
 	}
-	
 	
 }

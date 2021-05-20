@@ -8,12 +8,25 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import aplicacion.Main;
+import modelo.Equipo;
+import modelo.EquipoInterface;
+import modelo.Liga;
+import modelo.LigaInterface;
+
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import java.awt.Toolkit;
+import java.util.Map;
 
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
+import javax.swing.DefaultComboBoxModel;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class VInsertarEquipo extends JDialog {
 
@@ -23,6 +36,9 @@ public class VInsertarEquipo extends JDialog {
 	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
 	private JTextField textNombre;
+	private Map<String, Liga> ligas;
+	private JComboBox <String> comboLiga;
+	private EquipoInterface datosEquipo = Main.cargarEquipo();
 
 	/**
 	 * Create the dialog.
@@ -52,7 +68,9 @@ public class VInsertarEquipo extends JDialog {
 			contentPanel.add(lblNewLabel_1);
 		}
 		
-		JComboBox comboLiga = new JComboBox();
+		comboLiga = new JComboBox();
+		comboLiga.setModel(new DefaultComboBoxModel(new String[] {"Liga Espa\u00F1ola"}));
+		comboLiga.setSelectedIndex(-1);
 		comboLiga.setBounds(81, 167, 142, 22);
 		contentPanel.add(comboLiga);
 		
@@ -67,6 +85,11 @@ public class VInsertarEquipo extends JDialog {
 		textNombre.setColumns(10);
 		
 		JButton btnAlta = new JButton("Alta");
+		btnAlta.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				altaEquipo();
+			}
+		});
 		btnAlta.setBounds(81, 352, 89, 23);
 		contentPanel.add(btnAlta);
 		
@@ -83,5 +106,25 @@ public class VInsertarEquipo extends JDialog {
 				buttonPane.add(cancelButton);
 			}
 		}
+		
 	}
+	
+	private void altaEquipo() {
+		/*0
+		String  cadena= (String) comboLiga.getSelectedItem();
+		int pos=cadena.indexOf(" ");
+		String codigoLiga = cadena.substring(0, pos);
+		*/
+		//codigoLiga
+		
+		
+		datosEquipo.altaEquipo(textNombre.getText(),"L_02");
+		
+		//
+		JOptionPane.showMessageDialog(this, "Equipo dado de alta correctamente");
+		textNombre.setText("");
+		comboLiga.setSelectedIndex(-1);
+		
+	}
+
 }

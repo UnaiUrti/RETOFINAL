@@ -8,11 +8,16 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import modelo.LigaInterface;
+
 import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.Toolkit;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
-public class VInsertarPricipal extends JDialog {
+public class VInsertarPrincipal extends JDialog {
 
 	/**
 	 * 
@@ -23,7 +28,7 @@ public class VInsertarPricipal extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public VInsertarPricipal() {
+	public VInsertarPrincipal(LigaInterface datos) {
 		setBounds(100, 100, 599, 430);
 		
 		Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
@@ -49,6 +54,11 @@ public class VInsertarPricipal extends JDialog {
 		}
 		{
 			JButton btnNuevoEquipo = new JButton("Nuevo Equipo");
+			btnNuevoEquipo.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					insertarEquipo(datos);
+				}
+			});
 			btnNuevoEquipo.setFont(new Font("Tahoma", Font.PLAIN, 13));
 			btnNuevoEquipo.setBounds(74, 211, 120, 40);
 			contentPanel.add(btnNuevoEquipo);
@@ -75,6 +85,13 @@ public class VInsertarPricipal extends JDialog {
 				buttonPane.add(btnRetroceder);
 			}
 		}
+	}
+	
+	private void insertarEquipo(LigaInterface datos) {
+		VInsertarEquipo equipo = new VInsertarEquipo(datos);
+		this.dispose();
+		equipo.setVisible(true);
+		
 	}
 
 }

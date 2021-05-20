@@ -2,43 +2,34 @@ package aplicacion;
 
 import modelo.EquipoInterface;
 import modelo.EquipoMySQLImplementation;
-import modelo.JugadorInterface;
-import modelo.JugadorMySQLImplementation;
 import modelo.LigaInterface;
 import modelo.LigaMySQLImplementation;
-import modelo.PartidoInterface;
-import modelo.PartidoMySQLImplementation;
 import modelo.UsuarioInterface;
 import modelo.UsuarioMySQLImplementation;
+import vista.VConsultarEquipo;
+import vista.VInsertarEquipo;
 import vista.VPrincipal;
 
 public class Main {
 
 	public static void main(String[] args) {
 		
-		VPrincipal ventanaPrincipal = new VPrincipal();
-		ventanaPrincipal.setVisible(true);
+		VInsertarEquipo  ventanaEquipo = new VInsertarEquipo();
+		ventanaEquipo.setVisible(true);
 		
+		
+		/*
+		VPrincipal ventanaPrincipal = new VPrincipal(datosUsuario, datosLiga);
+		ventanaPrincipal.setVisible(true);
+		*/
 	}
 	
-	public static UsuarioInterface cargarUsuario() {
-		return new UsuarioMySQLImplementation();
-	}
-
-	public static LigaInterface cargarLiga() {
-		return new LigaMySQLImplementation();
-	}
-	
-	public static EquipoInterface cargarEquipo() {
+	public static EquipoInterface cargarEquipo(){
 		return new EquipoMySQLImplementation();
 	}
 	
-	public static PartidoInterface cargarPartido() {
-		return new PartidoMySQLImplementation();
-	}
 	
-	public static JugadorInterface cargarJugador() {
-		return new JugadorMySQLImplementation();
-	}
+	
+	
 
 }
