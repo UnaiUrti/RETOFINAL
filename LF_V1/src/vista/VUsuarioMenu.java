@@ -26,7 +26,7 @@ public class VUsuarioMenu extends JFrame {
 	private JPanel contentPane;
 	private JLayeredPane layeredPane;
 
-	public VUsuarioMenu() {
+	public VUsuarioMenu(boolean admin) {
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 965, 487);
@@ -56,7 +56,7 @@ public class VUsuarioMenu extends JFrame {
 		lblUsuario.setToolTipText("");
 		lblUsuario.setHorizontalAlignment(SwingConstants.CENTER);
 		lblUsuario.setFont(new Font("Dialog", Font.PLAIN, 40));
-		lblUsuario.setBounds(29, 35, 184, 73);
+		lblUsuario.setBounds(21, 36, 184, 73);
 		contentPane.add(lblUsuario);
 		
 		JButton btnSalir = new JButton("SALIR");
@@ -65,7 +65,7 @@ public class VUsuarioMenu extends JFrame {
 				salir();
 			}
 		});
-		btnSalir.setBounds(29, 289, 192, 41);
+		btnSalir.setBounds(21, 280, 192, 41);
 		contentPane.add(btnSalir);
 		
 		JButton btnInicio = new JButton("INICIO");
@@ -74,8 +74,31 @@ public class VUsuarioMenu extends JFrame {
 				siguientePanel();
 			}
 		});
-		btnInicio.setBounds(29, 219, 192, 41);
+		btnInicio.setBounds(21, 155, 192, 41);
 		contentPane.add(btnInicio);
+		
+		JButton btnVistaAdmin = new JButton("VOLVER");
+		btnVistaAdmin.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				volver();
+			}
+		});
+		btnVistaAdmin.setBounds(21, 218, 192, 41);
+		contentPane.add(btnVistaAdmin);
+		
+		if (admin) {
+			btnVistaAdmin.setVisible(true);
+		} else {
+			btnVistaAdmin.setVisible(false);
+		}
+		
+		
+	}
+	
+	private void volver() {
+		this.dispose();
+		VAdminMenu adminMenu = new VAdminMenu();
+		adminMenu.setVisible(true);
 	}
 	
 	private void salir() {

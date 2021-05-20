@@ -34,6 +34,7 @@ public class PInsertarJugador extends JPanel {
 	private JTextField textDorsal;
 	private ArrayList<Liga> ligas;
 	private ArrayList<Equipo> equipos;
+	private ArrayList<Jugador> jugadores;
 	private JComboBox<String> cmbLiga;
 	private JComboBox<String> cmbEquipo;
 	private JComboBox<String> cmbPosicion;
@@ -41,6 +42,7 @@ public class PInsertarJugador extends JPanel {
 	private LigaInterface datosLiga = Main.cargarLiga();
 	private JugadorInterface datosJugador = Main.cargarJugador();
 	private Jugador jugador;
+	private String codigoEquipo;
 
 	public PInsertarJugador(boolean altaOculto, Jugador jugador) {
 
@@ -244,8 +246,25 @@ public class PInsertarJugador extends JPanel {
 		}
 	}
 
+	private boolean comprobarDorsal() {
+		
+		int pos = cmbEquipo.getSelectedIndex();
+		this.codigoEquipo = equipos.get(pos).getCodE();
+		jugadores = datosJugador.todosJugador(codigoEquipo);
+		
+		for (Jugador jugador : jugadores) {
+			if (jugador.getDorsal()==Integer.valueOf(textDorsal.getText())) {
+				return false;
+			}
+		}
+	
+		return true;
+		
+	}
+	
+	
 	private void altaJugador() {
-
+		
 		if (textNombre.getText().isEmpty()) {
 			JOptionPane.showMessageDialog(this, "EL JUGADOR TIENE QUE TENER UN NOMBRE");
 		} else if (textDorsal.getText().isEmpty()) {
@@ -256,14 +275,11 @@ public class PInsertarJugador extends JPanel {
 			JOptionPane.showMessageDialog(this, "DEBES PONERLE UNA POSICION AL JUGADOR");
 		} else if (cmbEquipo.getSelectedIndex() == -1) {
 			JOptionPane.showMessageDialog(this, "EL JUGADOR TIENE QUE SER DE ALGUN EQUIPO");
-		//}else if (textDorsal.getText().equals() //FALTA VALIDAR FORSAL
-		
+		}else if (!comprobarDorsal()) { //FALTA VALIDAR FORSAL
+			JOptionPane.showMessageDialog(this, "ESTE DORSAL YA ESTA COGIDO");
 		}else {
-			int pos = cmbEquipo.getSelectedIndex();
-			String codigoEquipo = equipos.get(pos).getCodE();
-
-			datosJugador.altaJugador(textNombre.getText(), Integer.parseInt(textDorsal.getText()), textPais.getText(),
-					cmbPosicion.getSelectedItem().toString(), codigoEquipo);
+			
+			datosJugador.altaJugador(textNombre.getText(), Integer.parseInt(textDorsal.getText()), textPais.getText(), cmbPosicion.getSelectedItem().toString(), codigoEquipo);
 
 			JOptionPane.showMessageDialog(this, "Jugador dado de alta correctamente");
 			textNombre.setText("");

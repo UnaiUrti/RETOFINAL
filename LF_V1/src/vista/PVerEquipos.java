@@ -1,6 +1,7 @@
 package vista;
 
 import javax.swing.JPanel;
+
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JLabel;
@@ -19,6 +20,7 @@ import modelo.interfaces.JugadorInterface;
 import modelo.interfaces.EquipoInterface;
 import modelo.entidades.Jugador;
 import modelo.entidades.Partido;
+import modelo.entidades.Liga;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -28,6 +30,7 @@ public class PVerEquipos extends JPanel {
 	private JTextField textNombreE;
 	private VUsuarioMenu usuarioMenu;
 	private String codE;
+	private Liga liga;
 	private JugadorInterface datosJugador=Main.cargarJugador();
 	private EquipoInterface datosEquipo=Main.cargarEquipo();
 	private String[][] ultimosPartidos;
@@ -36,11 +39,13 @@ public class PVerEquipos extends JPanel {
 	private JTable tablaPartidos;
 	private JTable tablaJugadores;
 	
+	
 
-	public PVerEquipos(VUsuarioMenu usuarioMenu, String codE) {
+	public PVerEquipos(VUsuarioMenu usuarioMenu, String codE, Liga liga) {
 
 		this.usuarioMenu = usuarioMenu;
 		this.codE = codE;
+		this.liga = liga;
 		
 		setLayout(null);
 		this.setBounds(230, 23, 697, 403);
@@ -108,8 +113,17 @@ public class PVerEquipos extends JPanel {
 				verJugador();
 			}
 		});
-		btnVerJugador.setBounds(462, 326, 142, 39);
+		btnVerJugador.setBounds(455, 248, 142, 39);
 		add(btnVerJugador);
+		
+		JButton btnVolver = new JButton("VOLVER");
+		btnVolver.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				volver();
+			}
+		});
+		btnVolver.setBounds(455, 298, 142, 33);
+		add(btnVolver);
 		
 		//PARA QUE NO SE PUEDA MOVER LA CABECERA DEL JTABLE DE JUGADORES
 		tablaJugadores.getTableHeader().setReorderingAllowed(false);
@@ -123,6 +137,12 @@ public class PVerEquipos extends JPanel {
 		
 		tablaJugadores.getColumnModel().getColumn(2).setMinWidth(150);
 		
+	}
+	
+	private void volver() {
+		
+		PClasificacionLiga clasificacionLiga = new PClasificacionLiga(usuarioMenu, liga);
+		usuarioMenu.cambiarJPanel(clasificacionLiga);
 	}
 	
 	private void verJugador() {

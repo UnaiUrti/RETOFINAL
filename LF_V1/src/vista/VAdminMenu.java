@@ -130,7 +130,7 @@ public class VAdminMenu extends JFrame {
 	
 	private void vistaUsuario() {
 		this.dispose();
-		VUsuarioMenu usuarioMenu = new VUsuarioMenu();
+		VUsuarioMenu usuarioMenu = new VUsuarioMenu(true);
 		usuarioMenu.setVisible(true);
 	}
 	

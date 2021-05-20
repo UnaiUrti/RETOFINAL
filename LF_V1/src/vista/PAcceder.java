@@ -128,7 +128,7 @@ public class PAcceder extends JPanel {
 	private void consultaPrincipal() {
 		
 		ventanaPrincipal.dispose();
-		VUsuarioMenu usuarioMenu = new VUsuarioMenu();
+		VUsuarioMenu usuarioMenu = new VUsuarioMenu(false);
 		usuarioMenu.setVisible(true);
 		
 	}

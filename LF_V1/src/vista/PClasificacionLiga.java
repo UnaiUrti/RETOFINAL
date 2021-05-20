@@ -32,6 +32,7 @@ public class PClasificacionLiga extends JPanel {
 	private Liga liga;
 	private JButton btnVerEquipo;
 	private JButton btnVerPartidos;
+	private JButton btnVolver;
 
 	
 	/**
@@ -111,7 +112,7 @@ public class PClasificacionLiga extends JPanel {
 				verEquipo();
 			}
 		});
-		btnVerEquipo.setBounds(531, 354, 131, 38);
+		btnVerEquipo.setBounds(263, 356, 131, 34);
 		add(btnVerEquipo);
 		
 		btnVerPartidos = new JButton("VER PARTIDOS");
@@ -120,19 +121,35 @@ public class PClasificacionLiga extends JPanel {
 				verPartidos();
 			}
 		});
-		btnVerPartidos.setBounds(382, 356, 131, 34);
+		btnVerPartidos.setBounds(404, 356, 131, 34);
 		add(btnVerPartidos);
+		
+		btnVolver = new JButton("VOLVER");
+		btnVolver.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				volver();
+			}
+		});
+		btnVolver.setBounds(545, 356, 117, 34);
+		add(btnVolver);
 		
 	}
 	
-	public void verPartidos() {
+	private void volver() {
+		
+		PSeleccionarLiga seleccionarLiga = new PSeleccionarLiga(usuarioMenu);
+		usuarioMenu.cambiarJPanel(seleccionarLiga);
+		
+	}
+	
+	private void verPartidos() {
 		
 		PVerPartidosJornada verPartidos = new PVerPartidosJornada(usuarioMenu, liga.getCodL());
 		usuarioMenu.cambiarJPanel(verPartidos);
 		
 	}
 	
-	public void verEquipo() {
+	private void verEquipo() {
 		
 		if (tablaClasificacion.getSelectedRowCount()>1) {
 			JOptionPane.showMessageDialog(this, "Selecciona solo un equipo");
@@ -140,7 +157,7 @@ public class PClasificacionLiga extends JPanel {
 			JOptionPane.showMessageDialog(this, "Debes seleccionar un equipo");
 		} else {
 			String codE = tablaClasificacion.getModel().getValueAt(tablaClasificacion.getSelectedRow(), 1).toString();
-			PVerEquipos verEquipos = new PVerEquipos(usuarioMenu, codE);
+			PVerEquipos verEquipos = new PVerEquipos(usuarioMenu, codE, liga);
 			usuarioMenu.cambiarJPanel(verEquipos);
 		}
 		
