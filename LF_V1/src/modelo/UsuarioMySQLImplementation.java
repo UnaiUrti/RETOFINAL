@@ -6,7 +6,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Map;
+import java.util.ResourceBundle;
 import java.util.TreeMap;
+import modelo.interfaces.UsuarioInterface;
+import modelo.entidades.Usuario;
 
 public class UsuarioMySQLImplementation implements UsuarioInterface{
 
@@ -14,18 +17,35 @@ public class UsuarioMySQLImplementation implements UsuarioInterface{
 	private Connection con;
 	private PreparedStatement stmt;
 	
+	/*CONDFIGURACION*/
+	private String driver;
+	private String url;
+	private String user;
+	private String passwd;
+	private ResourceBundle configFile;
+	
 	//SENTENCIAS SQL
 	private final String altaUsuario="INSERT INTO usuario VALUES(?, ?, ?)";
 	private final String listarUsuarios="SELECT * FROM usuario";
+	
+	/*CONEXION CON EL ARCHIVO DE CONFIGURACION*/
+	public UsuarioMySQLImplementation() {
+		this.configFile = ResourceBundle.getBundle("modelo.config");
+		this.driver = this.configFile.getString("driver");
+		this.url = this.configFile.getString("url");
+		this.user = this.configFile.getString("user");
+		this.passwd = this.configFile.getString("passwd");
+	}
 	
 	//CONEXION CON LA BD
 	public void openConnection() {
 		try {
 			
 			//CONEXION XAMPP
-			String url = "jdbc:mysql://localhost:3306/liga_futbol?serverTimezone=Europe/Madrid&useSSL=false";
-			//con = DriverManager.getConnection(url+"?" +"user=root&password=abcd*1234");
-			con = DriverManager.getConnection(url, "root", "abcd*1234");
+			con = DriverManager.getConnection(this.url, this.user, this.passwd);
+			//String url = "jdbc:mysql://localhost:3306/liga_futbol?serverTimezone=Europe/Madrid&useSSL=false";
+			//con = DriverManager.getConnection(url, "root", "abcd*1234");
+			
 			
 		} catch (SQLException e) {
 			System.out.println("Error al intentar abrir la BD");

@@ -1,6 +1,7 @@
-package modelo;
+package modelo.interfaces;
 
 import java.util.ArrayList;
+import modelo.entidades.Jugador;
 
 public interface JugadorInterface {
 

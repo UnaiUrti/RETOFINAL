@@ -1,13 +1,17 @@
-package aplicacion;
+package controlador;
 
-import modelo.EquipoInterface;
-import modelo.EquipoMySQLImplementation;
-import modelo.JugadorInterface;
-import modelo.JugadorMySQLImplementation;
-import modelo.LigaInterface;
-import modelo.LigaMySQLImplementation;
-import modelo.UsuarioInterface;
+import modelo.interfaces.UsuarioInterface;
 import modelo.UsuarioMySQLImplementation;
+
+import modelo.interfaces.EquipoInterface;
+import modelo.EquipoMySQLImplementation;
+
+import modelo.interfaces.LigaInterface;
+import modelo.LigaMySQLImplementation;
+
+import modelo.interfaces.JugadorInterface;
+import modelo.JugadorMySQLImplementation;
+
 import vista.VPrincipalMenu;
 
 public class Main {

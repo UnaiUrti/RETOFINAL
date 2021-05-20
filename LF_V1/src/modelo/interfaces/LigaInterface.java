@@ -1,7 +1,8 @@
-package modelo;
+package modelo.interfaces;
 
 import java.util.ArrayList;
-import java.util.Map;
+
+import modelo.entidades.Liga;
 
 public interface LigaInterface {
 

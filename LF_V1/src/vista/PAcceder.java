@@ -7,9 +7,9 @@ import javax.swing.JOptionPane;
 import java.awt.Font;
 import javax.swing.SwingConstants;
 
-import aplicacion.Main;
-import modelo.Usuario;
-import modelo.UsuarioInterface;
+import controlador.Main;
+import modelo.entidades.Usuario;
+import modelo.interfaces.UsuarioInterface;
 
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
@@ -110,6 +110,7 @@ public class PAcceder extends JPanel {
 						}
 					} else {
 						JOptionPane.showMessageDialog(this, "Contraseña incorrecta");
+						textContraseña.setText("");
 					}
 				}
 			}

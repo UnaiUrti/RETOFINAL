@@ -6,14 +6,23 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.ResourceBundle;
+
+import modelo.interfaces.LigaInterface;
+import modelo.entidades.Liga;
 
 public class LigaMySQLImplementation implements LigaInterface {
 
 	//ATRIBUTOS DE LA CONEXION A BD
 	private Connection con;
 	private PreparedStatement stmt;
+	
+	/*CONDFIGURACION*/
+	private String driver;
+	private String url;
+	private String user;
+	private String passwd;
+	private ResourceBundle configFile;
 	
 	//SENTENCIAS SQL
 	private final String altaLiga = "INSERT INTO liga VALUES(?, ?, ?)";

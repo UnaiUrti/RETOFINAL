@@ -2,9 +2,9 @@ package vista;
 
 import javax.swing.JPanel;
 
-import aplicacion.Main;
-import modelo.Liga;
-import modelo.LigaInterface;
+import controlador.Main;
+import modelo.entidades.Liga;
+import modelo.interfaces.LigaInterface;
 
 import javax.swing.JLabel;
 import java.awt.Font;

@@ -1,6 +1,8 @@
-package modelo;
+package modelo.interfaces;
 
 import java.util.Map;
+
+import modelo.entidades.Usuario;
 
 public interface UsuarioInterface {
 	

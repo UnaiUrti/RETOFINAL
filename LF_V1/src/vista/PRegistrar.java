@@ -7,9 +7,9 @@ import javax.swing.JOptionPane;
 import java.awt.Font;
 import javax.swing.JTextField;
 
-import aplicacion.Main;
-import modelo.Usuario;
-import modelo.UsuarioInterface;
+import controlador.Main;
+import modelo.entidades.Usuario;
+import modelo.interfaces.UsuarioInterface;
 
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
