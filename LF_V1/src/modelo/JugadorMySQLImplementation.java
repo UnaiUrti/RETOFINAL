@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -124,9 +125,9 @@ public class JugadorMySQLImplementation implements JugadorInterface{
 			}
 
 			@Override
-			public Map<String, Jugador> todosJugador() {
+			public ArrayList<Jugador> todosJugador() {
 				
-				Map<String, Jugador> jugadores = new TreeMap<>();
+				ArrayList<Jugador> jugadores = new ArrayList<>();
 				Jugador jugador = null;
 				
 				ResultSet rs = null;
@@ -146,7 +147,7 @@ public class JugadorMySQLImplementation implements JugadorInterface{
 						jugador.setDorsal(rs.getInt("Dorsal"));
 						jugador.setPaisJ(rs.getString("Pais_J"));
 						jugador.setPosicion(rs.getString("Posicion"));
-						jugadores.put(jugador.getCodJ(), jugador);
+						jugadores.add(jugador);
 					}
 					
 				} catch (SQLException e1) {

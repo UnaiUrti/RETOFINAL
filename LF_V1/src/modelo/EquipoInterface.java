@@ -1,5 +1,6 @@
 package modelo;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 public interface EquipoInterface {
@@ -10,6 +11,6 @@ public interface EquipoInterface {
 	
 	public void bajaEquipo(Equipo equipo);
 	
-	public Map<String, Equipo> todosEquipo();
+	public ArrayList<Equipo> todosEquipo();
 
 }

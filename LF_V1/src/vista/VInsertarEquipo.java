@@ -20,6 +20,7 @@ import javax.swing.JOptionPane;
 
 import java.awt.Font;
 import java.awt.Toolkit;
+import java.util.ArrayList;
 import java.util.Map;
 
 import javax.swing.JComboBox;
@@ -36,7 +37,7 @@ public class VInsertarEquipo extends JDialog {
 	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
 	private JTextField textNombre;
-	private Map<String, Liga> ligas;
+	private ArrayList<Liga> ligas;
 	private JComboBox <String> comboLiga;
 	private EquipoInterface datosEquipo = Main.cargarEquipo();
 	private LigaInterface datosLiga = Main.cargarLiga();
@@ -114,26 +115,8 @@ public class VInsertarEquipo extends JDialog {
 
 	private void altaEquipo() {
 		
-		
-		/*String  pos= Integer.toString(comboLiga.getSelectedIndex()+1);
-		String codigoLiga = "";
-		String codLigNum;
-		
-		for (Liga liga : ligas.values()) {
-			
-			if(liga.getCodL().substring(2).equals("0")) {
-				if(liga.getCodL().substring(3, liga.getCodL().length()) == pos) {
-					codigoLiga = liga.getCodL();
-				}
-			}
-			else if(liga.getCodL().substring(2, liga.getCodL().length()) == pos) {
-				codigoLiga = liga.getCodL();
-			}
-		}*/
-		
-		String  cadena= (String) comboLiga.getSelectedItem();
-		int pos=cadena.indexOf(" ");
-		String codigoLiga = cadena.substring(0, pos);
+		int pos=comboLiga.getSelectedIndex();
+		String codigoLiga = ligas.get(pos).getCodL();
 		
 		datosEquipo.altaEquipo(textNombre.getText(), codigoLiga);
 		
@@ -148,8 +131,9 @@ public class VInsertarEquipo extends JDialog {
 		
 		ligas = datosLiga.todasLiga();
 		
-		for (Liga liga : ligas.values()) {
-			comboLiga.addItem(liga.getCodL() +"   "+ liga.getNombreL());
+		
+		for (Liga liga : ligas) {
+			comboLiga.addItem(liga.getNombreL());
 		}
 		
 		

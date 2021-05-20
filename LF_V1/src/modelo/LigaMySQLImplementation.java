@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -118,9 +119,9 @@ public class LigaMySQLImplementation implements LigaInterface {
 	}
 
 	@Override
-	public Map<String, Liga> todasLiga() {
+	public ArrayList<Liga> todasLiga() {
 		
-		Map<String, Liga> ligas = new TreeMap<>();
+		ArrayList<Liga> ligas = new ArrayList<>();
 		Liga liga = null;
 		
 		ResultSet rs = null;
@@ -138,7 +139,7 @@ public class LigaMySQLImplementation implements LigaInterface {
 				liga.setCodL(rs.getString("Cod_L"));
 				liga.setNombreL(rs.getString("Nombre_L"));
 				liga.setPaisL(rs.getString("Pais_L"));
-				ligas.put(liga.getCodL(), liga);
+				ligas.add(liga);
 			}
 			
 		} catch (SQLException e1) {
@@ -161,6 +162,12 @@ public class LigaMySQLImplementation implements LigaInterface {
 		
 		return ligas;
 		
+	}
+
+	@Override
+	public String[][] tabla(String codLiga) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	

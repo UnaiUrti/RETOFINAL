@@ -12,6 +12,7 @@ import javax.swing.border.EmptyBorder;
 import aplicacion.Main;
 import modelo.Equipo;
 import modelo.EquipoInterface;
+import modelo.Jugador;
 import modelo.JugadorInterface;
 import modelo.Liga;
 import modelo.LigaInterface;
@@ -24,6 +25,7 @@ import javax.swing.JOptionPane;
 import java.awt.Font;
 import java.awt.Toolkit;
 import java.util.Map;
+import java.util.ArrayList;
 
 import javax.swing.JComboBox;
 import javax.swing.LayoutStyle.ComponentPlacement;
@@ -44,8 +46,8 @@ public class VInsertarJugador extends JDialog {
 	private JTextField textNombre;
 	private JTextField textPais;
 	private JTextField textDorsal;
-	private Map<String, Liga> ligas;
-	private Map<String, Equipo> equipos;
+	private ArrayList <Liga> ligas;
+	private ArrayList<Equipo> equipos;
 	private JComboBox <String> cmbLiga;
 	private JComboBox <String> cmbEquipo;
 	private JComboBox <String> cmbPosicion;
@@ -166,9 +168,8 @@ public class VInsertarJugador extends JDialog {
 		 * = liga.getCodL(); } }
 		 */
 
-		String cadena = (String) cmbEquipo.getSelectedItem();
-		int pos = cadena.indexOf(" ");
-		String codigoEquipo = cadena.substring(0, pos);
+		int pos=cmbEquipo.getSelectedIndex();
+		String codigoEquipo = equipos.get(pos).getCodE();
 
 		datosJugador.altaJugador(textNombre.getText(), Integer.parseInt(textDorsal.getText()), textPais.getText(), cmbPosicion.getSelectedItem().toString(), codigoEquipo);
 
@@ -183,8 +184,8 @@ public class VInsertarJugador extends JDialog {
 
 		ligas = datosLiga.todasLiga();
 
-		for (Liga liga : ligas.values()) {
-			cmbLiga.addItem(liga.getCodL() + "   " + liga.getNombreL());
+		for (Liga liga : ligas) {
+			cmbLiga.addItem(liga.getNombreL());
 		}
 
 	}
@@ -195,15 +196,14 @@ public class VInsertarJugador extends JDialog {
 			JOptionPane.showMessageDialog(this, "Debes elegir una liga");
 		}
 		else {
-			String cadena = (String) cmbLiga.getSelectedItem();
-			int pos = cadena.indexOf(" ");
-			String codigoLiga = cadena.substring(0, pos);
+			int pos=cmbLiga.getSelectedIndex();
+			String codigoLiga = ligas.get(pos).getCodL();
 			
 			equipos = datosEquipo.todosEquipo();
 			
-			for (Equipo equipo : equipos.values()) {
+			for (Equipo equipo : equipos) {
 				if(equipo.getCodL().equalsIgnoreCase(codigoLiga)) {
-					cmbEquipo.addItem(equipo.getCodE() + "   " + equipo.getNombreE());
+					cmbEquipo.addItem(equipo.getNombreE());
 				}
 			}
 		}

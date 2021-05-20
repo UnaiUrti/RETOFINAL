@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -118,9 +119,9 @@ public class EquipoMySQLImplementation implements EquipoInterface{
 		}
 
 		@Override
-		public Map<String, Equipo> todosEquipo() {
+		public ArrayList<Equipo> todosEquipo() {
 			
-			Map<String, Equipo> equipos = new TreeMap<>();
+			ArrayList<Equipo> equipos = new ArrayList<>();
 			Equipo equipo = null;
 			
 			ResultSet rs = null;
@@ -138,7 +139,7 @@ public class EquipoMySQLImplementation implements EquipoInterface{
 					equipo.setCodE(rs.getString("Cod_E"));
 					equipo.setNombreE(rs.getString("Nombre_E"));
 					equipo.setCodL(rs.getString("Cod_L"));
-					equipos.put(equipo.getCodE(), equipo);
+					equipos.add(equipo);
 				}
 				
 			} catch (SQLException e1) {

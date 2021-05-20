@@ -22,7 +22,7 @@ public class Main {
 		VInsertarLiga  ventanaLiga = new VInsertarLiga();
 		ventanaLiga.setVisible(true);
 		*/
-		
+	
 		/*
 		VInsertarEquipo  ventanaEquipo = new VInsertarEquipo();
 		ventanaEquipo.setVisible(true);
