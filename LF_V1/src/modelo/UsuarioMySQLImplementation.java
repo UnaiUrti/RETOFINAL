@@ -3,7 +3,10 @@ package modelo;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Map;
+import java.util.TreeMap;
 
 public class UsuarioMySQLImplementation implements UsuarioInterface{
 
@@ -12,12 +15,13 @@ public class UsuarioMySQLImplementation implements UsuarioInterface{
 	private PreparedStatement stmt;
 	
 	//SENTENCIAS SQL
-	private final String altaUsuario="INSERT INTO usuario(Nombre_U, Contraseña_U, Admin) VALUES(?, ?, ?)";
+	private final String altaUsuario="INSERT INTO usuario VALUES(?, ?, ?)";
+	private final String buscarUsuario="SELECT * FROM usuario";
 	
 	//CONEXION CON LA BD
 	public void openConnection() {
 		try {
-			String url = "jdbc:mysql://localhost:3306/coches?serverTimezone=Europe/Madrid&useSSL=false";
+			String url = "jdbc:mysql://localhost:3306/liga_futbol?serverTimezone=Europe/Madrid&useSSL=false";
 			//con = DriverManager.getConnection(url+"?" +"user=root&password=abcd*1234");
 			con = DriverManager.getConnection(url, "root", "abcd*1234");
 			
@@ -46,7 +50,7 @@ public class UsuarioMySQLImplementation implements UsuarioInterface{
 			
 			stmt.setString(1, usuario.getNombreU());
 			stmt.setString(2, usuario.getContrasenaU());
-			stmt.setBoolean(2, usuario.isAdmin());
+			stmt.setBoolean(3, usuario.isAdmin());
 			
 			stmt.executeUpdate();
 			
@@ -63,9 +67,48 @@ public class UsuarioMySQLImplementation implements UsuarioInterface{
 		
 	}
 	
-	public Usuario buscarUsuario(String nombreU) {
+	public Map<String, Usuario> todosUsuarios() {
 		
-		return null;
+		Map<String, Usuario> usuarios = new TreeMap<>();
+		Usuario usuario = null;
+		
+		ResultSet rs = null;
+		
+		this.openConnection();
+		
+		try {
+			
+			stmt = con.prepareStatement(buscarUsuario);
+			
+			rs = stmt.executeQuery();
+				
+			while(rs.next()) {
+				usuario = new Usuario();
+				usuario.setNombreU(rs.getString("Nombre_U"));
+				usuario.setContrasenaU(rs.getString("Contraseña_U"));
+				usuario.setAdmin(rs.getBoolean("Admin"));
+				usuarios.put(usuario.getNombreU(), usuario);
+			}
+			
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		
+		if(rs!=null) {
+			try {
+				rs.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		try {
+			this.closeConnection();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return usuarios;
 		
 	}
 	

@@ -7,7 +7,14 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import modelo.Usuario;
+import modelo.UsuarioInterface;
+import modelo.UsuarioMySQLImplementation;
+
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.JTextField;
 import java.awt.event.ActionListener;
@@ -19,24 +26,15 @@ public class VRegistrarse extends JDialog {
 	private JTextField textUsuario;
 	private JTextField textContraseña;
 	private JTextField textRepContraseña;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		try {
-			VRegistrarse dialog = new VRegistrarse();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+	private UsuarioInterface datosUsuario;
 
 	/**
 	 * Create the dialog.
 	 */
-	public VRegistrarse() {
+	public VRegistrarse(UsuarioInterface datosUsuario) {
+		
+		this.datosUsuario = datosUsuario;
+		
 		setBounds(100, 100, 602, 430);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -95,7 +93,7 @@ public class VRegistrarse extends JDialog {
 				JButton btnRegistrarse = new JButton("REGISTRARSE");
 				btnRegistrarse.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						registrarUsuario();
+						altaUsuario();
 					}
 				});
 				btnRegistrarse.setActionCommand("OK");
@@ -109,13 +107,18 @@ public class VRegistrarse extends JDialog {
 			}
 		}
 	}
-	
-	private void registrarUsuario() {
+
+	private void altaUsuario() {
+		Usuario usuario = new Usuario();
 		
+		usuario.setNombreU(textUsuario.getText());
+		usuario.setContrasenaU(textContraseña.getText());
+		usuario.setAdmin(false);
 		
+		datosUsuario.altaUsuario(usuario);
+
+		//Mensaje de confirmación
+		JOptionPane.showMessageDialog(this, "Usuario dado de alta");
 	}
 	
-	
-	
-
 }

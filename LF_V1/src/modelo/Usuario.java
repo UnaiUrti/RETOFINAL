@@ -30,7 +30,4 @@ public class Usuario {
 		this.admin = admin;
 	}
 	
-	
-	
-	
 }

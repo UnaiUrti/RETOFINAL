@@ -1,9 +1,11 @@
 package modelo;
 
+import java.util.Map;
+
 public interface UsuarioInterface {
 	
 	public void altaUsuario(Usuario usuario);
 	
-	public Usuario buscarUsuario(String nombreU);
+	public Map<String, Usuario> todosUsuarios();
 	
 }
