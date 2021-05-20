@@ -9,6 +9,7 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import aplicacion.Main;
 import modelo.LigaInterface;
 import modelo.Usuario;
 import modelo.UsuarioInterface;
@@ -31,15 +32,14 @@ public class VAcceder extends JDialog {
 	private final JPanel contentPanel = new JPanel();
 	private JTextField textUsuario;
 	private JTextField textContraseña;
-	private UsuarioInterface datosUsuario;
+	private UsuarioInterface datosUsuario = Main.cargarUsuario();
 	private Map<String, Usuario> usuarios;
 	
 	/**
 	 * Create the dialog.
 	 */
-	public VAcceder(UsuarioInterface datosUsuario, LigaInterface datos) {
+	public VAcceder() {
 		
-		this.datosUsuario = datosUsuario;
 		usuarios = datosUsuario.todosUsuarios();
 		
 		setBounds(100, 100, 604, 429);
@@ -90,7 +90,7 @@ public class VAcceder extends JDialog {
 				JButton btnAcceder = new JButton("ACCEDER");
 				btnAcceder.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						accederUsuario(datos);
+						accederUsuario();
 					}
 				});
 				btnAcceder.setActionCommand("OK");
@@ -101,7 +101,7 @@ public class VAcceder extends JDialog {
 				JButton btnRetroceder = new JButton("RETROCEDER");
 				btnRetroceder.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						volverVPrincipal(datos);
+						volverVPrincipal();
 					}
 				});
 				btnRetroceder.setActionCommand("Cancel");
@@ -111,14 +111,14 @@ public class VAcceder extends JDialog {
 		
 	}
 	
-	private void accederUsuario(LigaInterface datos) {
+	private void accederUsuario() {
 		if (usuarios.containsKey(textUsuario.getText())) {
 			for (Usuario usuario : usuarios.values()) {
 				if (usuario.getNombreU().equalsIgnoreCase(textUsuario.getText()) && usuario.getContrasenaU().equals(textContraseña.getText())) {
 					if (usuario.isAdmin()) {
-						modoAdmin(datos);
+						modoAdmin();
 					} else {
-						consultaPrincipal(datos);
+						consultaPrincipal();
 					}
 				} else if (usuario.getNombreU().equalsIgnoreCase(textUsuario.getText()) && !usuario.getContrasenaU().equals(textContraseña.getText())){
 					JOptionPane.showMessageDialog(null, "Contraseña incorrecta.");
@@ -133,20 +133,20 @@ public class VAcceder extends JDialog {
 		
 	}
 	
-	private void modoAdmin(LigaInterface datos) {
-		VModoAdmin modoAdmin = new VModoAdmin(datosUsuario, datos);
+	private void modoAdmin() {
+		VModoAdmin modoAdmin = new VModoAdmin();
 		this.dispose();
 		modoAdmin.setVisible(true);
 	}
 	
-	private void consultaPrincipal(LigaInterface datosLiga) {
-		VConsultaPrincipal consultaPrincipal = new VConsultaPrincipal(datosUsuario, datosLiga);
+	private void consultaPrincipal() {
+		VConsultaPrincipal consultaPrincipal = new VConsultaPrincipal();
 		this.dispose();
 		consultaPrincipal.setVisible(true);
 	}
 	
-	private void volverVPrincipal(LigaInterface datosLiga) {
-		VPrincipal volverVPrincipal = new VPrincipal(datosUsuario, datosLiga);
+	private void volverVPrincipal() {
+		VPrincipal volverVPrincipal = new VPrincipal();
 		this.dispose();
 		volverVPrincipal.setVisible(true);
 	}

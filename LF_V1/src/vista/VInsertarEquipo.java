@@ -39,6 +39,7 @@ public class VInsertarEquipo extends JDialog {
 	private Map<String, Liga> ligas;
 	private JComboBox <String> comboLiga;
 	private EquipoInterface datosEquipo = Main.cargarEquipo();
+	private LigaInterface datosLiga = Main.cargarLiga();
 
 	/**
 	 * Create the dialog.
@@ -69,7 +70,6 @@ public class VInsertarEquipo extends JDialog {
 		}
 		
 		comboLiga = new JComboBox();
-		comboLiga.setModel(new DefaultComboBoxModel(new String[] {"Liga Espa\u00F1ola"}));
 		comboLiga.setSelectedIndex(-1);
 		comboLiga.setBounds(81, 167, 142, 22);
 		contentPanel.add(comboLiga);
@@ -107,23 +107,51 @@ public class VInsertarEquipo extends JDialog {
 			}
 		}
 		
+		cargarLigas();
+		
 	}
 	
+
 	private void altaEquipo() {
-		/*0
+		
+		
+		/*String  pos= Integer.toString(comboLiga.getSelectedIndex()+1);
+		String codigoLiga = "";
+		String codLigNum;
+		
+		for (Liga liga : ligas.values()) {
+			
+			if(liga.getCodL().substring(2).equals("0")) {
+				if(liga.getCodL().substring(3, liga.getCodL().length()) == pos) {
+					codigoLiga = liga.getCodL();
+				}
+			}
+			else if(liga.getCodL().substring(2, liga.getCodL().length()) == pos) {
+				codigoLiga = liga.getCodL();
+			}
+		}*/
+		
 		String  cadena= (String) comboLiga.getSelectedItem();
 		int pos=cadena.indexOf(" ");
 		String codigoLiga = cadena.substring(0, pos);
-		*/
-		//codigoLiga
 		
-		
-		datosEquipo.altaEquipo(textNombre.getText(),"L_02");
+		datosEquipo.altaEquipo(textNombre.getText(), codigoLiga);
 		
 		//
 		JOptionPane.showMessageDialog(this, "Equipo dado de alta correctamente");
 		textNombre.setText("");
 		comboLiga.setSelectedIndex(-1);
+		
+	}
+	
+	private void cargarLigas() {
+		
+		ligas = datosLiga.todasLiga();
+		
+		for (Liga liga : ligas.values()) {
+			comboLiga.addItem(liga.getCodL() +"   "+ liga.getNombreL());
+		}
+		
 		
 	}
 

@@ -10,7 +10,7 @@ import java.util.TreeMap;
 
 public class EquipoMySQLImplementation implements EquipoInterface{
 
-	//ATRIBUTOS DE LA CONEXION A BD
+		//ATRIBUTOS DE LA CONEXION A BD
 		private Connection con;
 		private PreparedStatement stmt;
 		

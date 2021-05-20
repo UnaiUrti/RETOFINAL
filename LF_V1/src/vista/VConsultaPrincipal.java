@@ -9,6 +9,7 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import aplicacion.Main;
 import modelo.LigaInterface;
 import modelo.UsuarioInterface;
 
@@ -30,14 +31,12 @@ public class VConsultaPrincipal extends JDialog {
 	 */
 	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
-	private UsuarioInterface datosUsuario;
+	private UsuarioInterface datosUsuario = Main.cargarUsuario();
 
 	/**
 	 * Create the dialog.
 	 */
-	public VConsultaPrincipal(UsuarioInterface datosUsuario, LigaInterface datosLiga) {
-		
-		this.datosUsuario = datosUsuario;
+	public VConsultaPrincipal() {
 		
 		setBounds(100, 100, 599, 430);
 		
@@ -97,7 +96,7 @@ public class VConsultaPrincipal extends JDialog {
 				JButton btnVolver = new JButton("Volver");
 				btnVolver.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						volverVAcceder(datosLiga);
+						volverVAcceder();
 					}
 				});
 				btnVolver.setActionCommand("Cancel");
@@ -106,8 +105,8 @@ public class VConsultaPrincipal extends JDialog {
 		}
 	}
 	
-	private void volverVAcceder(LigaInterface datosLiga) {
-		VPrincipal principal = new VPrincipal(datosUsuario, datosLiga);
+	private void volverVAcceder() {
+		VPrincipal principal = new VPrincipal();
 		this.dispose();
 		principal.setVisible(true);
 	}

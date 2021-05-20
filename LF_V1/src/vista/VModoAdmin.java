@@ -9,6 +9,7 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import aplicacion.Main;
 import modelo.LigaInterface;
 import modelo.UsuarioInterface;
 
@@ -25,14 +26,12 @@ public class VModoAdmin extends JDialog {
 	 */
 	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
-	private UsuarioInterface datosUsuario;
+	private UsuarioInterface datosUsuario = Main.cargarUsuario();
 
 	/**
 	 * Create the dialog.
 	 */
-	public VModoAdmin(UsuarioInterface datosUsuario, LigaInterface datos) {
-		
-		this.datosUsuario = datosUsuario;
+	public VModoAdmin() {
 		
 		setBounds(100, 100, 604, 441);
 		
@@ -55,7 +54,7 @@ public class VModoAdmin extends JDialog {
 			JButton btnInsertar = new JButton("INSERTAR");
 			btnInsertar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					insertar(datos);
+					insertar();
 				}
 			});
 			btnInsertar.setFont(new Font("Tahoma", Font.PLAIN, 20));
@@ -88,7 +87,7 @@ public class VModoAdmin extends JDialog {
 			JButton btnVistaUsuario = new JButton("VISTA DE \r\nUSUARIO");
 			btnVistaUsuario.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					consultar(datos);
+					consultar();
 				}
 
 			});
@@ -104,7 +103,7 @@ public class VModoAdmin extends JDialog {
 				JButton btnRetroceder = new JButton("RETROCEDER");
 				btnRetroceder.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						volver(datos);
+						volver();
 					}
 				});
 				btnRetroceder.setActionCommand("Cancel");
@@ -113,8 +112,8 @@ public class VModoAdmin extends JDialog {
 		}
 	}
 	
-	private void insertar(LigaInterface datos) {
-		VInsertarPrincipal insertar = new VInsertarPrincipal(datos);
+	private void insertar() {
+		VInsertarPrincipal insertar = new VInsertarPrincipal();
 		this.dispose();
 		insertar.setVisible(true);
 		
@@ -134,15 +133,15 @@ public class VModoAdmin extends JDialog {
 		
 	}
 	
-	private void consultar(LigaInterface datosLiga) {
-		VConsultaPrincipal consultar = new VConsultaPrincipal(datosUsuario, datosLiga);
+	private void consultar() {
+		VConsultaPrincipal consultar = new VConsultaPrincipal();
 		this.dispose();
 		consultar.setVisible(true);
 		
 	}
 	
-	private void volver(LigaInterface datosLiga) {
-		VPrincipal pricipal = new VPrincipal(datosUsuario, datosLiga);
+	private void volver() {
+		VPrincipal pricipal = new VPrincipal();
 		this.dispose();
 		pricipal.setVisible(true);
 		

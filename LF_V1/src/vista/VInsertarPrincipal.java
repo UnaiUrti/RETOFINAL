@@ -28,7 +28,7 @@ public class VInsertarPrincipal extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public VInsertarPrincipal(LigaInterface datos) {
+	public VInsertarPrincipal() {
 		setBounds(100, 100, 599, 430);
 		
 		Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
@@ -56,7 +56,7 @@ public class VInsertarPrincipal extends JDialog {
 			JButton btnNuevoEquipo = new JButton("Nuevo Equipo");
 			btnNuevoEquipo.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					insertarEquipo(datos);
+					insertarEquipo();
 				}
 			});
 			btnNuevoEquipo.setFont(new Font("Tahoma", Font.PLAIN, 13));
@@ -87,8 +87,8 @@ public class VInsertarPrincipal extends JDialog {
 		}
 	}
 	
-	private void insertarEquipo(LigaInterface datos) {
-		VInsertarEquipo equipo = new VInsertarEquipo(datos);
+	private void insertarEquipo() {
+		VInsertarEquipo equipo = new VInsertarEquipo();
 		this.dispose();
 		equipo.setVisible(true);
 		

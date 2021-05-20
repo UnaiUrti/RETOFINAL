@@ -4,7 +4,7 @@ import java.util.Map;
 
 public interface LigaInterface {
 
-	public void altaLiga(Liga liga);
+	public void altaLiga(String nombreLiga, String paisLiga);
 	
 	public void modificaLiga(Liga liga);
 	

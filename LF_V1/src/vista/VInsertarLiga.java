@@ -8,11 +8,20 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import aplicacion.Main;
+import modelo.EquipoInterface;
+import modelo.LigaInterface;
+
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import java.awt.Toolkit;
 
 import javax.swing.JTextField;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class VInsertarLiga extends JDialog {
 
@@ -23,6 +32,7 @@ public class VInsertarLiga extends JDialog {
 	private final JPanel contentPanel = new JPanel();
 	private JTextField textNombre;
 	private JTextField textPais;
+	private LigaInterface datosLiga = Main.cargarLiga();
 
 	/**
 	 * Create the dialog.
@@ -66,6 +76,11 @@ public class VInsertarLiga extends JDialog {
 		textPais.setColumns(10);
 		
 		JButton btnAlta = new JButton("Alta");
+		btnAlta.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				altaLiga();
+			}
+		});
 		btnAlta.setBounds(84, 312, 89, 23);
 		contentPanel.add(btnAlta);
 		
@@ -82,5 +97,16 @@ public class VInsertarLiga extends JDialog {
 				buttonPane.add(btnVolver);
 			}
 		}
+	}
+	
+	private void altaLiga() {
+		
+		datosLiga.altaLiga(textNombre.getText(), textPais.getText());
+		
+		//
+		JOptionPane.showMessageDialog(this, "Equipo dado de alta correctamente");
+		textNombre.setText("");
+		textPais.setText("");
+		
 	}
 }

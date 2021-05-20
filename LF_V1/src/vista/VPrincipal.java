@@ -5,6 +5,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import aplicacion.Main;
 import modelo.LigaInterface;
 import modelo.UsuarioInterface;
 import javax.swing.JLabel;
@@ -27,14 +28,12 @@ public class VPrincipal extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private UsuarioInterface datosUsuario;
+	private UsuarioInterface datosUsuario = Main.cargarUsuario();
 	
 	/**
 	 * Create the frame.
 	 */
-	public VPrincipal(UsuarioInterface datosUsuario, LigaInterface datosLiga) {
-		
-		this.datosUsuario = datosUsuario;
+	public VPrincipal() {
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 603, 440);
@@ -56,7 +55,7 @@ public class VPrincipal extends JFrame {
 		JButton btnAcceder = new JButton("ACCEDER");
 		btnAcceder.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				accederUsuario(datosLiga);
+				accederUsuario();
 			}
 		});
 		btnAcceder.setFont(new Font("Tahoma", Font.PLAIN, 24));
@@ -97,13 +96,13 @@ public class VPrincipal extends JFrame {
 	}
 	
 	private void registrarUsuario() {
-		VRegistrarse registrar = new VRegistrarse(datosUsuario);
+		VRegistrarse registrar = new VRegistrarse();
 		this.dispose();
 		registrar.setVisible(true);
 	}
 	
-	private void accederUsuario(LigaInterface datosLiga) {
-		VAcceder acceder = new VAcceder(datosUsuario, datosLiga);
+	private void accederUsuario() {
+		VAcceder acceder = new VAcceder();
 		this.dispose();
 		acceder.setVisible(true);
 	}

@@ -8,9 +8,14 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import modelo.Liga;
+
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import java.awt.Toolkit;
 
@@ -155,6 +160,67 @@ public class VInsertarJugador extends JDialog {
 				buttonPane.add(btnVolver);
 			}
 		}
+		
+		cargarLigas();
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 	}
-
+private void altaEquipo() {
+			
+			
+			/*String  pos= Integer.toString(comboLiga.getSelectedIndex()+1);
+			String codigoLiga = "";
+			String codLigNum;
+			
+			for (Liga liga : ligas.values()) {
+				
+				if(liga.getCodL().substring(2).equals("0")) {
+					if(liga.getCodL().substring(3, liga.getCodL().length()) == pos) {
+						codigoLiga = liga.getCodL();
+					}
+				}
+				else if(liga.getCodL().substring(2, liga.getCodL().length()) == pos) {
+					codigoLiga = liga.getCodL();
+				}
+			}*/
+			
+			String  cadena= (String) comboLiga.getSelectedItem();
+			int pos=cadena.indexOf(" ");
+			String codigoLiga = cadena.substring(0, pos);
+			
+			datosEquipo.altaEquipo(textNombre.getText(), codigoLiga);
+			
+			//
+			JOptionPane.showMessageDialog(this, "Equipo dado de alta correctamente");
+			textNombre.setText("");
+			comboLiga.setSelectedIndex(-1);
+			
+		}
+		
+		private void cargarEquipos() {
+			
+			equipos = datosEquipo.todasLiga();
+			
+			for (Liga liga : ligas.values()) {
+				comboLiga.addItem(liga.getCodL() +"   "+ liga.getNombreL());
+			}
+			
+			
+		}
 }

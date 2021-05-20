@@ -15,7 +15,7 @@ public class LigaMySQLImplementation implements LigaInterface {
 	private PreparedStatement stmt;
 	
 	//SENTENCIAS SQL
-	private final String altaLiga="INSERT INTO liga VALUES(?, ?, ?)";
+	private final String altaLiga="{CALL altaLiga( ? , ? )}";
 	private final String modificaLiga="UPDATE liga SET Nombre_L=?, Pais_L=? WHERE Cod_L=?";
 	private final String bajaLiga="DELETE FROM liga WHERE Cod_L=?";
 	private final String listarLigas="SELECT * FROM liga";
@@ -43,16 +43,15 @@ public class LigaMySQLImplementation implements LigaInterface {
 	}
 	
 	@Override
-	public void altaLiga(Liga liga) {
+	public void altaLiga(String nombreLiga, String paisLiga) {
 		
 		this.openConnection();
 		
 		try {
 			stmt = con.prepareStatement(altaLiga);
 			
-			stmt.setString(1, liga.getCodL());
-			stmt.setString(2, liga.getNombreL());
-			stmt.setString(3, liga.getPaisL());
+			stmt.setString(1, nombreLiga);
+			stmt.setString(2, paisLiga);
 			
 			stmt.executeUpdate();
 			

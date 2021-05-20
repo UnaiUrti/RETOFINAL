@@ -9,6 +9,7 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import aplicacion.Main;
 import modelo.LigaInterface;
 import modelo.Usuario;
 import modelo.UsuarioInterface;
@@ -34,14 +35,12 @@ public class VRegistrarse extends JDialog {
 	private JTextField textUsuario;
 	private JTextField textContraseña;
 	private JTextField textRepContraseña;
-	private UsuarioInterface datosUsuario;
+	private UsuarioInterface datosUsuario = Main.cargarUsuario();
 
 	/**
 	 * Create the dialog.
 	 */
-	public VRegistrarse(UsuarioInterface datosUsuario, LigaInterface datosLiga) {
-		
-		this.datosUsuario = datosUsuario;
+	public VRegistrarse() {
 		
 		setBounds(100, 100, 602, 430);
 		
@@ -107,7 +106,7 @@ public class VRegistrarse extends JDialog {
 				JButton btnRegistrarse = new JButton("REGISTRARSE");
 				btnRegistrarse.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						altaUsuario(datosLiga);
+						altaUsuario();
 					}
 				});
 				btnRegistrarse.setActionCommand("OK");
@@ -118,7 +117,7 @@ public class VRegistrarse extends JDialog {
 				JButton btnRetroceder = new JButton("RETROCEDER");
 				btnRetroceder.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						volverVPrincipal(datosLiga);
+						volverVPrincipal();
 					}
 				});
 				btnRetroceder.setActionCommand("Cancel");
@@ -127,7 +126,7 @@ public class VRegistrarse extends JDialog {
 		}
 	}
 
-	private void altaUsuario(LigaInterface datosLiga) {
+	private void altaUsuario() {
 		Usuario usuario = new Usuario();
 		
 		usuario.setNombreU(textUsuario.getText());
@@ -138,11 +137,11 @@ public class VRegistrarse extends JDialog {
 
 		//Mensaje de confirmación
 		JOptionPane.showMessageDialog(this, "Usuario dado de alta");
-		volverVPrincipal(datosLiga);
+		volverVPrincipal();
 	}
 	
-	private void volverVPrincipal(LigaInterface datosLiga) {
-		VPrincipal volverVPrincipal = new VPrincipal(datosUsuario, datosLiga);
+	private void volverVPrincipal() {
+		VPrincipal volverVPrincipal = new VPrincipal();
 		this.dispose();
 		volverVPrincipal.setVisible(true);
 	}
