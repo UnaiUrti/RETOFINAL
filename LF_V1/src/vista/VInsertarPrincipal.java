@@ -108,14 +108,14 @@ public class VInsertarPrincipal extends JDialog {
 	}
 	
 	private void insertarLiga() {
-		VInsertarLiga liga = new VInsertarLiga(false);
+		VInsertarLiga liga = new VInsertarLiga(false, null);
 		this.dispose();
 		liga.setVisible(true);
 		
 	}
 	
 	private void insertarEquipo() {
-		VInsertarEquipo equipo = new VInsertarEquipo(false);
+		VInsertarEquipo equipo = new VInsertarEquipo(false, null);
 		this.dispose();
 		equipo.setVisible(true);
 		

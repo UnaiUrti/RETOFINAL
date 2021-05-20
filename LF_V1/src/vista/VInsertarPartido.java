@@ -33,6 +33,9 @@ import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.text.SimpleDateFormat;
+
+import com.toedter.calendar.JDateChooser;
 
 public class VInsertarPartido extends JDialog {
 
@@ -44,16 +47,16 @@ public class VInsertarPartido extends JDialog {
 	private JTextField textGolesL;
 	private JTextField textGolesV;
 	private JTextField textJornada;
-	private JTextField textFecha;
+	private JDateChooser fecha;
 	private ArrayList<Liga> ligas;
 	private ArrayList<Equipo> equipos;
-	String[] codEquipos;
+	private String[] codEquipos;
 	private EquipoInterface datosEquipo = Main.cargarEquipo();
 	private LigaInterface datosLiga = Main.cargarLiga();
 	private PartidoInterface datosPartido = Main.cargarPartido();
-	JComboBox <String> cmbLiga;
-	JComboBox <String> cmbEquipoL;
-	JComboBox <String> cmbEquipoV;
+	private JComboBox <String> cmbLiga;
+	private JComboBox <String> cmbEquipoL;
+	private JComboBox <String> cmbEquipoV;
 
 	/**
 	 * Create the dialog.
@@ -122,30 +125,14 @@ public class VInsertarPartido extends JDialog {
 		textJornada = new JTextField();
 		textJornada.setBounds(225, 243, 46, 20);
 		textJornada.setColumns(10);
+		fecha = new JDateChooser();
+		fecha.setBounds(393, 243, 121, 20);
+		contentPanel.add(fecha);
 		JButton btnAlta = new JButton("ALTA");
 		btnAlta.setBounds(138, 304, 57, 23);
 		btnAlta.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				if(cmbEquipoL.getSelectedItem().equals(cmbEquipoV.getSelectedItem())) {
-					JOptionPane.showMessageDialog(null, "Un equipo no puede jugar consigo mismo. Cambia uno de los dos");
-				}else {
-					altaPartido();
-					int cantGol = Integer.parseInt(textGolesL.getText()) + Integer.parseInt(textGolesV.getText());
-					
-					if(cantGol>0) {
-						VInsertarGol ventanaGol = new VInsertarGol(Integer.parseInt(textGolesL.getText()), Integer.parseInt(textGolesV.getText()));
-						ventanaGol.setVisible(true);
-					}
-				}
-				
-				textFecha.setText("");
-				textGolesL.setText("");
-				textGolesV.setText("");
-				textJornada.setText("");
-				cmbLiga.setSelectedIndex(-1);
-				cmbEquipoL.setSelectedIndex(-1);
-				cmbEquipoV.setSelectedIndex(-1);
+			public void actionPerformed(ActionEvent e) {				
+				altaPartido();
 			}
 		});
 		JButton btnModificar = new JButton("MODIFICAR");
@@ -154,13 +141,8 @@ public class VInsertarPartido extends JDialog {
 		JLabel lblFecha = new JLabel("Fecha:");
 		lblFecha.setBounds(342, 243, 41, 17);
 		lblFecha.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		
-		textFecha = new JTextField();
-		textFecha.setBounds(387, 243, 96, 20);
-		textFecha.setColumns(10);
 		contentPanel.setLayout(null);
 		contentPanel.add(lblFecha);
-		contentPanel.add(textFecha);
 		contentPanel.add(lblInsertarPartido);
 		contentPanel.add(lblEquipoL);
 		contentPanel.add(lblEquipoV);
@@ -195,18 +177,54 @@ public class VInsertarPartido extends JDialog {
 		
 		cargarLigas();
 		cmbLiga.setSelectedIndex(-1);
+		
 	}
 	
 	private void altaPartido() {
-
-		int posL=cmbEquipoL.getSelectedIndex();
-		int posV=cmbEquipoV.getSelectedIndex();
-		String codigoEquipoL = equipos.get(posL).getCodE();
-		String codigoEquipoV = equipos.get(posV).getCodE();
-
-		datosPartido.altaPartido(LocalDate.parse(textFecha.getText()), Integer.parseInt(textJornada.getText()), codigoEquipoL, codigoEquipoV);
+		
+		if(textGolesL.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(this, "DEBES PONER LA CANTIDAD DE GOLES (SI NO HA HABIDO GOLES PON 0)");
+		}else if(textGolesV.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(this, "DEBES PONER LA CANTIDAD DE GOLES (SI NO HA HABIDO GOLES PON 0)");
+		}else if(fecha.getDate()==null) {
+			JOptionPane.showMessageDialog(this, "DEBES INTRODUCIR LA FECHA EN LA QUE SE JUGO EL PARTIDO");
+		}else if(textJornada.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(this, "DEBES INTRODUCIR LA JORNADA DEL PARTIDO");
+		}else if(cmbEquipoL.getSelectedIndex()==-1) {
+			JOptionPane.showMessageDialog(this, "DEBES INTRODUCIR UN PARTIDO");
+		}else if(cmbEquipoV.getSelectedIndex()==-1) {
+			JOptionPane.showMessageDialog(this, "DEBES INTRODUCIR UN PARTIDO");
+		}else if(cmbEquipoL.getSelectedItem().equals(cmbEquipoV.getSelectedItem())) {
+			JOptionPane.showMessageDialog(this, "UN EQUIPO NO PUEDE JUGAR CONSIGO MISMO. DEBES CAMBIAR UNO DE LOS DOS");
+		}else {
 			
-		JOptionPane.showMessageDialog(this, "Partido dado de alta correctamente");
+			SimpleDateFormat formateador = new SimpleDateFormat("yyyy-MM-dd");
+			String textFecha = formateador.format(fecha.getDate());
+			
+			int posL=cmbEquipoL.getSelectedIndex();
+			int posV=cmbEquipoV.getSelectedIndex();
+			String codigoEquipoL = equipos.get(posL).getCodE();
+			String codigoEquipoV = equipos.get(posV).getCodE();
+
+			datosPartido.altaPartido(LocalDate.parse(textFecha), Integer.parseInt(textJornada.getText()), codigoEquipoL, codigoEquipoV);
+				
+			JOptionPane.showMessageDialog(this, "Partido dado de alta correctamente");
+			
+			int cantGol = Integer.parseInt(textGolesL.getText()) + Integer.parseInt(textGolesV.getText());
+			
+			if(cantGol>0) {
+				VInsertarGol ventanaGol = new VInsertarGol(Integer.parseInt(textGolesL.getText()), Integer.parseInt(textGolesV.getText()));
+				ventanaGol.setVisible(true);
+			}
+			
+			fecha.setDateFormatString("");
+			textGolesL.setText("");
+			textGolesV.setText("");
+			textJornada.setText("");
+			cmbLiga.setSelectedIndex(-1);
+			cmbEquipoL.setSelectedIndex(-1);
+			cmbEquipoV.setSelectedIndex(-1);
+		}
 
 	}
 

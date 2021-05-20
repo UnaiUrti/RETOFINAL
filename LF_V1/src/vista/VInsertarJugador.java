@@ -121,6 +121,11 @@ public class VInsertarJugador extends JDialog {
 		});
 		btnAlta.setBounds(120, 310, 57, 23);
 		JButton btnModificar = new JButton("MODIFICAR");
+		btnModificar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				modificaJugador(jugador);
+			}
+		});
 		btnModificar.setBounds(311, 310, 91, 23);
 		contentPanel.setLayout(null);
 		contentPanel.add(lblInsertarJugador);
@@ -159,8 +164,14 @@ public class VInsertarJugador extends JDialog {
 		
 		if(altaOculto) {
 			btnAlta.setEnabled(false);
-			cmbLiga.setSelectedItem(buscarLiga(jugador));
+			
+			cargarLigas();
+			cmbLiga.setSelectedItem(buscarLiga(jugador).getNombreL());
+			
+			equipos.removeAll(equipos);
+			cargarEquipos();
 			cmbEquipo.setSelectedItem(buscarEquipo(jugador));
+			
 			textNombre.setText(jugador.getNombreJ());
 			textDorsal.setText(Integer.toString(jugador.getDorsal()));
 			textPais.setText(jugador.getPaisJ());
@@ -173,17 +184,53 @@ public class VInsertarJugador extends JDialog {
 
 	private void altaJugador() {
 
-		int pos=cmbEquipo.getSelectedIndex();
-		String codigoEquipo = equipos.get(pos).getCodE();
+		if(textNombre.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(this, "EL JUGADOR TIENE QUE TENER UN NOMBRE");
+		}else if(textDorsal.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(this, "DEBES INTRODUCIR EL DORSAL DEL JUGADOR");
+		}else if(textPais.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(this, "EL JUGADOR TIENE QUE SER DE ALGUN PAIS");
+		}else if(cmbPosicion.getSelectedIndex()==-1) {
+			JOptionPane.showMessageDialog(this, "DEBES PONERLE UNA POSICION AL JUGADOR");
+		}else if(cmbEquipo.getSelectedIndex()==-1) {
+			JOptionPane.showMessageDialog(this, "EL JUGADOR TIENE QUE SER DE ALGUN EQUIPO");
+		}else{
+			int pos=cmbEquipo.getSelectedIndex();
+			String codigoEquipo = equipos.get(pos).getCodE();
 
-		datosJugador.altaJugador(textNombre.getText(), Integer.parseInt(textDorsal.getText()), textPais.getText(), cmbPosicion.getSelectedItem().toString(), codigoEquipo);
+			datosJugador.altaJugador(textNombre.getText(), Integer.parseInt(textDorsal.getText()), textPais.getText(), cmbPosicion.getSelectedItem().toString(), codigoEquipo);
 
-		//
-		JOptionPane.showMessageDialog(this, "Jugador dado de alta correctamente");
-		textNombre.setText("");
-		cmbLiga.setSelectedIndex(-1);
+			//
+			JOptionPane.showMessageDialog(this, "Jugador dado de alta correctamente");
+			textNombre.setText("");
+			cmbLiga.setSelectedIndex(-1);
+		}
 
 	}
+	
+	private void modificaJugador(Jugador jugador) {
+		
+		if(textNombre.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(this, "EL JUGADOR TIENE QUE TENER UN NOMBRE");
+		}else if(textDorsal.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(this, "DEBES INTRODUCIR EL DORSAL DEL JUGADOR");
+		}else if(textPais.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(this, "EL JUGADOR TIENE QUE SER DE ALGUN PAIS");
+		}else if(cmbPosicion.getSelectedIndex()==-1) {
+			JOptionPane.showMessageDialog(this, "DEBES PONERLE UNA POSICION AL JUGADOR");
+		}else if(cmbEquipo.getSelectedIndex()==-1) {
+			JOptionPane.showMessageDialog(this, "EL JUGADOR TIENE QUE SER DE ALGUN EQUIPO");
+		}else{
+			int pos=cmbEquipo.getSelectedIndex();
+			String codigoEquipo = equipos.get(pos).getCodE();
+			
+			datosJugador.modificarJugador(textNombre.getText(), Integer.parseInt(textDorsal.getText()), textPais.getText(), cmbPosicion.getSelectedItem().toString(), codigoEquipo, jugador.getCodJ());
+			
+			JOptionPane.showMessageDialog(this, "Jugador modificado correctamente");
+		}
+	}
+	
+	
 
 	private void cargarLigas() {
 
@@ -216,31 +263,35 @@ public class VInsertarJugador extends JDialog {
 		
 	}
 	
-	private String buscarLiga(Jugador jugador) {
-		String nombreLiga = "";
+	private Liga buscarLiga(Jugador jugador) {
+		Liga suLiga = null;
+		Equipo codE = null;
 		
+		equipos = datosEquipo.listarTodosEquipo();
 		for (Equipo equipo : equipos) {
 			if(equipo.getCodE().equals(jugador.getCodE())) {
-				for (Liga liga : ligas) {
-					if(equipo.getCodL().equals(liga.getCodL())) {
-						nombreLiga = liga.getNombreL();
-					}
-				}
+				codE = equipo;
+			}
+		}
+		for (Liga liga : ligas) {
+			if(codE.getCodL().equals(liga.getCodL())) {
+				suLiga = liga;
 			}
 		}
 		
-		return nombreLiga;
+		return suLiga;
 	}
 	
-	private String buscarEquipo(Jugador jugador) {
-		String nombreEquipo = "";
+	private Equipo buscarEquipo(Jugador jugador) {
+		Equipo suEquipo = null;
 		
 		for (Equipo equipo : equipos) {
 			if(equipo.getCodE().equals(jugador.getCodE())) {
-				nombreEquipo = equipo.getNombreE();
+				suEquipo = equipo;
 			}
 		}
 		
-		return nombreEquipo;
+		return suEquipo;
 	}
+	
 }

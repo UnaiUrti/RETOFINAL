@@ -197,20 +197,23 @@ public class VBaja extends JDialog {
 
 	private void modificar() {
 		if(cmbJugador.getSelectedIndex()>0) {
-			int pos=cmbJugador.getSelectedIndex();
-			VInsertarJugador ventanaJugador = new VInsertarJugador(true, jugadores.get(pos-1));
+			int pos=(cmbJugador.getSelectedIndex())-1;
+			
+			System.out.println(jugadores.get(pos).getCodE());
+			
+			VInsertarJugador ventanaJugador = new VInsertarJugador(true, jugadores.get(pos));
 			this.dispose();
 			ventanaJugador.setVisible(true);
-		/*}else if(cmbEquipo.getSelectedIndex()>0) {
-			int pos=cmbEquipo.getSelectedIndex();
-			VInsertarEquipo ventanaEquipo = new VInsertarEquipo(true, equipos.get(pos-1));
+		}else if(cmbEquipo.getSelectedIndex()>0) {
+			int pos=(cmbEquipo.getSelectedIndex())-1;
+			VInsertarEquipo ventanaEquipo = new VInsertarEquipo(true, equipos.get(pos));
 			this.dispose();
 			ventanaEquipo.setVisible(true);
 		}else if(cmbLiga.getSelectedIndex()!=-1) {
 			int pos=cmbLiga.getSelectedIndex();
 			VInsertarLiga ventanaLiga = new VInsertarLiga(true, ligas.get(pos));
 			this.dispose();
-			ventanaLiga.setVisible(true);*/
+			ventanaLiga.setVisible(true);
 		}else {
 			JOptionPane.showMessageDialog(this, "TIENES QUE ELEGIR POR LO MENOS UNA LIGA");
 		}

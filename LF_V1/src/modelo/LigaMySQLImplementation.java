@@ -69,16 +69,16 @@ public class LigaMySQLImplementation implements LigaInterface {
 	}
 
 	@Override
-	public void modificaLiga(Liga liga) {
+	public void modificaLiga(String nombreLiga, String paisLiga, String codLiga) {
 		
 		this.openConnection();
 		
 		try {
 			stmt = con.prepareStatement(modificaLiga);
 			
-			stmt.setString(3, liga.getCodL());
-			stmt.setString(1, liga.getNombreL());
-			stmt.setString(2, liga.getPaisL());
+			stmt.setString(3, codLiga);
+			stmt.setString(1, nombreLiga);
+			stmt.setString(2, paisLiga);
 			
 			stmt.executeUpdate();
 			

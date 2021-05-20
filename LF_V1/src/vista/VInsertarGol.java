@@ -134,6 +134,9 @@ public class VInsertarGol extends JDialog {
 		cargarEquipo(golesLocal, golesVisitante);
 		cargarNumGol(golesLocal, golesVisitante);
 		cargarDorsal(golesLocal, golesVisitante);
+		
+		textEquipo.setEditable(false);
+		textGol.setEditable(false);
 	}
 	
 	private void altaGol(int golesLocal, int golesVisitante) {
@@ -142,9 +145,14 @@ public class VInsertarGol extends JDialog {
 		String codigoGoleador = buscarGoleador(goleador);
 		
 		if(Integer.parseInt(textMinuto.getText())<=0 || Integer.parseInt(textMinuto.getText())>90) {
-			JOptionPane.showMessageDialog(null, "El minuto del gol tiene que ser entre 0 y 90");
+			JOptionPane.showMessageDialog(null, "EL MINUTO DEL GOL TIENE QUE SER ENTRE 0 Y 90");
+		}else if (textMinuto.getText().isEmpty()){
+			JOptionPane.showMessageDialog(null, "DEBES INTRODUCIR EL MINUTO EN QUE SE MARCO EL GOL");
+		}else if(cmbGoleador.getSelectedIndex()==-1) {
+			JOptionPane.showMessageDialog(null, "DEBES INTRODUCIR EL GOLEADOR QUE MARCO EL GOL");
 		}else {
-			datosGol.altaGol(Integer.parseInt(textMinuto.getText()), codigoGoleador);
+			
+		datosGol.altaGol(Integer.parseInt(textMinuto.getText()), codigoGoleador);
 			
 			JOptionPane.showMessageDialog(this, "Gol dado de alta correctamente");
 			

@@ -12,6 +12,7 @@ import javax.swing.border.EmptyBorder;
 import aplicacion.Main;
 import modelo.Equipo;
 import modelo.EquipoInterface;
+import modelo.Jugador;
 import modelo.Liga;
 import modelo.LigaInterface;
 
@@ -45,7 +46,7 @@ public class VInsertarEquipo extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public VInsertarEquipo(boolean altaOculto) {
+	public VInsertarEquipo(boolean altaOculto, Equipo equipo) {
 		setBounds(100, 100, 673, 479);
 		
 		Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
@@ -95,6 +96,11 @@ public class VInsertarEquipo extends JDialog {
 		contentPanel.add(btnAlta);
 		
 		JButton btnModificar = new JButton("Modificar");
+		btnModificar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				modificaEquipo(equipo);
+			}
+		});
 		btnModificar.setBounds(207, 352, 89, 23);
 		contentPanel.add(btnModificar);
 		{
@@ -117,6 +123,11 @@ public class VInsertarEquipo extends JDialog {
 		
 		if(altaOculto) {
 			btnAlta.setEnabled(false);
+			
+			cargarLigas();
+			comboLiga.setSelectedItem(buscarLiga(equipo).getNombreL());
+			
+			textNombre.setText(equipo.getNombreE());
 		}else {
 			btnModificar.setEnabled(false);
 		}
@@ -125,17 +136,41 @@ public class VInsertarEquipo extends JDialog {
 
 	private void altaEquipo() {
 		
-		int pos=comboLiga.getSelectedIndex();
-		String codigoLiga = ligas.get(pos).getCodL();
+		if(textNombre.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(this, "DEBES PONERLE UN NOMBRE AL EQUIPO");
+		}else if(comboLiga.getSelectedIndex()==-1) {
+			JOptionPane.showMessageDialog(this, "DEBES METER EL EQUIPO EN UNA LIGA");
+		}else {
+			int pos=comboLiga.getSelectedIndex();
+			String codigoLiga = ligas.get(pos).getCodL();
+			
+			datosEquipo.altaEquipo(textNombre.getText(), codigoLiga);
+			
+			//
+			JOptionPane.showMessageDialog(this, "Equipo dado de alta correctamente");
+			textNombre.setText("");
+			comboLiga.setSelectedIndex(-1);
+		}
 		
-		datosEquipo.altaEquipo(textNombre.getText(), codigoLiga);
-		
-		//
-		JOptionPane.showMessageDialog(this, "Equipo dado de alta correctamente");
-		textNombre.setText("");
-		comboLiga.setSelectedIndex(-1);
 		
 	}
+	
+	private void modificaEquipo(Equipo equipo) {
+		
+		if(textNombre.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(this, "DEBES PONERLE UN NOMBRE AL EQUIPO");
+		}else if(comboLiga.getSelectedIndex()==-1) {
+			JOptionPane.showMessageDialog(this, "DEBES METER EL EQUIPO EN UNA LIGA");
+		}else {
+			int pos=comboLiga.getSelectedIndex();
+			String codigoLiga = ligas.get(pos).getCodL();
+			
+			datosEquipo.modificarEquipo(textNombre.getText(), codigoLiga, equipo.getCodE());
+			JOptionPane.showMessageDialog(this, "Equipo modificado correctamente");
+		}
+	}
+	
+	
 	
 	private void cargarLigas() {
 		
@@ -154,6 +189,20 @@ public class VInsertarEquipo extends JDialog {
 		VInsertarPrincipal  ventanaInsertarPrincipal = new VInsertarPrincipal();
 		ventanaInsertarPrincipal.setVisible(true);
 		
+	}
+	
+	
+	
+	private Liga buscarLiga(Equipo equipo) {
+		Liga suLiga = null;
+		
+		for (Liga liga : ligas) {
+			if(liga.getCodL().equals(equipo.getCodL())) {
+				suLiga = liga;
+			}
+		}
+		
+		return suLiga;
 	}
 
 }

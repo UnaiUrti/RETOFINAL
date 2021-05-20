@@ -7,10 +7,12 @@ public interface EquipoInterface {
 
 	public void altaEquipo(String nombreEquipo, String codLiga);
 	
-	public void modificarEquipo(Equipo equipo);
+	public void modificarEquipo(String nombreEquipo, String codLiga, String codEquipo);
 	
 	public void bajaEquipo(Equipo equipo);
 	
 	public ArrayList<Equipo> todosEquipo(String codL);
+
+	ArrayList<Equipo> listarTodosEquipo();
 
 }

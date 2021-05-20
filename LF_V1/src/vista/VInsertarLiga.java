@@ -11,6 +11,7 @@ import javax.swing.border.EmptyBorder;
 
 import aplicacion.Main;
 import modelo.EquipoInterface;
+import modelo.Liga;
 import modelo.LigaInterface;
 
 import javax.swing.JLabel;
@@ -37,7 +38,7 @@ public class VInsertarLiga extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public VInsertarLiga(boolean altaOculto) {
+	public VInsertarLiga(boolean altaOculto, Liga liga) {
 		setBounds(100, 100, 681, 455);
 		
 		Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
@@ -85,6 +86,11 @@ public class VInsertarLiga extends JDialog {
 		contentPanel.add(btnAlta);
 		
 		JButton btnModificar = new JButton("Modificar");
+		btnModificar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				modificaLiga(liga);
+			}
+		});
 		btnModificar.setBounds(275, 312, 89, 23);
 		contentPanel.add(btnModificar);
 		{
@@ -105,6 +111,8 @@ public class VInsertarLiga extends JDialog {
 		
 		if(altaOculto) {
 			btnAlta.setEnabled(false);
+			textNombre.setText(liga.getNombreL());
+			textPais.setText(liga.getPaisL());
 		}else {
 			btnModificar.setEnabled(false);
 		}
@@ -112,14 +120,34 @@ public class VInsertarLiga extends JDialog {
 	
 	private void altaLiga() {
 		
-		datosLiga.altaLiga(textNombre.getText(), textPais.getText());
-		
-		//
-		JOptionPane.showMessageDialog(this, "Equipo dado de alta correctamente");
-		textNombre.setText("");
-		textPais.setText("");
+		if(textNombre.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(this, "DEBES PONERLE UN NOMBRE A LA LIGA");
+		}else if(textPais.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(this, "DEBES PONERLE UN PAIS A LA LIGA");
+		}else {
+			datosLiga.altaLiga(textNombre.getText(), textPais.getText());
+			
+			//
+			JOptionPane.showMessageDialog(this, "Liga dada de alta correctamente");
+			textNombre.setText("");
+			textPais.setText("");
+		}
 		
 	}
+	
+	private void modificaLiga(Liga liga) {
+		
+		if(textNombre.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(this, "DEBES PONERLE UN NOMBRE A LA LIGA");
+		}else if(textPais.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(this, "DEBES PONERLE UN PAIS A LA LIGA");
+		}else {
+			datosLiga.modificaLiga(textNombre.getText(), textPais.getText(), liga.getCodL());
+			JOptionPane.showMessageDialog(this, "Liga modificada correctamente");
+		}
+	}
+	
+	
 	
 	private void volverAtras() {
 		this.dispose();

@@ -72,19 +72,19 @@ public class JugadorMySQLImplementation implements JugadorInterface{
 			}
 
 			@Override
-			public void modificarJugador(Jugador jugador) {
+			public void modificarJugador(String nombreJugador, int dorsal, String paisJugador, String posicion, String codEquipo, String codJugador) {
 				
 				this.openConnection();
 				
 				try {
 					stmt = con.prepareStatement(modificaJugador);
 					
-					stmt.setString(6, jugador.getCodJ());
-					stmt.setString(1, jugador.getNombreJ());
-					stmt.setInt(2, jugador.getDorsal());
-					stmt.setString(3, jugador.getPaisJ());
-					stmt.setString(4, jugador.getPosicion());
-					stmt.setString(5, jugador.getCodE());
+					stmt.setString(6, codJugador);
+					stmt.setString(1, nombreJugador);
+					stmt.setInt(2, dorsal);
+					stmt.setString(3, paisJugador);
+					stmt.setString(4, posicion);
+					stmt.setString(5, codEquipo);
 					
 					stmt.executeUpdate();
 					
@@ -147,6 +147,7 @@ public class JugadorMySQLImplementation implements JugadorInterface{
 						jugador.setDorsal(rs.getInt("Dorsal"));
 						jugador.setPaisJ(rs.getString("Pais_J"));
 						jugador.setPosicion(rs.getString("Posicion"));
+						jugador.setCodE(rs.getString("Cod_E"));
 						jugadores.add(jugador);
 					}
 					
