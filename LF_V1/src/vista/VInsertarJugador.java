@@ -9,7 +9,12 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import aplicacion.Main;
+import modelo.Equipo;
+import modelo.EquipoInterface;
+import modelo.JugadorInterface;
 import modelo.Liga;
+import modelo.LigaInterface;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -18,10 +23,16 @@ import javax.swing.JOptionPane;
 
 import java.awt.Font;
 import java.awt.Toolkit;
+import java.util.Map;
 
 import javax.swing.JComboBox;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JTextField;
+import javax.swing.DefaultComboBoxModel;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class VInsertarJugador extends JDialog {
 
@@ -33,123 +44,98 @@ public class VInsertarJugador extends JDialog {
 	private JTextField textNombre;
 	private JTextField textPais;
 	private JTextField textDorsal;
+	private Map<String, Liga> ligas;
+	private Map<String, Equipo> equipos;
+	private JComboBox <String> cmbLiga;
+	private JComboBox <String> cmbEquipo;
+	private JComboBox <String> cmbPosicion;
+	private EquipoInterface datosEquipo = Main.cargarEquipo();
+	private LigaInterface datosLiga = Main.cargarLiga();
+	private JugadorInterface datosJugador = Main.cargarJugador();
 
 	/**
 	 * Create the dialog.
 	 */
 	public VInsertarJugador() {
 		setBounds(100, 100, 600, 430);
-		
+
 		Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
-	    int x = (int) ((dimension.getWidth() - this.getWidth()) / 2);
-	    int y = (int) ((dimension.getHeight() - this.getHeight()) / 2);
-	    this.setLocation(x, y);
-		
+		int x = (int) ((dimension.getWidth() - this.getWidth()) / 2);
+		int y = (int) ((dimension.getHeight() - this.getHeight()) / 2);
+		this.setLocation(x, y);
+
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		JLabel lblInsertarJugador = new JLabel("Insertar Jugador");
+		lblInsertarJugador.setBounds(64, 33, 158, 25);
 		lblInsertarJugador.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		JComboBox cmbLiga = new JComboBox();
+		cmbLiga = new JComboBox();
+		cmbLiga.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusLost(FocusEvent e) {
+				cmbEquipo.removeAllItems();
+				buscarEquipos();
+			}
+		});
+		cmbLiga.setBounds(118, 105, 107, 22);
 		JLabel lblLiga = new JLabel("Liga: ");
+		lblLiga.setBounds(54, 105, 60, 19);
 		lblLiga.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		JLabel lblEquipo = new JLabel("Equipo: ");
+		lblEquipo.setBounds(54, 145, 60, 19);
 		lblEquipo.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		JComboBox cmbEquipo = new JComboBox();
+		cmbEquipo = new JComboBox();
+		cmbEquipo.setBounds(118, 145, 107, 22);
 		JLabel lblNombre = new JLabel("Nombre: ");
+		lblNombre.setBounds(54, 195, 62, 19);
 		lblNombre.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		textNombre = new JTextField();
+		textNombre.setBounds(120, 196, 105, 20);
 		textNombre.setColumns(10);
 		JLabel lblPais = new JLabel("Pais: ");
+		lblPais.setBounds(54, 234, 46, 19);
 		lblPais.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		textPais = new JTextField();
+		textPais.setBounds(120, 235, 105, 20);
 		textPais.setColumns(10);
 		JLabel lblDorsal = new JLabel("Dorsal: ");
+		lblDorsal.setBounds(311, 195, 50, 19);
 		lblDorsal.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		textDorsal = new JTextField();
+		textDorsal.setBounds(379, 196, 35, 20);
 		textDorsal.setColumns(10);
 		JLabel lblPosicion = new JLabel("Posicion: ");
+		lblPosicion.setBounds(342, 234, 60, 19);
 		lblPosicion.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		JComboBox cmbPosicion = new JComboBox();
+		cmbPosicion = new JComboBox();
+		cmbPosicion.setModel(new DefaultComboBoxModel(new String[] {"DEL", "MD", "DEF", "POR"}));
+		cmbPosicion.setBounds(412, 234, 61, 22);
 		JButton btnAlta = new JButton("ALTA");
+		btnAlta.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				altaJugador();
+			}
+		});
+		btnAlta.setBounds(120, 310, 57, 23);
 		JButton btnModificar = new JButton("MODIFICAR");
-		GroupLayout gl_contentPanel = new GroupLayout(contentPanel);
-		gl_contentPanel.setHorizontalGroup(
-			gl_contentPanel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_contentPanel.createSequentialGroup()
-					.addGap(59)
-					.addComponent(lblInsertarJugador, GroupLayout.PREFERRED_SIZE, 158, GroupLayout.PREFERRED_SIZE))
-				.addGroup(gl_contentPanel.createSequentialGroup()
-					.addGap(49)
-					.addComponent(lblLiga, GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE)
-					.addGap(4)
-					.addComponent(cmbLiga, GroupLayout.PREFERRED_SIZE, 107, GroupLayout.PREFERRED_SIZE))
-				.addGroup(gl_contentPanel.createSequentialGroup()
-					.addGap(49)
-					.addComponent(lblEquipo, GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE)
-					.addGap(4)
-					.addComponent(cmbEquipo, GroupLayout.PREFERRED_SIZE, 107, GroupLayout.PREFERRED_SIZE))
-				.addGroup(gl_contentPanel.createSequentialGroup()
-					.addGap(49)
-					.addComponent(lblNombre)
-					.addGap(4)
-					.addComponent(textNombre, GroupLayout.PREFERRED_SIZE, 105, GroupLayout.PREFERRED_SIZE)
-					.addGap(86)
-					.addComponent(lblDorsal)
-					.addGap(18)
-					.addComponent(textDorsal, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE))
-				.addGroup(gl_contentPanel.createSequentialGroup()
-					.addGap(49)
-					.addComponent(lblPais, GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE)
-					.addGap(20)
-					.addComponent(textPais, GroupLayout.PREFERRED_SIZE, 105, GroupLayout.PREFERRED_SIZE)
-					.addGap(117)
-					.addComponent(lblPosicion)
-					.addGap(10)
-					.addComponent(cmbPosicion, GroupLayout.PREFERRED_SIZE, 61, GroupLayout.PREFERRED_SIZE))
-				.addGroup(gl_contentPanel.createSequentialGroup()
-					.addGap(115)
-					.addComponent(btnAlta)
-					.addGap(134)
-					.addComponent(btnModificar))
-		);
-		gl_contentPanel.setVerticalGroup(
-			gl_contentPanel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_contentPanel.createSequentialGroup()
-					.addGap(28)
-					.addComponent(lblInsertarJugador)
-					.addGap(47)
-					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblLiga)
-						.addComponent(cmbLiga, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addGap(18)
-					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblEquipo)
-						.addComponent(cmbEquipo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addGap(28)
-					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblNombre)
-						.addGroup(gl_contentPanel.createSequentialGroup()
-							.addGap(1)
-							.addComponent(textNombre, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-						.addComponent(lblDorsal)
-						.addGroup(gl_contentPanel.createSequentialGroup()
-							.addGap(1)
-							.addComponent(textDorsal, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
-					.addGap(18)
-					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblPais)
-						.addGroup(gl_contentPanel.createSequentialGroup()
-							.addGap(1)
-							.addComponent(textPais, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-						.addComponent(lblPosicion)
-						.addComponent(cmbPosicion, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addGap(54)
-					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-						.addComponent(btnAlta)
-						.addComponent(btnModificar)))
-		);
-		contentPanel.setLayout(gl_contentPanel);
+		btnModificar.setBounds(311, 310, 91, 23);
+		contentPanel.setLayout(null);
+		contentPanel.add(lblInsertarJugador);
+		contentPanel.add(lblLiga);
+		contentPanel.add(cmbLiga);
+		contentPanel.add(lblEquipo);
+		contentPanel.add(cmbEquipo);
+		contentPanel.add(lblNombre);
+		contentPanel.add(textNombre);
+		contentPanel.add(lblDorsal);
+		contentPanel.add(textDorsal);
+		contentPanel.add(lblPais);
+		contentPanel.add(textPais);
+		contentPanel.add(lblPosicion);
+		contentPanel.add(cmbPosicion);
+		contentPanel.add(btnAlta);
+		contentPanel.add(btnModificar);
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
@@ -160,67 +146,71 @@ public class VInsertarJugador extends JDialog {
 				buttonPane.add(btnVolver);
 			}
 		}
-		
+
 		cargarLigas();
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+		cmbLiga.setSelectedIndex(-1);
 		
 	}
-private void altaEquipo() {
-			
-			
-			/*String  pos= Integer.toString(comboLiga.getSelectedIndex()+1);
-			String codigoLiga = "";
-			String codLigNum;
-			
-			for (Liga liga : ligas.values()) {
-				
-				if(liga.getCodL().substring(2).equals("0")) {
-					if(liga.getCodL().substring(3, liga.getCodL().length()) == pos) {
-						codigoLiga = liga.getCodL();
-					}
-				}
-				else if(liga.getCodL().substring(2, liga.getCodL().length()) == pos) {
-					codigoLiga = liga.getCodL();
-				}
-			}*/
-			
-			String  cadena= (String) comboLiga.getSelectedItem();
-			int pos=cadena.indexOf(" ");
+
+	private void altaJugador() {
+
+		/*
+		 * String pos= Integer.toString(comboLiga.getSelectedIndex()+1); String
+		 * codigoLiga = ""; String codLigNum;
+		 * 
+		 * for (Liga liga : ligas.values()) {
+		 * 
+		 * if(liga.getCodL().substring(2).equals("0")) { if(liga.getCodL().substring(3,
+		 * liga.getCodL().length()) == pos) { codigoLiga = liga.getCodL(); } } else
+		 * if(liga.getCodL().substring(2, liga.getCodL().length()) == pos) { codigoLiga
+		 * = liga.getCodL(); } }
+		 */
+
+		String cadena = (String) cmbEquipo.getSelectedItem();
+		int pos = cadena.indexOf(" ");
+		String codigoEquipo = cadena.substring(0, pos);
+
+		datosJugador.altaJugador(textNombre.getText(), Integer.parseInt(textDorsal.getText()), textPais.getText(), cmbPosicion.getSelectedItem().toString(), codigoEquipo);
+
+		//
+		JOptionPane.showMessageDialog(this, "Jugador dado de alta correctamente");
+		textNombre.setText("");
+		cmbLiga.setSelectedIndex(-1);
+
+	}
+
+	private void cargarLigas() {
+
+		ligas = datosLiga.todasLiga();
+
+		for (Liga liga : ligas.values()) {
+			cmbLiga.addItem(liga.getCodL() + "   " + liga.getNombreL());
+		}
+
+	}
+	
+	private void cargarEquipos() {
+		
+		if(cmbLiga.getSelectedIndex()==-1) {
+			JOptionPane.showMessageDialog(this, "Debes elegir una liga");
+		}
+		else {
+			String cadena = (String) cmbLiga.getSelectedItem();
+			int pos = cadena.indexOf(" ");
 			String codigoLiga = cadena.substring(0, pos);
 			
-			datosEquipo.altaEquipo(textNombre.getText(), codigoLiga);
+			equipos = datosEquipo.todosEquipo();
 			
-			//
-			JOptionPane.showMessageDialog(this, "Equipo dado de alta correctamente");
-			textNombre.setText("");
-			comboLiga.setSelectedIndex(-1);
-			
-		}
-		
-		private void cargarEquipos() {
-			
-			equipos = datosEquipo.todasLiga();
-			
-			for (Liga liga : ligas.values()) {
-				comboLiga.addItem(liga.getCodL() +"   "+ liga.getNombreL());
+			for (Equipo equipo : equipos.values()) {
+				if(equipo.getCodL().equalsIgnoreCase(codigoLiga)) {
+					cmbEquipo.addItem(equipo.getCodE() + "   " + equipo.getNombreE());
+				}
 			}
-			
-			
 		}
+	}
+	
+	private void buscarEquipos() {
+		cargarEquipos();
+		
+	}
 }

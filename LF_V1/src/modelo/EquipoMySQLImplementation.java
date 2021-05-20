@@ -137,6 +137,7 @@ public class EquipoMySQLImplementation implements EquipoInterface{
 					equipo = new Equipo();
 					equipo.setCodE(rs.getString("Cod_E"));
 					equipo.setNombreE(rs.getString("Nombre_E"));
+					equipo.setCodL(rs.getString("Cod_L"));
 					equipos.put(equipo.getCodE(), equipo);
 				}
 				
