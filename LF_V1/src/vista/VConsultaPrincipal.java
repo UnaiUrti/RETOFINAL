@@ -25,6 +25,7 @@ import java.awt.Toolkit;
 import javax.swing.JComboBox;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Map;
 import java.awt.event.ActionEvent;
 
@@ -37,7 +38,7 @@ public class VConsultaPrincipal extends JDialog {
 	private final JPanel contentPanel = new JPanel();
 	private LigaInterface datosLiga = Main.cargarLiga();
 	private JComboBox cmbLiga;
-	private Map<String, Liga> todasLiga;
+	private Map<String, Liga> ligasMap;
 	private VAcceder vAcceder;
 
 	/**
@@ -46,7 +47,7 @@ public class VConsultaPrincipal extends JDialog {
 	public VConsultaPrincipal(VAcceder vAcceder) {
 		
 		this.vAcceder = vAcceder;
-		todasLiga = datosLiga.todasLiga();
+		ligasMap = datosLiga.todasLiga();
 		
 		setBounds(100, 100, 599, 430);
 		
@@ -124,24 +125,44 @@ public class VConsultaPrincipal extends JDialog {
 	}
 	
 	private void consultarLiga() {
+		if (cmbLiga.getSelectedIndex() == -1) {
+			JOptionPane.showMessageDialog(this, "Selecciona una liga");
+		} else {
+			int pos = cmbLiga.getSelectedIndex();
+
+			//PASAR EL MAP A UN ARRAYLIST PARA CONSEGUIR EL OBJETO LIGA DEL INDEX DEL COMBO BOX
+			ArrayList<Liga> ligasList = new ArrayList<>(ligasMap.values());
+			Liga liga = ligasList.get(pos);
+			
+			VConsultarLiga vConsultarLiga = new VConsultarLiga(this,liga);
+			
+			//VCoche vent = new VCoche(ven, true, coches.get(matricula), datos);
+			vConsultarLiga.setVisible(true);
+			this.dispose();
+		}
+	}
+	
+	/*
+	private void consultarLiga() {
 		if (cmbLiga.getSelectedIndex()==-1) {
 			JOptionPane.showMessageDialog(this, "Selecciona una liga");
 		} else {
-			String  nombreL= (String) cmbLiga.getSelectedItem();
+			String nombreL= (String) cmbLiga.getSelectedItem();
 
 			VConsultarLiga vConsultarLiga = new VConsultarLiga();
 			this.setVisible(false);
 			vConsultarLiga.setVisible(true);
 		}
 	}
-	
+	*/
 	private void cargarLiga() {
 		
-		for (Liga liga : todasLiga.values()) {
+		for (Liga liga : ligasMap.values()) {
 			cmbLiga.addItem(liga.getNombreL());
 		}
 		cmbLiga.setSelectedIndex(-1);
 	}
+	
 	
 	private void volverVAcceder() {
 		this.dispose();

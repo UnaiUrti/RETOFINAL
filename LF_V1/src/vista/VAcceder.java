@@ -21,6 +21,7 @@ import java.awt.Toolkit;
 import java.util.Map;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JPasswordField;
 
 public class VAcceder extends JDialog {
 
@@ -30,10 +31,10 @@ public class VAcceder extends JDialog {
 	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
 	private JTextField textUsuario;
-	private JTextField textContraseña;
 	private UsuarioInterface datosUsuario = Main.cargarUsuario();
 	private Map<String, Usuario> usuarios;
 	private VPrincipal vPrincipal;
+	private JPasswordField textContraseña;
 	
 	/**
 	 * Create the dialog.
@@ -79,11 +80,10 @@ public class VAcceder extends JDialog {
 		lblContra.setBounds(50, 156, 188, 21);
 		contentPanel.add(lblContra);
 		
-		textContraseña = new JTextField();
-		textContraseña.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		textContraseña.setBounds(248, 157, 238, 20);
+		textContraseña = new JPasswordField();
+		textContraseña.setEchoChar('*');
+		textContraseña.setBounds(248, 160, 238, 20);
 		contentPanel.add(textContraseña);
-		textContraseña.setColumns(10);
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
@@ -112,17 +112,44 @@ public class VAcceder extends JDialog {
 		}
 		
 	}
+	private void accederUsuario() {
+		if (!usuarios.containsKey(textUsuario.getText())) {
+			JOptionPane.showMessageDialog(this, "El usuario no esta en la BD.");
+			textUsuario.setText("");
+			textContraseña.setText("");
+		}else if (textContraseña.getPassword().length == 0){
+			JOptionPane.showMessageDialog(this, "Introduce la contraseña");
+		} else {
+			for (Usuario user: usuarios.values()) {
+				if (user.getNombreU().equalsIgnoreCase(textUsuario.getText())) {
+					if (user.getContrasenaU().equalsIgnoreCase(textContraseña.getText())) {
+						JOptionPane.showMessageDialog(this, "Usuario y contraseña correctos");
+						if (user.isAdmin()) {
+							modoAdmin();
+						} else {
+							consultaPrincipal();
+						}
+					} else {
+						JOptionPane.showMessageDialog(this, "Contraseña incorrecta");
+					}
+				}
+			}
+		}
+		
+	}
 	
+	
+	/*
 	private void accederUsuario() {
 		if (usuarios.containsKey(textUsuario.getText())) {
 			for (Usuario usuario : usuarios.values()) {
-				if (usuario.getNombreU().equalsIgnoreCase(textUsuario.getText()) && usuario.getContrasenaU().equals(textContraseña.getText())) {
+				if (usuario.getNombreU().equalsIgnoreCase(textUsuario.getText()) && usuario.getContrasenaU().equals(textContraseña.getPassword().toString())) {
 					if (usuario.isAdmin()) {
 						modoAdmin();
 					} else {
 						consultaPrincipal();
 					}
-				} else if (usuario.getNombreU().equalsIgnoreCase(textUsuario.getText()) && !usuario.getContrasenaU().equals(textContraseña.getText())){
+				} else if (usuario.getNombreU().equalsIgnoreCase(textUsuario.getText()) && !usuario.getContrasenaU().equals(textContraseña.getPassword().toString())){
 					JOptionPane.showMessageDialog(null, "Contraseña incorrecta.");
 					textContraseña.setText("");
 				}
@@ -134,7 +161,7 @@ public class VAcceder extends JDialog {
 		}
 		
 	}
-	
+	*/
 	private void modoAdmin() {
 		VModoAdmin modoAdmin = new VModoAdmin();
 		this.setVisible(false);
@@ -151,5 +178,4 @@ public class VAcceder extends JDialog {
 		this.dispose();
 		vPrincipal.setVisible(true);
 	}
-	
 }

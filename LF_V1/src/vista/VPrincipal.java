@@ -31,8 +31,8 @@ public class VPrincipal extends JFrame {
 	public VPrincipal() {
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 603, 440);
-		
+		setBounds(100, 100, 710, 440);
+
 		Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
 	    int x = (int) ((dimension.getWidth() - this.getWidth()) / 2);
 	    int y = (int) ((dimension.getHeight() - this.getHeight()) / 2);
@@ -91,8 +91,10 @@ public class VPrincipal extends JFrame {
 	}
 	
 	private void registrarUsuario() {
-		VRegistrarse registrar = new VRegistrarse(this);
+		VRegistrarse registrar = new VRegistrarse(this,true);
+		/*
 		this.setVisible(false);
+		*/
 		registrar.setVisible(true);
 	}
 	
