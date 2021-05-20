@@ -89,9 +89,11 @@ public class VConsultarLiga2 extends JDialog {
 		tablaClasificacion = new JTable(model);
 		tablaClasificacion.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		JScrollPane scrollPane = new JScrollPane(tablaClasificacion);
+		
 		scrollPane.setBounds(28, 103, 690, 291);
 		scrollPane.setVisible(true);
 		tablaClasificacion.setVisible(true);
+		tablaClasificacion.setEnabled(false);
 		
 		//HACER INVISIBLE LA COUMNA DE CODIGO EQUIPO
 		tablaClasificacion.getColumnModel().getColumn(1).setMinWidth(0);
@@ -125,6 +127,11 @@ public class VConsultarLiga2 extends JDialog {
 			}
 			{
 				JButton btnVolver = new JButton("Retroceder");
+				btnVolver.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						retrocederVConsultaPrincipal();
+					}
+				});
 				btnVolver.setActionCommand("Cancel");
 				buttonPane.add(btnVolver);
 			}
@@ -137,6 +144,13 @@ public class VConsultarLiga2 extends JDialog {
 		
 		VConsultarEquipo vConsultarEquipo = new VConsultarEquipo(this, codE);
 		vConsultarEquipo.setVisible(true);
+		
+	}
+	
+	private void retrocederVConsultaPrincipal() {
+		
+		this.dispose();
+		vConsultaPrincipal.setVisible(true);
 		
 	}
 	
