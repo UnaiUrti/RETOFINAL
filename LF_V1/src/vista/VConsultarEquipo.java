@@ -37,7 +37,6 @@ public class VConsultarEquipo extends JDialog {
 	private JTextField textNombre;
 	private JugadorInterface datosJugador=Main.cargarJugador();
 	private ArrayList<Jugador> jugadores;
-	private ArrayList<Partido> partidos;
 	private JTable tablaJugadores;
 	private JTable tablaPartidos;
 	private String codE;
@@ -74,12 +73,6 @@ public class VConsultarEquipo extends JDialog {
 		textNombre.setBounds(107, 12, 132, 20);
 		textNombre.setColumns(10);
 		textNombre.setText(datosEquipo.buscarEquipo(codE).getNombreE());
-		
-		//String titulosP[] = { "A", "B", "C" };
-		//String datosP[][]= {{"A","V","C"},{"D","G","H"}};
-		
-		//DefaultTableModel model2 = new DefaultTableModel(datosP,titulosP);
-		//tablaPartidos = new JTable(model2);
 		
 		String titulos2[] = { "FECHA","EQUIPO L","GOLES L","GOLES V","EQUIPO V" };
 		ultimosPartidos = datosEquipo.ultimosPartidos(codE);

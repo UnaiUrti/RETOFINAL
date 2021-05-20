@@ -16,8 +16,7 @@ public class PartidoMySQLImplementation implements PartidoInterface {
 		//SENTENCIAS SQL
 		private final String altaPartido = "INSERT INTO partido VALUES(?, ?, ?)";
 		private final String bajaPartido = "DELETE FROM liga WHERE Cod_L=?";
-		private final String listarPartidos = "SELECT * FROM PARTIDOS";
-		private final String ultimosPartidos = "SELECT * FROM liga";
+		private final String partidosJornada = "{CALL ultimosPartidos(?,?)}";
 		
 		//CONEXION CON LA BD
 		public void openConnection() {
@@ -90,27 +89,42 @@ public class PartidoMySQLImplementation implements PartidoInterface {
 		}
 
 		@Override
-		public ArrayList<Partido> todosPartido() {
-			
-			ArrayList<Partido> partidos = new ArrayList<>();
-			Partido partido = null;
+		public String[][] partidosJornada(String codL, int jornada) {
+
+			String[][] partidosJornadaL = null; 
 			
 			ResultSet rs = null;
 			
 			this.openConnection();
 			
 			try {
-				
-				stmt = con.prepareStatement(listarPartidos);
+				stmt = con.prepareStatement(partidosJornada);
+		
+				stmt.setString(1, codL);
+				stmt.setInt(2, jornada);
 				
 				rs = stmt.executeQuery();
-					
+				
+				int i = 0;
+				
+				rs.last();
+				i = rs.getRow();
+		        rs.beforeFirst();
+			
+		        partidosJornadaL = new String[i][5];
+				
+				i = 0;
+				
 				while(rs.next()) {
-					partido = new Liga();
-					partido.set(rs.getString("Cod_L"));
-					partido.setNombreL(rs.getString("Nombre_L"));
-					partido.setPaisL(rs.getString("Pais_L"));
-					partido.add(partido);
+					
+					partidosJornadaL[i][0] = rs.getDate("Fecha").toLocalDate().toString();
+					partidosJornadaL[i][1] = rs.getString("Equipo_L");
+					partidosJornadaL[i][2] = String.valueOf(rs.getInt("Goles_L"));
+					partidosJornadaL[i][3] = String.valueOf(rs.getInt("Goles_V"));
+					partidosJornadaL[i][4] = rs.getString("Equipo_V");
+					
+					i++;
+						
 				}
 				
 			} catch (SQLException e1) {
@@ -131,14 +145,8 @@ public class PartidoMySQLImplementation implements PartidoInterface {
 				e.printStackTrace();
 			}
 			
-			return partidos;
+			return partidosJornadaL;
 			
-		}
-
-		@Override
-		public String[][] ultimosPartidos(String codE) {
-			
-			return null;
 		}
 		
 }

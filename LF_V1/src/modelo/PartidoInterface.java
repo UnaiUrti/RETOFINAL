@@ -7,9 +7,7 @@ public interface PartidoInterface {
 	public void altaPartido(Partido partido);
 	
 	public void bajaPartido(Partido partido);
-	
-	public ArrayList<Partido> todosPartido();
-	
-	public String[][] ultimosPartidos(String codE);
+
+	String[][] partidosJornada(String codL, int jornada);
 	
 }
