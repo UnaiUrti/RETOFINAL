@@ -142,15 +142,6 @@ public class PInsertarPartido extends JPanel {
 		btnAlta.setBounds(389, 350, 120, 23);
 		add(btnAlta);
 		
-		JButton btnModificar = new JButton("MODIFICAR");
-		btnModificar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-			}
-		});
-		btnModificar.setBounds(522, 350, 120, 23);
-		add(btnModificar);
-		
 		fecha = new JDateChooser();
 		fecha.setBounds(522, 291, 96, 20);
 		add(fecha);

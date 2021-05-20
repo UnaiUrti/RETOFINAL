@@ -72,6 +72,18 @@ public class PInsertarLiga extends JPanel {
 		btnModificar.setBounds(521, 327, 89, 23);
 		add(btnModificar);
 		
+		
+		if (altaOculto) {
+			btnAlta.setEnabled(false);
+			textNombre.setText(liga.getNombreL());
+			textPais.setText(liga.getPaisL());
+		} else {
+			btnModificar.setEnabled(false);
+		}
+		
+		
+		
+		
 	}
 	
 	private void modificarLiga() {

@@ -16,6 +16,7 @@ import java.awt.Font;
 import java.awt.Toolkit;
 
 import javax.swing.SwingConstants;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -29,6 +30,9 @@ public class VAdminMenu extends JFrame {
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 965, 487);
+		
+		ImageIcon icono = new ImageIcon("Recursos/balon de furbo.png");
+		this.setIconImage(icono.getImage());
 		
 		Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
 	    int x = (int) ((dimension.getWidth() - this.getWidth()) / 2);

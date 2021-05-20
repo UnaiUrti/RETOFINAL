@@ -13,6 +13,7 @@ import java.awt.Font;
 import java.awt.Toolkit;
 
 import javax.swing.SwingConstants;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.border.LineBorder;
 import java.awt.Color;
@@ -29,6 +30,10 @@ public class VUsuarioMenu extends JFrame {
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 965, 487);
+		
+		//ICONO DEL JFRAME
+		ImageIcon icono = new ImageIcon("Recursos/balon de furbo.png");
+		this.setIconImage(icono.getImage());
 		
 		Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
 	    int x = (int) ((dimension.getWidth() - this.getWidth()) / 2);
