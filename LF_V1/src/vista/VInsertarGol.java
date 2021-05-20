@@ -52,9 +52,14 @@ public class VInsertarGol extends JDialog {
 	private JugadorInterface datosJugador = Main.cargarJugador();
 	Equipo[] equipos = datosGol.sacarEquipos();
 
+	private int numGolL=1;
+	private int numGolV=1;
 
 	public VInsertarGol(int golesL, int golesV) {
 		setBounds(100, 100, 600, 430);
+		
+		int golesLocal=golesL;
+		int golesVisitante=golesV;
 		
 		Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
 	    int x = (int) ((dimension.getWidth() - this.getWidth()) / 2);
@@ -94,17 +99,8 @@ public class VInsertarGol extends JDialog {
 		btnAlta.setBounds(74, 304, 57, 23);
 		btnAlta.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				altaGol();
-				textEquipo.setText("");
-				textGol.setText("");
-				cmbGoleador.removeAllItems();
-				textMinuto.setText("");
-				cargarEquipo(golesL, golesV);
-				if(golesL>0) {
-					cargarDorsalL();
-				}else if (golesV>0){
-					cargarDorsalV();
-				}
+				altaGol(golesLocal, golesVisitante);
+					
 			}
 		});
 		contentPanel.setLayout(null);
@@ -128,25 +124,45 @@ public class VInsertarGol extends JDialog {
 				buttonPane.add(btnVolver);
 			}
 		}
-		cargarEquipo(golesL, golesV);
-		if(golesL>0) {
+		cargarEquipo(golesLocal, golesVisitante);
+		cargarNumGol(golesLocal, golesVisitante);
+		if(golesLocal>0) {
 			cargarDorsalL();
-		}else if(golesV>0) {
+		}else if(golesVisitante>0) {
 			cargarDorsalV();
 		}
 	}
 	
-	private void altaGol() {
+	private void altaGol(int golesLocal, int golesVisitante) {
 
-		String goleador= (String) cmbGoleador.getSelectedItem();
+		int goleador= cmbGoleador.getSelectedIndex();
 		String codigoGoleador = buscarGoleador(goleador);
 		
-		if(Integer.parseInt(textMinuto.getText())<0 || Integer.parseInt(textMinuto.getText())>90) {
-			JOptionPane.showMessageDialog(this, "El minuto del gol tiene que ser entre 0 y 90");
+		if(Integer.parseInt(textMinuto.getText())<=0 || Integer.parseInt(textMinuto.getText())>90) {
+			JOptionPane.showMessageDialog(null, "El minuto del gol tiene que ser entre 0 y 90");
 		}else {
 			datosGol.altaGol(Integer.parseInt(textMinuto.getText()), codigoGoleador);
 			
-			JOptionPane.showMessageDialog(this, "Partido dado de alta correctamente");
+			JOptionPane.showMessageDialog(this, "Gol dado de alta correctamente");
+			
+			textEquipo.setText("");
+			textGol.setText("");
+			cmbGoleador.removeAllItems();
+			textMinuto.setText("");
+			
+			if(golesLocal>0) {
+				golesLocal--;
+			}else if (golesVisitante>0){
+				golesVisitante--;
+			}
+			
+			cargarEquipo(golesLocal, golesVisitante);
+			cargarNumGol(golesLocal, golesVisitante);
+			if(golesLocal>0) {
+				cargarDorsalL();
+			}else if(golesVisitante>0) {
+				cargarDorsalV();
+			}
 			
 		}
 
@@ -176,23 +192,33 @@ public class VInsertarGol extends JDialog {
 
 	}
 	
-	private void cargarEquipo(int golesL, int golesV) {
+	private void cargarEquipo(int golesLocal, int golesVisitante) {
 		
-		if(golesL>0) {
+		if(golesLocal>0) {
 			textEquipo.setText(equipos[0].getNombreE());
-			golesL--;
-		}else if (golesV>0){
+		}else if (golesVisitante>0){
 			textEquipo.setText(equipos[1].getNombreE());
-			golesV--;
 		}
 	}
 	
-	private String buscarGoleador(String goleador) {
+	private void cargarNumGol(int golesLocal, int golesVisitante) {
+		
+		if(golesLocal>0) {
+			textGol.setText(Integer.toString(numGolL));
+			numGolL++;
+		}else if(golesVisitante>0) {
+			textGol.setText(Integer.toString(numGolV));
+			numGolV++;
+		}
+		
+	}
+	
+	private String buscarGoleador(int goleador) {
 		
 		String codigoGoleador = null;
 		
 		for (Jugador jugador : dorsales) {
-			if(jugador.getDorsal()==Integer.parseInt(goleador)) {
+			if(dorsales.get(goleador).getDorsal()==jugador.getDorsal()) {
 				codigoGoleador = jugador.getCodJ();
 			}
 		}

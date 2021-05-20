@@ -87,14 +87,20 @@ public class VInsertarPartido extends JDialog {
 		cmbEquipoL = new JComboBox();
 		cmbEquipoL.addFocusListener(new FocusAdapter() {
 			@Override
-			public void focusLost(FocusEvent e) {
+			public void focusGained(FocusEvent e) {
 				cmbEquipoL.removeAllItems();
-				cmbEquipoV.removeAllItems();
-				buscarEquipos();
+				cargarEquiposL();
 			}
 		});
 		cmbEquipoL.setBounds(138, 128, 121, 22);
 		cmbEquipoV = new JComboBox();
+		cmbEquipoV.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusGained(FocusEvent e) {
+				cmbEquipoV.removeAllItems();
+				cargarEquiposV();
+			}
+		});
 		cmbEquipoV.setBounds(138, 184, 121, 22);
 		JLabel lblGolesL = new JLabel("Goles Local");
 		lblGolesL.setBounds(342, 128, 72, 19);
@@ -209,7 +215,7 @@ public class VInsertarPartido extends JDialog {
 
 	}
 	
-	private void cargarEquipos() {
+	private void cargarEquiposL() {
 		
 		if(cmbLiga.getSelectedIndex()==-1) {
 			JOptionPane.showMessageDialog(this, "Debes elegir una liga");
@@ -222,13 +228,23 @@ public class VInsertarPartido extends JDialog {
 			
 			for (Equipo equipo : equipos) {
 				cmbEquipoL.addItem(equipo.getNombreE());
-				cmbEquipoV.addItem(equipo.getNombreE());
 			}
 		}
 	}
-	
-	private void buscarEquipos() {
-		cargarEquipos();
+private void cargarEquiposV() {
 		
+		if(cmbLiga.getSelectedIndex()==-1) {
+			JOptionPane.showMessageDialog(this, "Debes elegir una liga");
+		}
+		else {
+			int pos=cmbLiga.getSelectedIndex();
+			String codigoLiga = ligas.get(pos).getCodL();
+			
+			equipos = datosEquipo.todosEquipo(codigoLiga);
+			
+			for (Equipo equipo : equipos) {
+				cmbEquipoV.addItem(equipo.getNombreE());
+			}
+		}
 	}
 }
