@@ -4,11 +4,11 @@ import java.util.ArrayList;
 
 public interface GolInterface {
 
-	public void altaGol(int minGol, String codJugador, String codPartido);
+	public void altaGol(int minGol, String codJugador);
+
+	public Equipo[] sacarEquipos();
 	
-	public void modificarEquipo(Equipo equipo);
+	public void bajaGol(Gol gol);
 	
-	public void bajaEquipo(Equipo equipo);
-	
-	public ArrayList<Equipo> todosEquipo();
+	public ArrayList<Gol> todosGol();
 }

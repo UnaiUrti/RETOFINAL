@@ -39,56 +39,19 @@ public class VModificarPrincipal extends JDialog {
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		JLabel lblModificar = new JLabel("MODIFICAR");
+		lblModificar.setBounds(205, 47, 157, 37);
 		lblModificar.setFont(new Font("Tahoma", Font.PLAIN, 30));
 		JButton btnLiga = new JButton("LIGA");
+		btnLiga.setBounds(104, 138, 82, 32);
 		JButton btnEquipo = new JButton("EQUIPO");
+		btnEquipo.setBounds(248, 202, 82, 33);
 		JButton btnJugador = new JButton("JUGADOR");
-		JButton btnPartido = new JButton("PARTIDO");
-		JButton btnGol = new JButton("GOL");
-		GroupLayout gl_contentPanel = new GroupLayout(contentPanel);
-		gl_contentPanel.setHorizontalGroup(
-			gl_contentPanel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_contentPanel.createSequentialGroup()
-					.addGap(200)
-					.addComponent(lblModificar)
-					.addContainerGap(217, Short.MAX_VALUE))
-				.addGroup(Alignment.TRAILING, gl_contentPanel.createSequentialGroup()
-					.addGap(99)
-					.addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
-						.addComponent(btnEquipo, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 73, Short.MAX_VALUE)
-						.addComponent(btnLiga, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-					.addGap(44)
-					.addComponent(btnGol, GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)
-					.addGap(55)
-					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING, false)
-						.addComponent(btnJugador)
-						.addComponent(btnPartido))
-					.addGap(113))
-		);
-		gl_contentPanel.setVerticalGroup(
-			gl_contentPanel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_contentPanel.createSequentialGroup()
-					.addGap(42)
-					.addComponent(lblModificar)
-					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_contentPanel.createSequentialGroup()
-							.addGap(54)
-							.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
-								.addComponent(btnLiga, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
-								.addComponent(btnJugador))
-							.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_contentPanel.createSequentialGroup()
-									.addGap(33)
-									.addComponent(btnEquipo, GroupLayout.PREFERRED_SIZE, 33, GroupLayout.PREFERRED_SIZE))
-								.addGroup(gl_contentPanel.createSequentialGroup()
-									.addGap(34)
-									.addComponent(btnPartido))))
-						.addGroup(gl_contentPanel.createSequentialGroup()
-							.addGap(80)
-							.addComponent(btnGol, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE)))
-					.addContainerGap(118, Short.MAX_VALUE))
-		);
-		contentPanel.setLayout(gl_contentPanel);
+		btnJugador.setBounds(385, 138, 81, 32);
+		contentPanel.setLayout(null);
+		contentPanel.add(lblModificar);
+		contentPanel.add(btnEquipo);
+		contentPanel.add(btnLiga);
+		contentPanel.add(btnJugador);
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));

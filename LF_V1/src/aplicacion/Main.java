@@ -2,6 +2,8 @@ package aplicacion;
 
 import modelo.EquipoInterface;
 import modelo.EquipoMySQLImplementation;
+import modelo.GolInterface;
+import modelo.GolMySQLImplementation;
 import modelo.JugadorInterface;
 import modelo.JugadorMySQLImplementation;
 import modelo.LigaInterface;
@@ -61,6 +63,9 @@ public class Main {
 	}
 	public static PartidoInterface cargarPartido() {
 		return new PartidoMySQLImplementation();
+	}
+	public static GolInterface cargarGol() {
+		return new GolMySQLImplementation();
 	}
 	
 	

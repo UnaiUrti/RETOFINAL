@@ -1,6 +1,6 @@
 package modelo;
 
-public class Jugador {
+public class Jugador implements Comparable{
 
 	private String codJ;
 	private String nombreJ;
@@ -51,6 +51,13 @@ public class Jugador {
 	}
 	public void setCodE(String codE) {
 		this.codE = codE;
+	}
+	@Override
+	public int compareTo(Object o) {
+		
+		int compararDorsal=((Jugador)o).getDorsal();
+		
+		return this.getDorsal()-compararDorsal;
 	}
 	
 	

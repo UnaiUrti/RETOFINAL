@@ -19,7 +19,7 @@ public class JugadorMySQLImplementation implements JugadorInterface{
 			private final String altaJugador="{CALL altaJugador( ? , ? , ? , ? , ? )}";
 			private final String modificaJugador="UPDATE jugador SET Nombre_J=? , Dorsal=? , Pais_J=? , Posicion=? , Cod_E=? WHERE Cod_J=?";
 			private final String bajaJugador="DELETE FROM jugador WHERE Cod_J=?";
-			private final String listarJugadores="SELECT * FROM jugador";
+			private final String listarJugadores="SELECT * FROM jugador WHERE Cod_E=?";
 			
 			//CONEXION CON LA BD
 			public void openConnection() {
@@ -125,7 +125,7 @@ public class JugadorMySQLImplementation implements JugadorInterface{
 			}
 
 			@Override
-			public ArrayList<Jugador> todosJugador() {
+			public ArrayList<Jugador> todosJugador(String codEquipo) {
 				
 				ArrayList<Jugador> jugadores = new ArrayList<>();
 				Jugador jugador = null;
@@ -137,7 +137,7 @@ public class JugadorMySQLImplementation implements JugadorInterface{
 				try {
 					
 					stmt = con.prepareStatement(listarJugadores);
-					
+					stmt.setString(1, codEquipo);
 					rs = stmt.executeQuery();
 						
 					while(rs.next()) {

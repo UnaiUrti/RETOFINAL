@@ -11,6 +11,6 @@ public interface EquipoInterface {
 	
 	public void bajaEquipo(Equipo equipo);
 	
-	public ArrayList<Equipo> todosEquipo();
+	public ArrayList<Equipo> todosEquipo(String codL);
 
 }

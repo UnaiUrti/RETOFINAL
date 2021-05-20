@@ -199,12 +199,10 @@ public class VInsertarJugador extends JDialog {
 			int pos=cmbLiga.getSelectedIndex();
 			String codigoLiga = ligas.get(pos).getCodL();
 			
-			equipos = datosEquipo.todosEquipo();
+			equipos = datosEquipo.todosEquipo(codigoLiga);
 			
 			for (Equipo equipo : equipos) {
-				if(equipo.getCodL().equalsIgnoreCase(codigoLiga)) {
-					cmbEquipo.addItem(equipo.getNombreE());
-				}
+				cmbEquipo.addItem(equipo.getNombreE());
 			}
 		}
 	}

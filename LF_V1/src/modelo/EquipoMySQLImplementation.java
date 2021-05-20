@@ -19,7 +19,7 @@ public class EquipoMySQLImplementation implements EquipoInterface{
 		private final String altaEquipo="{CALL altaEquipo( ? , ? )}";
 		private final String modificaEquipo="UPDATE equipo SET Nombre_E=? , Cod_L=? WHERE Cod_E=?";
 		private final String bajaEquipo="DELETE FROM equipo WHERE Cod_E=?";
-		private final String listarEquipos="SELECT * FROM equipo";
+		private final String listarEquipos="SELECT * FROM equipo WHERE Cod_L=?";
 		
 		//CONEXION CON LA BD
 		public void openConnection() {
@@ -119,7 +119,7 @@ public class EquipoMySQLImplementation implements EquipoInterface{
 		}
 
 		@Override
-		public ArrayList<Equipo> todosEquipo() {
+		public ArrayList<Equipo> todosEquipo(String codLiga) {
 			
 			ArrayList<Equipo> equipos = new ArrayList<>();
 			Equipo equipo = null;
@@ -131,7 +131,7 @@ public class EquipoMySQLImplementation implements EquipoInterface{
 			try {
 				
 				stmt = con.prepareStatement(listarEquipos);
-				
+				stmt.setString(1, codLiga);
 				rs = stmt.executeQuery();
 					
 				while(rs.next()) {
