@@ -82,18 +82,21 @@ public class VConsultarLiga2 extends JDialog {
 		textPaisL.setText(liga.getPaisL());
 		textPaisL.setEditable(false);
 		
-		String titulos[] = { "#","COD_EQ","EQUIPO","PJ","PG","PE","PE","GA","GE","PTS" };
+		String titulos[] = { "#","COD_EQ","EQUIPO","PJ","PG","PE","PP","GA","GE","PTS" };
 		clasificacion = datosLiga.tablaClasificacion(liga.getCodL());
 	
 		DefaultTableModel model = new DefaultTableModel(clasificacion,titulos);
-		tablaClasificacion = new JTable(model);
+		tablaClasificacion = new JTable(model) {
+			public boolean isCellEditable(int row, int column) {
+				return false;
+			}
+		};
 		tablaClasificacion.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		JScrollPane scrollPane = new JScrollPane(tablaClasificacion);
 		
 		scrollPane.setBounds(28, 103, 690, 291);
 		scrollPane.setVisible(true);
 		tablaClasificacion.setVisible(true);
-		tablaClasificacion.setEnabled(false);
 		
 		//HACER INVISIBLE LA COUMNA DE CODIGO EQUIPO
 		tablaClasificacion.getColumnModel().getColumn(1).setMinWidth(0);
@@ -121,6 +124,15 @@ public class VConsultarLiga2 extends JDialog {
 						verEquipo();
 					}
 				});
+				
+				JButton btnPartidos = new JButton("Ver Partidos");
+				btnPartidos.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						verPartidos();
+					}
+					
+				});
+				buttonPane.add(btnPartidos);
 				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
@@ -151,6 +163,14 @@ public class VConsultarLiga2 extends JDialog {
 		
 		this.dispose();
 		vConsultaPrincipal.setVisible(true);
+		
+	}
+	
+	private void verPartidos() {
+		
+		//this.dispose();
+		VConsultarPartido vConsultarPartido = new VConsultarPartido(liga.getCodL());
+		vConsultarPartido.setVisible(true);
 		
 	}
 	

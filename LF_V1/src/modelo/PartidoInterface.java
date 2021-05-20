@@ -10,4 +10,6 @@ public interface PartidoInterface {
 
 	String[][] partidosJornada(String codL, int jornada);
 	
+	public int[] jornadasLiga(String codL);
+	
 }

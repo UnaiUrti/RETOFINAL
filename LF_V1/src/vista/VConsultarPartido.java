@@ -24,6 +24,14 @@ import modelo.PartidoInterface;
 import javax.swing.JComboBox;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JLabel;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class VConsultarPartido extends JDialog {
 
@@ -34,17 +42,17 @@ public class VConsultarPartido extends JDialog {
 	private final JPanel contentPanel = new JPanel();
 	private JTable tablaPartidos;
 	private String[][] partidos;
+	private int[] jornadasL;
 	private PartidoInterface datosPartido=Main.cargarPartido();
 	VConsultarEquipo vConsultarEquipo;
 	private String codL;
-	private int jornada;
-
+	private JComboBox cbJornada;
+	
 	/**
 	 * Create the dialog.
 	 */
-	public VConsultarPartido(VConsultarEquipo vConsultarEquipo, String codL) {
+	public VConsultarPartido(String codL) {
 		
-		this.vConsultarEquipo = vConsultarEquipo;
 		this.codL = codL;
 		
 		setBounds(100, 100, 601, 430);
@@ -58,19 +66,41 @@ public class VConsultarPartido extends JDialog {
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		
-		String titulos[] = { "FECHA","EQUIPO L","GOLES L","GOLES V","EQUIPO V" };
-		partidos = datosPartido.partidosJornada(codL, jornada);
+		JLabel lblNewLabel = new JLabel("Selecciona una jornada");
+		lblNewLabel.setBounds(127, 34, 111, 14);
 		
+		jornadasL = datosPartido.jornadasLiga(codL);
+		
+		
+		
+		cbJornada = new JComboBox();
+		
+		
+		
+		for (int i = 0; i < jornadasL.length; i++) {
+			cbJornada.addItem(jornadasL[i]);
+		}
+		
+		cbJornada.setSelectedIndex(jornadasL.length-1);
+		cbJornada.setBounds(308, 34, 170, 22);
+		String titulos[] = { "FECHA","EQUIPO L","GOLES L","GOLES V","EQUIPO V" };
+		partidos = datosPartido.partidosJornada(codL,jornadasL[cbJornada.getSelectedIndex()]);
 		DefaultTableModel model = new DefaultTableModel(partidos,titulos);
-		tablaPartidos = new JTable();
+		tablaPartidos = new JTable(model);
 		JScrollPane scrollPane = new JScrollPane(tablaPartidos);
 		tablaPartidos.setBounds(542, 103, 209, 48);
 		scrollPane.setVisible(true);
 		tablaPartidos.setVisible(true);
-		scrollPane.setLocation(271, 103);
-		scrollPane.setSize(508, 200);
-		
+		scrollPane.setLocation(59, 86);
+		scrollPane.setSize(442, 231);
 		tablaPartidos.setEnabled(false);
+		
+		cbJornada.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				partidosJornada(model, titulos);
+			}
+		});
+		
 		
 		tablaPartidos.getColumnModel().getColumn(0).setMinWidth(100);
 		tablaPartidos.getColumnModel().getColumn(1).setMinWidth(150);
@@ -78,43 +108,10 @@ public class VConsultarPartido extends JDialog {
 		tablaPartidos.getColumnModel().getColumn(3).setMinWidth(20);
 		tablaPartidos.getColumnModel().getColumn(4).setMinWidth(150);
 		
-		JComboBox cbJornada = new JComboBox();
-		
-		JLabel lblNewLabel = new JLabel("");
-		
-		GroupLayout gl_contentPanel = new GroupLayout(contentPanel);
-		gl_contentPanel.setHorizontalGroup(
-			gl_contentPanel.createParallelGroup(Alignment.TRAILING)
-				.addGroup(gl_contentPanel.createSequentialGroup()
-					.addContainerGap(235, Short.MAX_VALUE)
-					.addComponent(lblNewLabel)
-					.addGap(342))
-				.addGroup(gl_contentPanel.createSequentialGroup()
-					.addGap(99)
-					.addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
-						.addComponent(cbJornada, GroupLayout.PREFERRED_SIZE, 170, GroupLayout.PREFERRED_SIZE)
-						.addGroup(gl_contentPanel.createSequentialGroup()
-							.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(tablaPartidos, GroupLayout.PREFERRED_SIZE, 366, GroupLayout.PREFERRED_SIZE)))
-					.addContainerGap(112, Short.MAX_VALUE))
-		);
-		gl_contentPanel.setVerticalGroup(
-			gl_contentPanel.createParallelGroup(Alignment.TRAILING)
-				.addGroup(gl_contentPanel.createSequentialGroup()
-					.addGap(29)
-					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblNewLabel)
-						.addComponent(cbJornada, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.RELATED, 86, Short.MAX_VALUE)
-					.addComponent(tablaPartidos, GroupLayout.PREFERRED_SIZE, 170, GroupLayout.PREFERRED_SIZE)
-					.addGap(46))
-				.addGroup(gl_contentPanel.createSequentialGroup()
-					.addContainerGap(223, Short.MAX_VALUE)
-					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addGap(127))
-		);
-		contentPanel.setLayout(gl_contentPanel);
+		contentPanel.setLayout(null);
+		contentPanel.add(lblNewLabel);
+		contentPanel.add(cbJornada);
+		contentPanel.add(scrollPane);
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
@@ -126,4 +123,11 @@ public class VConsultarPartido extends JDialog {
 			}
 		}
 	}
+	
+	private void partidosJornada(DefaultTableModel model, String titulos[]) {
+		partidos = datosPartido.partidosJornada(codL,jornadasL[cbJornada.getSelectedIndex()]);
+		model.setDataVector(partidos, titulos);
+		tablaPartidos.setModel(model);
+	}
+	
 }

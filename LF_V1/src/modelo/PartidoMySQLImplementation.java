@@ -16,7 +16,8 @@ public class PartidoMySQLImplementation implements PartidoInterface {
 		//SENTENCIAS SQL
 		private final String altaPartido = "INSERT INTO partido VALUES(?, ?, ?)";
 		private final String bajaPartido = "DELETE FROM liga WHERE Cod_L=?";
-		private final String partidosJornada = "{CALL ultimosPartidos(?,?)}";
+		private final String partidosJornada = "{CALL partidos_jornada(?,?)}";
+		private final String jornadas = "{CALL jornadas_liga(?)}";
 		
 		//CONEXION CON LA BD
 		public void openConnection() {
@@ -146,6 +147,61 @@ public class PartidoMySQLImplementation implements PartidoInterface {
 			}
 			
 			return partidosJornadaL;
+			
+		}
+		
+		public int[] jornadasLiga(String codL) {
+
+			int[] jornadasL = null; 
+			
+			ResultSet rs = null;
+			
+			this.openConnection();
+			
+			try {
+				stmt = con.prepareStatement(jornadas);
+		
+				stmt.setString(1, codL);
+				
+				rs = stmt.executeQuery();
+				
+				int i = 0;
+				
+				rs.last();
+				i = rs.getRow();
+		        rs.beforeFirst();
+			
+		        jornadasL = new int[i];
+				
+				i = 0;
+				
+				while(rs.next()) {
+					
+					jornadasL[i] =rs.getInt("Jornada_P");
+					
+					i++;
+						
+				}
+				
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			
+			if(rs!=null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			
+			try {
+				this.closeConnection();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+			return jornadasL;
 			
 		}
 		
