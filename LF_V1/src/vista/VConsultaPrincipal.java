@@ -39,14 +39,12 @@ public class VConsultaPrincipal extends JDialog {
 	private LigaInterface datosLiga = Main.cargarLiga();
 	private JComboBox cmbLiga;
 	private ArrayList<Liga> todasLigas;
-	private VAcceder vAcceder;
 
 	/**
 	 * Create the dialog.
 	 */
-	public VConsultaPrincipal(VAcceder vAcceder) {
+	public VConsultaPrincipal() {
 		
-		this.vAcceder = vAcceder;
 		todasLigas = datosLiga.todasLiga();
 		
 		setBounds(100, 100, 599, 430);
@@ -60,39 +58,18 @@ public class VConsultaPrincipal extends JDialog {
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		JLabel lblTitulo = new JLabel("CONSULTAR LIGA");
+		lblTitulo.setBounds(160, 42, 239, 37);
 		lblTitulo.setFont(new Font("Tahoma", Font.PLAIN, 30));
 		JLabel lblLiga = new JLabel("Liga:");
+		lblLiga.setBounds(141, 168, 44, 25);
 		lblLiga.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		
 		cmbLiga = new JComboBox();
-		GroupLayout gl_contentPanel = new GroupLayout(contentPanel);
-		gl_contentPanel.setHorizontalGroup(
-			gl_contentPanel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_contentPanel.createSequentialGroup()
-					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_contentPanel.createSequentialGroup()
-							.addGap(155)
-							.addComponent(lblTitulo))
-						.addGroup(gl_contentPanel.createSequentialGroup()
-							.addGap(136)
-							.addComponent(lblLiga)
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(cmbLiga, 0, 157, Short.MAX_VALUE)
-							.addGap(47)))
-					.addGap(179))
-		);
-		gl_contentPanel.setVerticalGroup(
-			gl_contentPanel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_contentPanel.createSequentialGroup()
-					.addGap(37)
-					.addComponent(lblTitulo)
-					.addGap(89)
-					.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblLiga)
-						.addComponent(cmbLiga, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(161, Short.MAX_VALUE))
-		);
-		contentPanel.setLayout(gl_contentPanel);
+		cmbLiga.setBounds(195, 173, 157, 22);
+		contentPanel.setLayout(null);
+		contentPanel.add(lblTitulo);
+		contentPanel.add(lblLiga);
+		contentPanel.add(cmbLiga);
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));

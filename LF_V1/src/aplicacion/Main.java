@@ -8,13 +8,13 @@ import modelo.LigaInterface;
 import modelo.LigaMySQLImplementation;
 import modelo.UsuarioInterface;
 import modelo.UsuarioMySQLImplementation;
-import vista.VPrincipal;
+import vista.VPrincipalMenu;
 
 public class Main {
 
 	public static void main(String[] args) {
 		
-		VPrincipal ventanaPrincipal = new VPrincipal();
+		VPrincipalMenu ventanaPrincipal = new VPrincipalMenu();
 		ventanaPrincipal.setVisible(true);
 		
 	}

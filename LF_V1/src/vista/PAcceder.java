@@ -19,18 +19,18 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class VAcceder extends JPanel {
+public class PAcceder extends JPanel {
 
 	private JTextField textUsuario;
 	private UsuarioInterface datosUsuario = Main.cargarUsuario();
 	private Map<String, Usuario> usuarios;
 	private JPasswordField textContraseña;
-	private VPrincipal ventanaPrincipal;
+	private VPrincipalMenu ventanaPrincipal;
 	
 	/**
 	 * Create the panel.
 	 */
-	public VAcceder(VPrincipal ventanaPrincipal) {
+	public PAcceder(VPrincipalMenu ventanaPrincipal) {
 		
 		this.ventanaPrincipal = ventanaPrincipal;
 		usuarios = datosUsuario.todosUsuarios();
@@ -41,7 +41,7 @@ public class VAcceder extends JPanel {
 		JLabel lblLogin = new JLabel("Login");
 		lblLogin.setHorizontalAlignment(SwingConstants.CENTER);
 		lblLogin.setFont(new Font("Tahoma", Font.PLAIN, 40));
-		lblLogin.setBounds(34, 32, 166, 69);
+		lblLogin.setBounds(34, 46, 166, 55);
 		add(lblLogin);
 		
 		JLabel lblNomUsu = new JLabel("Nombre de Usuario:");
@@ -75,9 +75,19 @@ public class VAcceder extends JPanel {
 		add(btnAcceder);
 		
 		JButton btnLimpiar = new JButton("LIMPIAR");
+		btnLimpiar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				limpiarPantalla();
+			}
+		});
 		btnLimpiar.setBounds(432, 304, 111, 34);
 		add(btnLimpiar);
 		
+	}
+	
+	private void limpiarPantalla() {
+		textUsuario.setText("");
+		textContraseña.setText("");
 	}
 	
 	private void accederUsuario() {
@@ -117,8 +127,8 @@ public class VAcceder extends JPanel {
 	private void consultaPrincipal() {
 		
 		ventanaPrincipal.dispose();
-		VConsultaPrincipal consultaPrincipal = new VConsultaPrincipal(this);
-		consultaPrincipal.setVisible(true);
+		VConsultaMenu consultaMenu = new VConsultaMenu();
+		consultaMenu.setVisible(true);
 		//this.setVisible(false);
 		
 		

@@ -20,15 +20,17 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.SwingConstants;
 
-public class VPrincipal extends JFrame {
+public class VPrincipalMenu extends JFrame {
 
 	private JPanel contentPane;
 	private JLayeredPane layeredPane;
 	private JButton btnAcceder;
 	private JButton btnRegistrarse;
 	private JLabel lblTitulo;
+	private JButton btnSalir;
 
-	public VPrincipal() {
+	public VPrincipalMenu() {
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 884, 425);
 		
@@ -57,6 +59,11 @@ public class VPrincipal extends JFrame {
 		contentPane.add(btnAcceder);
 		
 		btnRegistrarse = new JButton("REGISTRARSE");
+		btnRegistrarse.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				registrarse();
+			}
+		});
 		btnRegistrarse.setBounds(28, 231, 192, 41);
 		contentPane.add(btnRegistrarse);
 		
@@ -66,10 +73,28 @@ public class VPrincipal extends JFrame {
 		lblTitulo.setFont(new Font("Dialog", Font.PLAIN, 40));
 		lblTitulo.setBounds(28, 40, 184, 73);
 		contentPane.add(lblTitulo);
+		
+		btnSalir = new JButton("SALIR");
+		btnSalir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				salir();
+			}
+		});
+		btnSalir.setBounds(28, 307, 192, 41);
+		contentPane.add(btnSalir);
+	}
+	
+	public void registrarse() {
+		PRegistrar registrarse = new PRegistrar();
+		cambiarJPanel(registrarse);
+	}
+	
+	public void salir() {
+		this.dispose();
 	}
 	
 	public void accederUsuario() {
-		VAcceder acceder = new VAcceder(this);
+		PAcceder acceder = new PAcceder(this);
 		cambiarJPanel(acceder);
 	}
 	
