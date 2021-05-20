@@ -25,6 +25,8 @@ import modelo.entidades.Equipo;
 import modelo.entidades.Liga;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.ItemEvent;
 
 public class PInsertarPartido extends JPanel {
 	
@@ -61,41 +63,52 @@ public class PInsertarPartido extends JPanel {
 		add(lblLiga);
 		
 		cmbLiga = new JComboBox();
+		cmbLiga.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				cmbEquipoL.removeAllItems();
+				cargarEquiposL();
+				cmbEquipoL.setSelectedIndex(-1);
+				
+				cmbEquipoV.removeAllItems();
+				cargarEquiposV();
+				cmbEquipoV.setSelectedIndex(-1);
+			}
+		});
 		cmbLiga.setSelectedIndex(-1);
 		cmbLiga.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		cmbLiga.setBounds(312, 99, 94, 27);
+		cmbLiga.setBounds(312, 99, 183, 27);
 		add(cmbLiga);
 		
 		JLabel lblEquipoL = new JLabel("Equipo Local:");
 		lblEquipoL.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblEquipoL.setBounds(91, 176, 84, 19);
+		lblEquipoL.setBounds(60, 176, 84, 19);
 		add(lblEquipoL);
 		
 		JLabel lblEquipoV = new JLabel("Equipo Visitante:");
 		lblEquipoV.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblEquipoV.setBounds(91, 234, 106, 19);
+		lblEquipoV.setBounds(60, 234, 106, 19);
 		add(lblEquipoV);
 		
 		cmbEquipoL = new JComboBox();
-		cmbEquipoL.addFocusListener(new FocusAdapter() {
+		/*cmbEquipoL.addFocusListener(new FocusAdapter() {
 			@Override
 			public void focusGained(FocusEvent e) {
 				cmbEquipoL.removeAllItems();
 				cargarEquiposL();
 			}
-		});
-		cmbEquipoL.setBounds(219, 176, 121, 22);
+		});*/
+		cmbEquipoL.setBounds(154, 176, 183, 22);
 		add(cmbEquipoL);
 		
 		cmbEquipoV = new JComboBox();
-		cmbEquipoV.addFocusListener(new FocusAdapter() {
+		/*cmbEquipoV.addFocusListener(new FocusAdapter() {
 			@Override
 			public void focusGained(FocusEvent e) {
 				cmbEquipoV.removeAllItems();
 				cargarEquiposV();
 			}
-		});
-		cmbEquipoV.setBounds(219, 234, 121, 22);
+		});*/
+		cmbEquipoV.setBounds(176, 234, 161, 22);
 		add(cmbEquipoV);
 		
 		JLabel lblGolesL = new JLabel("Goles Local");
@@ -143,7 +156,7 @@ public class PInsertarPartido extends JPanel {
 		add(btnAlta);
 		
 		fecha = new JDateChooser();
-		fecha.setBounds(522, 291, 96, 20);
+		fecha.setBounds(498, 291, 120, 20);
 		add(fecha);
 		
 		cargarLigas();
@@ -159,6 +172,7 @@ public class PInsertarPartido extends JPanel {
 			JOptionPane.showMessageDialog(this, "DEBES PONER LA CANTIDAD DE GOLES (SI NO HA HABIDO GOLES PON 0)");
 		} else if (fecha.getDate() == null) {
 			JOptionPane.showMessageDialog(this, "DEBES INTRODUCIR LA FECHA EN LA QUE SE JUGO EL PARTIDO");
+			JOptionPane.showMessageDialog(this, "SI ESTA BUG SAL Y ENTRA A LA VENTANA");
 		} else if (textJornada.getText().isEmpty()) {
 			JOptionPane.showMessageDialog(this, "DEBES INTRODUCIR LA JORNADA DEL PARTIDO");
 		} else if (cmbEquipoL.getSelectedIndex() == -1) {

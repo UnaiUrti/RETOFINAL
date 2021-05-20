@@ -24,6 +24,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.ActionEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.ItemEvent;
 
 public class PInsertarJugador extends JPanel {
 
@@ -58,13 +60,20 @@ public class PInsertarJugador extends JPanel {
 		add(lblLiga);
 
 		cmbLiga = new JComboBox();
-		cmbLiga.addFocusListener(new FocusAdapter() {
+		cmbLiga.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				cmbEquipo.removeAllItems();
+				cargarEquipos();
+				cmbEquipo.setSelectedIndex(-1);
+			}
+		});
+		/*cmbLiga.addFocusListener(new FocusAdapter() {
 			@Override
 			public void focusLost(FocusEvent e) {
 				cmbEquipo.removeAllItems();
 				cargarEquipos();
 			}
-		});
+		});*/
 		cmbLiga.setSelectedIndex(-1);
 		cmbLiga.setBounds(177, 114, 107, 22);
 		add(cmbLiga);
@@ -142,11 +151,9 @@ public class PInsertarJugador extends JPanel {
 		if (altaOculto) {
 			btnAlta.setEnabled(false);
 
-			cargarLigas();
+
 			cmbLiga.setSelectedItem(buscarLiga(jugador).getNombreL());
 
-			equipos.removeAll(equipos);
-			cargarEquipos();
 			cmbEquipo.setSelectedItem(buscarEquipo(jugador));
 
 			textNombre.setText(jugador.getNombreJ());
@@ -249,7 +256,9 @@ public class PInsertarJugador extends JPanel {
 			JOptionPane.showMessageDialog(this, "DEBES PONERLE UNA POSICION AL JUGADOR");
 		} else if (cmbEquipo.getSelectedIndex() == -1) {
 			JOptionPane.showMessageDialog(this, "EL JUGADOR TIENE QUE SER DE ALGUN EQUIPO");
-		} else {
+		} else if (textDorsal.getText().equals()
+		
+		}else {
 			int pos = cmbEquipo.getSelectedIndex();
 			String codigoEquipo = equipos.get(pos).getCodE();
 

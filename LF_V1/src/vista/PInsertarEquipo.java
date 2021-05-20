@@ -85,7 +85,6 @@ public class PInsertarEquipo extends JPanel {
 		if (altaOculto) {
 			btnAlta.setEnabled(false);
 
-			cargarLigas();
 			comboLiga.setSelectedItem(buscarLiga(equipo).getNombreL());
 
 			textNombre.setText(equipo.getNombreE());

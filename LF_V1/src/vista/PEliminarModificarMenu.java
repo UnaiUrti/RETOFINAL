@@ -22,6 +22,8 @@ import javax.swing.JComboBox;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.ItemEvent;
 
 public class PEliminarModificarMenu extends JPanel {
 
@@ -54,6 +56,14 @@ public class PEliminarModificarMenu extends JPanel {
 		add(lblLiga);
 
 		cmbLiga = new JComboBox();
+		cmbLiga.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				cmbEquipo.removeAllItems();
+				cmbEquipo.addItem("");
+				cargarEquipos();
+				cmbEquipo.setSelectedIndex(-1);
+			}
+		});
 		cmbLiga.setSelectedIndex(-1);
 		cmbLiga.setBounds(229, 115, 119, 22);
 		add(cmbLiga);
@@ -64,14 +74,22 @@ public class PEliminarModificarMenu extends JPanel {
 		add(lblEquipo);
 
 		cmbEquipo = new JComboBox();
-		cmbEquipo.addFocusListener(new FocusAdapter() {
+		cmbEquipo.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				cmbJugador.removeAllItems();
+				cmbJugador.addItem("");
+				cargarJugadores();
+				cmbJugador.setSelectedIndex(-1);
+			}
+		});
+		/*cmbEquipo.addFocusListener(new FocusAdapter() {
 			@Override
 			public void focusGained(FocusEvent e) {
 				cmbEquipo.removeAllItems();
 				cmbEquipo.addItem("");
 				cargarEquipos();
 			}
-		});
+		});*/
 		cmbEquipo.setBounds(229, 183, 119, 22);
 		add(cmbEquipo);
 
@@ -173,8 +191,6 @@ public class PEliminarModificarMenu extends JPanel {
 	private void modificar() {
 		if (cmbJugador.getSelectedIndex() > 0) {
 			int pos = (cmbJugador.getSelectedIndex()) - 1;
-
-			System.out.println(jugadores.get(pos).getCodE());
 
 			PInsertarJugador insertarJugador = new PInsertarJugador(true, jugadores.get(pos));
 			adminMenu.cambiarJPanel(insertarJugador);
