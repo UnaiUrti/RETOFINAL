@@ -5,7 +5,6 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -19,8 +18,7 @@ public class EquipoMySQLImplementation implements EquipoInterface{
 		private final String altaEquipo="{CALL altaEquipo( ? , ? )}";
 		private final String modificaEquipo="UPDATE equipo SET Nombre_E=? , Cod_L=? WHERE Cod_E=?";
 		private final String bajaEquipo="DELETE FROM equipo WHERE Cod_E=?";
-		private final String listarEquipos="SELECT * FROM equipo WHERE Cod_L=?";
-		private final String listarTodosEquipos="SELECT * FROM equipo";
+		private final String listarEquipos="SELECT * FROM equipo";
 		
 		//CONEXION CON LA BD
 		public void openConnection() {
@@ -70,16 +68,16 @@ public class EquipoMySQLImplementation implements EquipoInterface{
 		}
 
 		@Override
-		public void modificarEquipo(String nombreEquipo, String codLiga, String codEquipo) {
+		public void modificarEquipo(Equipo equipo) {
 			
 			this.openConnection();
 			
 			try {
 				stmt = con.prepareStatement(modificaEquipo);
 				
-				stmt.setString(3, codEquipo);
-				stmt.setString(1, nombreEquipo);
-				stmt.setString(2, codLiga);
+				stmt.setString(3, equipo.getCodE());
+				stmt.setString(1, equipo.getNombreE());
+				stmt.setString(2, equipo.getCodL());
 				
 				stmt.executeUpdate();
 				
@@ -120,9 +118,9 @@ public class EquipoMySQLImplementation implements EquipoInterface{
 		}
 
 		@Override
-		public ArrayList<Equipo> todosEquipo(String codLiga) {
+		public Map<String, Equipo> todosEquipo() {
 			
-			ArrayList<Equipo> equipos = new ArrayList<>();
+			Map<String, Equipo> equipos = new TreeMap<>();
 			Equipo equipo = null;
 			
 			ResultSet rs = null;
@@ -132,7 +130,7 @@ public class EquipoMySQLImplementation implements EquipoInterface{
 			try {
 				
 				stmt = con.prepareStatement(listarEquipos);
-				stmt.setString(1, codLiga);
+				
 				rs = stmt.executeQuery();
 					
 				while(rs.next()) {
@@ -140,52 +138,7 @@ public class EquipoMySQLImplementation implements EquipoInterface{
 					equipo.setCodE(rs.getString("Cod_E"));
 					equipo.setNombreE(rs.getString("Nombre_E"));
 					equipo.setCodL(rs.getString("Cod_L"));
-					equipos.add(equipo);
-				}
-				
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
-			
-			if(rs!=null) {
-				try {
-					rs.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-			
-			try {
-				this.closeConnection();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-			
-			return equipos;
-			
-		}
-		
-		@Override
-		public ArrayList<Equipo> listarTodosEquipo() {
-			
-			ArrayList<Equipo> equipos = new ArrayList<>();
-			Equipo equipo = null;
-			
-			ResultSet rs = null;
-			
-			this.openConnection();
-			
-			try {
-				
-				stmt = con.prepareStatement(listarTodosEquipos);
-				rs = stmt.executeQuery();
-					
-				while(rs.next()) {
-					equipo = new Equipo();
-					equipo.setCodE(rs.getString("Cod_E"));
-					equipo.setNombreE(rs.getString("Nombre_E"));
-					equipo.setCodL(rs.getString("Cod_L"));
-					equipos.add(equipo);
+					equipos.put(equipo.getCodE(), equipo);
 				}
 				
 			} catch (SQLException e1) {

@@ -21,6 +21,8 @@ public class UsuarioMySQLImplementation implements UsuarioInterface{
 	//CONEXION CON LA BD
 	public void openConnection() {
 		try {
+			
+			//CONEXION XAMPP
 			String url = "jdbc:mysql://localhost:3306/liga_futbol?serverTimezone=Europe/Madrid&useSSL=false";
 			//con = DriverManager.getConnection(url+"?" +"user=root&password=abcd*1234");
 			con = DriverManager.getConnection(url, "root", "abcd*1234");

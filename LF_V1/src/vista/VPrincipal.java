@@ -1,42 +1,36 @@
-
 package vista;
+
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
+import java.awt.Toolkit;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-
-import aplicacion.Main;
-import modelo.LigaInterface;
-import modelo.UsuarioInterface;
-import javax.swing.JLabel;
-
+import java.awt.CardLayout;
 import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Toolkit;
 
+import javax.swing.JLayeredPane;
 import javax.swing.JButton;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.SwingConstants;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.border.LineBorder;
+import java.awt.Color;
+import javax.swing.JLabel;
+import java.awt.Font;
+import javax.swing.SwingConstants;
 
 public class VPrincipal extends JFrame {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private UsuarioInterface datosUsuario = Main.cargarUsuario();
-	
-	/**
-	 * Create the frame.
-	 */
+	private JLayeredPane layeredPane;
+	private JButton btnAcceder;
+	private JButton btnRegistrarse;
+	private JLabel lblTitulo;
+
 	public VPrincipal() {
-		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 603, 440);
+		setBounds(100, 100, 884, 425);
 		
 		Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
 	    int x = (int) ((dimension.getWidth() - this.getWidth()) / 2);
@@ -44,67 +38,49 @@ public class VPrincipal extends JFrame {
 	    this.setLocation(x, y);
 		
 		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
+		contentPane.setLayout(null);
 		
-		JLabel lblTitulo = new JLabel("FutLiga");
-		lblTitulo.setToolTipText("");
-		lblTitulo.setHorizontalAlignment(SwingConstants.CENTER);
-		lblTitulo.setFont(new Font("Playbill", Font.PLAIN, 70));
+		layeredPane = new JLayeredPane();
+		layeredPane.setBorder(new LineBorder(new Color(0, 0, 0)));
+		layeredPane.setBounds(246, 11, 612, 364);
+		contentPane.add(layeredPane);
+		layeredPane.setLayout(new CardLayout(0, 0));
 		
-		JButton btnAcceder = new JButton("ACCEDER");
+		btnAcceder = new JButton("INICIAR SESION");
 		btnAcceder.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				accederUsuario();
 			}
 		});
-		btnAcceder.setFont(new Font("Tahoma", Font.PLAIN, 24));
+		btnAcceder.setBounds(28, 149, 192, 41);
+		contentPane.add(btnAcceder);
 		
-		JButton btnNewButton = new JButton("REGISTRARSE");
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				registrarUsuario();
-			}
-		});
-		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 24));
-		GroupLayout gl_contentPane = new GroupLayout(contentPane);
-		gl_contentPane.setHorizontalGroup(
-			gl_contentPane.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGap(219)
-					.addComponent(lblTitulo, GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE)
-					.addGap(234))
-				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGap(37)
-					.addComponent(btnAcceder, GroupLayout.DEFAULT_SIZE, 183, Short.MAX_VALUE)
-					.addGap(130)
-					.addComponent(btnNewButton, GroupLayout.DEFAULT_SIZE, 183, Short.MAX_VALUE)
-					.addGap(44))
-		);
-		gl_contentPane.setVerticalGroup(
-			gl_contentPane.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGap(73)
-					.addComponent(lblTitulo, GroupLayout.DEFAULT_SIZE, 77, Short.MAX_VALUE)
-					.addGap(76)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addComponent(btnAcceder, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 114, Short.MAX_VALUE)
-						.addComponent(btnNewButton, GroupLayout.DEFAULT_SIZE, 114, Short.MAX_VALUE))
-					.addGap(52))
-		);
-		contentPane.setLayout(gl_contentPane);
+		btnRegistrarse = new JButton("REGISTRARSE");
+		btnRegistrarse.setBounds(28, 231, 192, 41);
+		contentPane.add(btnRegistrarse);
+		
+		lblTitulo = new JLabel("FutLiga");
+		lblTitulo.setToolTipText("");
+		lblTitulo.setHorizontalAlignment(SwingConstants.CENTER);
+		lblTitulo.setFont(new Font("Dialog", Font.PLAIN, 40));
+		lblTitulo.setBounds(28, 40, 184, 73);
+		contentPane.add(lblTitulo);
 	}
 	
-	private void registrarUsuario() {
-		VRegistrarse registrar = new VRegistrarse();
-		this.dispose();
-		registrar.setVisible(true);
+	public void accederUsuario() {
+		VAcceder acceder = new VAcceder(this);
+		cambiarJPanel(acceder);
 	}
 	
-	private void accederUsuario() {
-		VAcceder acceder = new VAcceder();
-		this.dispose();
-		acceder.setVisible(true);
+	public void cambiarJPanel(JPanel panel) {
+		//REMUEVE TODOS LOS COMPONENTES
+		layeredPane.removeAll();
+		//AÑADE EL COMPONENTE PANEL
+		layeredPane.add(panel);
+		layeredPane.repaint();
+		layeredPane.revalidate();
 	}
+	
 	
 }

@@ -1,154 +1,128 @@
 package vista;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-
-import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
+import java.awt.Font;
+import javax.swing.SwingConstants;
 
 import aplicacion.Main;
-import modelo.LigaInterface;
 import modelo.Usuario;
 import modelo.UsuarioInterface;
 
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-import java.awt.Font;
-import java.awt.Toolkit;
+import javax.swing.JPasswordField;
 import java.util.Map;
+
+import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class VAcceder extends JDialog {
+public class VAcceder extends JPanel {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private final JPanel contentPanel = new JPanel();
 	private JTextField textUsuario;
-	private JTextField textContraseña;
 	private UsuarioInterface datosUsuario = Main.cargarUsuario();
 	private Map<String, Usuario> usuarios;
+	private JPasswordField textContraseña;
+	private VPrincipal ventanaPrincipal;
 	
 	/**
-	 * Create the dialog.
+	 * Create the panel.
 	 */
-	public VAcceder() {
+	public VAcceder(VPrincipal ventanaPrincipal) {
 		
+		this.ventanaPrincipal = ventanaPrincipal;
 		usuarios = datosUsuario.todosUsuarios();
 		
-		setBounds(100, 100, 604, 429);
+		this.setBounds(246, 11, 612, 364);
+		setLayout(null);
 		
-		Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
-	    int x = (int) ((dimension.getWidth() - this.getWidth()) / 2);
-	    int y = (int) ((dimension.getHeight() - this.getHeight()) / 2);
-	    this.setLocation(x, y);
+		JLabel lblLogin = new JLabel("Login");
+		lblLogin.setHorizontalAlignment(SwingConstants.CENTER);
+		lblLogin.setFont(new Font("Tahoma", Font.PLAIN, 40));
+		lblLogin.setBounds(34, 32, 166, 69);
+		add(lblLogin);
 		
-		getContentPane().setLayout(new BorderLayout());
-		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
-		getContentPane().add(contentPanel, BorderLayout.CENTER);
-		contentPanel.setLayout(null);
-		{
-			JLabel lblLogin = new JLabel("Login");
-			lblLogin.setFont(new Font("Tahoma", Font.PLAIN, 40));
-			lblLogin.setBounds(50, 11, 116, 69);
-			contentPanel.add(lblLogin);
-		}
-		{
-			JLabel lblNomUsu = new JLabel("Nombre de Usuario:");
-			lblNomUsu.setFont(new Font("Tahoma", Font.PLAIN, 20));
-			lblNomUsu.setBounds(50, 114, 188, 20);
-			contentPanel.add(lblNomUsu);
-		}
+		JLabel lblNomUsu = new JLabel("Nombre de Usuario:");
+		lblNomUsu.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblNomUsu.setBounds(57, 135, 188, 43);
+		add(lblNomUsu);
 		
 		textUsuario = new JTextField();
 		textUsuario.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		textUsuario.setBounds(248, 114, 238, 20);
-		contentPanel.add(textUsuario);
 		textUsuario.setColumns(10);
+		textUsuario.setBounds(255, 148, 238, 21);
+		add(textUsuario);
 		
 		JLabel lblContra = new JLabel("Contrase\u00F1a: ");
 		lblContra.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblContra.setBounds(50, 156, 188, 21);
-		contentPanel.add(lblContra);
+		lblContra.setBounds(57, 197, 188, 43);
+		add(lblContra);
 		
-		textContraseña = new JTextField();
-		textContraseña.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		textContraseña.setBounds(248, 157, 238, 20);
-		contentPanel.add(textContraseña);
-		textContraseña.setColumns(10);
-		{
-			JPanel buttonPane = new JPanel();
-			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
-			getContentPane().add(buttonPane, BorderLayout.SOUTH);
-			{
-				JButton btnAcceder = new JButton("ACCEDER");
-				btnAcceder.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						accederUsuario();
-					}
-				});
-				btnAcceder.setActionCommand("OK");
-				buttonPane.add(btnAcceder);
-				getRootPane().setDefaultButton(btnAcceder);
+		textContraseña = new JPasswordField();
+		textContraseña.setEchoChar('*');
+		textContraseña.setBounds(255, 212, 238, 20);
+		add(textContraseña);
+		
+		JButton btnAcceder = new JButton("ACCEDER");
+		btnAcceder.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				accederUsuario();
 			}
-			{
-				JButton btnRetroceder = new JButton("RETROCEDER");
-				btnRetroceder.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						volverVPrincipal();
-					}
-				});
-				btnRetroceder.setActionCommand("Cancel");
-				buttonPane.add(btnRetroceder);
-			}
-		}
+		});
+		btnAcceder.setBounds(294, 304, 111, 34);
+		add(btnAcceder);
+		
+		JButton btnLimpiar = new JButton("LIMPIAR");
+		btnLimpiar.setBounds(432, 304, 111, 34);
+		add(btnLimpiar);
 		
 	}
 	
 	private void accederUsuario() {
-		if (usuarios.containsKey(textUsuario.getText())) {
-			for (Usuario usuario : usuarios.values()) {
-				if (usuario.getNombreU().equalsIgnoreCase(textUsuario.getText()) && usuario.getContrasenaU().equals(textContraseña.getText())) {
-					if (usuario.isAdmin()) {
-						modoAdmin();
-					} else {
-						consultaPrincipal();
-					}
-				} else if (usuario.getNombreU().equalsIgnoreCase(textUsuario.getText()) && !usuario.getContrasenaU().equals(textContraseña.getText())){
-					JOptionPane.showMessageDialog(null, "Contraseña incorrecta.");
-					textContraseña.setText("");
-				}
-			}
-		} else {
-			JOptionPane.showMessageDialog(null, "El usuario no existe.");
+		
+		if (!usuarios.containsKey(textUsuario.getText())) {
+			JOptionPane.showMessageDialog(this, "El usuario no esta en la BD.");
 			textUsuario.setText("");
 			textContraseña.setText("");
+		}else if (textContraseña.getPassword().length == 0){
+			JOptionPane.showMessageDialog(this, "Introduce la contraseña");
+		} else {
+			for (Usuario user: usuarios.values()) {
+				if (user.getNombreU().equalsIgnoreCase(textUsuario.getText())) {
+					if (user.getContrasenaU().equalsIgnoreCase(textContraseña.getText())) {
+						JOptionPane.showMessageDialog(this, "Usuario y contraseña correctos");
+						if (user.isAdmin()) {
+							modoAdmin();
+						} else {
+							consultaPrincipal();
+						}
+					} else {
+						JOptionPane.showMessageDialog(this, "Contraseña incorrecta");
+					}
+				}
+			}
 		}
-		
 	}
 	
 	private void modoAdmin() {
+		/*
 		VModoAdmin modoAdmin = new VModoAdmin();
-		this.dispose();
+		this.setVisible(false);
 		modoAdmin.setVisible(true);
+		*/
 	}
 	
 	private void consultaPrincipal() {
-		VConsultaPrincipal consultaPrincipal = new VConsultaPrincipal();
-		this.dispose();
+		
+		ventanaPrincipal.dispose();
+		VConsultaPrincipal consultaPrincipal = new VConsultaPrincipal(this);
 		consultaPrincipal.setVisible(true);
-	}
-	
-	private void volverVPrincipal() {
-		VPrincipal volverVPrincipal = new VPrincipal();
-		this.dispose();
-		volverVPrincipal.setVisible(true);
+		//this.setVisible(false);
+		
+		
+		
 	}
 	
 }

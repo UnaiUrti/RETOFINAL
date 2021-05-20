@@ -6,17 +6,12 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="D:/Clase/DRIVE/RETOS/RetoFinal PGR-BDA-SIS/Conector/mysql-connector-java-5.1.40-bin.jar">
+	<classpathentry kind="lib" path="lib/mysql-connector-java-5.1.40-bin.jar">
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="D:/Clase/DRIVE/RETOS/RetoFinal PGR-BDA-SIS/Conector/mysql-connector-java-8.0.15.jar">
-		<attributes>
-			<attribute name="module" value="true"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="D:/Clase/DRIVE/RETOS/RetoFinal PGR-BDA-SIS/Conector/JCalendar/lib/jcalendar-1.4.jar">
+	<classpathentry kind="lib" path="lib/mysql-connector-java-8.0.15.jar">
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>

@@ -10,18 +10,23 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import aplicacion.Main;
+import modelo.Liga;
 import modelo.LigaInterface;
 import modelo.UsuarioInterface;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import java.awt.Toolkit;
 
 import javax.swing.JComboBox;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Map;
 import java.awt.event.ActionEvent;
 
 public class VConsultaPrincipal extends JDialog {
@@ -31,12 +36,18 @@ public class VConsultaPrincipal extends JDialog {
 	 */
 	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
-	private UsuarioInterface datosUsuario = Main.cargarUsuario();
+	private LigaInterface datosLiga = Main.cargarLiga();
+	private JComboBox cmbLiga;
+	private ArrayList<Liga> todasLigas;
+	private VAcceder vAcceder;
 
 	/**
 	 * Create the dialog.
 	 */
-	public VConsultaPrincipal() {
+	public VConsultaPrincipal(VAcceder vAcceder) {
+		
+		this.vAcceder = vAcceder;
+		todasLigas = datosLiga.todasLiga();
 		
 		setBounds(100, 100, 599, 430);
 		
@@ -53,7 +64,7 @@ public class VConsultaPrincipal extends JDialog {
 		JLabel lblLiga = new JLabel("Liga:");
 		lblLiga.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		
-		JComboBox cmbLiga = new JComboBox();
+		cmbLiga = new JComboBox();
 		GroupLayout gl_contentPanel = new GroupLayout(contentPanel);
 		gl_contentPanel.setHorizontalGroup(
 			gl_contentPanel.createParallelGroup(Alignment.LEADING)
@@ -88,6 +99,11 @@ public class VConsultaPrincipal extends JDialog {
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				JButton btnAceptar = new JButton("Aceptar");
+				btnAceptar.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						consultarLiga();
+					}
+				});
 				btnAceptar.setActionCommand("OK");
 				buttonPane.add(btnAceptar);
 				getRootPane().setDefaultButton(btnAceptar);
@@ -103,12 +119,52 @@ public class VConsultaPrincipal extends JDialog {
 				buttonPane.add(btnVolver);
 			}
 		}
+		
+		cargarLiga();
+		
 	}
 	
+	private void consultarLiga() {
+		if (cmbLiga.getSelectedIndex() == -1) {
+			JOptionPane.showMessageDialog(this, "Selecciona una liga");
+		} else {
+			int pos = cmbLiga.getSelectedIndex();
+			
+			Liga liga = todasLigas.get(pos);
+			
+			VConsultarLiga2 vConsultarLiga2 = new VConsultarLiga2(this,liga);
+			
+			//VCoche vent = new VCoche(ven, true, coches.get(matricula), datos);
+			vConsultarLiga2.setVisible(true);
+			this.dispose();
+		}
+	}
+	
+	/*
+	private void consultarLiga() {
+		if (cmbLiga.getSelectedIndex()==-1) {
+			JOptionPane.showMessageDialog(this, "Selecciona una liga");
+		} else {
+			String nombreL= (String) cmbLiga.getSelectedItem();
+
+			VConsultarLiga vConsultarLiga = new VConsultarLiga();
+			this.setVisible(false);
+			vConsultarLiga.setVisible(true);
+		}
+	}
+	*/
+	private void cargarLiga() {
+		
+		for (Liga liga : todasLigas) {
+			cmbLiga.addItem(liga.getNombreL());
+		}
+		cmbLiga.setSelectedIndex(-1);
+	}
+	
+	
 	private void volverVAcceder() {
-		VPrincipal principal = new VPrincipal();
 		this.dispose();
-		principal.setVisible(true);
+		vAcceder.setVisible(true);
 	}
 	
 }

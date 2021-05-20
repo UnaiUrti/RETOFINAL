@@ -16,10 +16,11 @@ public class LigaMySQLImplementation implements LigaInterface {
 	private PreparedStatement stmt;
 	
 	//SENTENCIAS SQL
-	private final String altaLiga="{CALL altaLiga( ? , ? )}";
-	private final String modificaLiga="UPDATE liga SET Nombre_L=?, Pais_L=? WHERE Cod_L=?";
-	private final String bajaLiga="DELETE FROM liga WHERE Cod_L=?";
-	private final String listarLigas="SELECT * FROM liga";
+	private final String altaLiga = "INSERT INTO liga VALUES(?, ?, ?)";
+	private final String modificaLiga = "UPDATE liga SET Nombre_L=?, Pais_L=? WHERE Cod_L=?";
+	private final String bajaLiga = "DELETE FROM liga WHERE Cod_L=?";
+	private final String listarLigas = "SELECT * FROM liga";
+	private final String clasificacionLiga = "{CALL calcular_clasificacion(?)}";
 	
 	//CONEXION CON LA BD
 	public void openConnection() {
@@ -44,15 +45,16 @@ public class LigaMySQLImplementation implements LigaInterface {
 	}
 	
 	@Override
-	public void altaLiga(String nombreLiga, String paisLiga) {
+	public void altaLiga(Liga liga) {
 		
 		this.openConnection();
 		
 		try {
 			stmt = con.prepareStatement(altaLiga);
 			
-			stmt.setString(1, nombreLiga);
-			stmt.setString(2, paisLiga);
+			stmt.setString(1, liga.getCodL());
+			stmt.setString(2, liga.getNombreL());
+			stmt.setString(3, liga.getPaisL());
 			
 			stmt.executeUpdate();
 			
@@ -69,16 +71,16 @@ public class LigaMySQLImplementation implements LigaInterface {
 	}
 
 	@Override
-	public void modificaLiga(String nombreLiga, String paisLiga, String codLiga) {
+	public void modificaLiga(Liga liga) {
 		
 		this.openConnection();
 		
 		try {
 			stmt = con.prepareStatement(modificaLiga);
 			
-			stmt.setString(3, codLiga);
-			stmt.setString(1, nombreLiga);
-			stmt.setString(2, paisLiga);
+			stmt.setString(3, liga.getCodL());
+			stmt.setString(1, liga.getNombreL());
+			stmt.setString(2, liga.getPaisL());
 			
 			stmt.executeUpdate();
 			
@@ -163,13 +165,71 @@ public class LigaMySQLImplementation implements LigaInterface {
 		return ligas;
 		
 	}
-
-	@Override
-	public String[][] tabla(String codLiga) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	
+	public String[][] tablaClasificacion(String codL) {
+
+		String[][] clasi = null; 
+		
+		ResultSet rs = null;
+		
+		this.openConnection();
+		
+		try {
+			stmt = con.prepareStatement(clasificacionLiga);
+	
+			stmt.setString(1, codL);
+			
+			rs = stmt.executeQuery();
+			
+			int i = 0;
+			
+			rs.last();
+			i = rs.getRow();
+	        rs.beforeFirst();
+		
+			clasi = new String[i][10];
+			
+			i = 0;
+			
+			while(rs.next()) {
+				
+				clasi[i][0] = String.valueOf(rs.getInt("Puesto"));
+				clasi[i][1] = rs.getString("Cod_E");
+				clasi[i][2] = rs.getString("Nombre_E");
+				clasi[i][3] = String.valueOf(rs.getInt("P_jugados"));
+				clasi[i][4] = String.valueOf(rs.getInt("P_ganados"));
+				clasi[i][5] = String.valueOf(rs.getInt("P_empatados"));
+				clasi[i][6] = String.valueOf(rs.getInt("P_perdidos"));
+				clasi[i][7] = String.valueOf(rs.getInt("G_aFavor"));
+				clasi[i][8] = String.valueOf(rs.getInt("G_enContra"));
+				clasi[i][9] = String.valueOf(rs.getInt("Pts_total"));
+				
+				i++;
+					
+			}
+			
+	
+			
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		
+		if(rs!=null) {
+			try {
+				rs.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		try {
+			this.closeConnection();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return clasi;
+		
+	}
 	
 }
