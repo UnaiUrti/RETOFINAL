@@ -138,30 +138,6 @@ public class VAcceder extends JDialog {
 		
 	}
 	
-	
-	/*
-	private void accederUsuario() {
-		if (usuarios.containsKey(textUsuario.getText())) {
-			for (Usuario usuario : usuarios.values()) {
-				if (usuario.getNombreU().equalsIgnoreCase(textUsuario.getText()) && usuario.getContrasenaU().equals(textContraseña.getPassword().toString())) {
-					if (usuario.isAdmin()) {
-						modoAdmin();
-					} else {
-						consultaPrincipal();
-					}
-				} else if (usuario.getNombreU().equalsIgnoreCase(textUsuario.getText()) && !usuario.getContrasenaU().equals(textContraseña.getPassword().toString())){
-					JOptionPane.showMessageDialog(null, "Contraseña incorrecta.");
-					textContraseña.setText("");
-				}
-			}
-		} else {
-			JOptionPane.showMessageDialog(null, "El usuario no existe.");
-			textUsuario.setText("");
-			textContraseña.setText("");
-		}
-		
-	}
-	*/
 	private void modoAdmin() {
 		VModoAdmin modoAdmin = new VModoAdmin();
 		this.setVisible(false);

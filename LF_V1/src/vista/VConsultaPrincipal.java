@@ -134,10 +134,10 @@ public class VConsultaPrincipal extends JDialog {
 			ArrayList<Liga> ligasList = new ArrayList<>(ligasMap.values());
 			Liga liga = ligasList.get(pos);
 			
-			VConsultarLiga vConsultarLiga = new VConsultarLiga(this,liga);
+			VConsultarLiga2 vConsultarLiga2 = new VConsultarLiga2(this,liga);
 			
 			//VCoche vent = new VCoche(ven, true, coches.get(matricula), datos);
-			vConsultarLiga.setVisible(true);
+			vConsultarLiga2.setVisible(true);
 			this.dispose();
 		}
 	}

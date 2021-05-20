@@ -1,3 +1,4 @@
+
 package vista;
 
 import java.awt.BorderLayout;
@@ -22,28 +23,24 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import aplicacion.Main;
-import modelo.Clasificacion;
 import modelo.Liga;
 import modelo.LigaInterface;
+import javax.swing.JScrollPane;
 
 public class VConsultarLiga extends JDialog {
-
-	/**
-	 * 
-	 */
+	public VConsultarLiga() {
+	}
+/*¡¡
 	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
 	private JTextField textNombre;
 	private JTextField textPais;
 	private LigaInterface datosLiga = Main.cargarLiga();
-	private ArrayList<Clasificacion> clasificacion;
+	private String[][] clasificacion;
 	private Liga liga;
 	private VConsultaPrincipal vConsultaPrincipal;
 	private JTable tablaClasificacion;
 
-	/**
-	 * Create the dialog.
-	 */
 	public VConsultarLiga(VConsultaPrincipal vConsultaPrincipal ,Liga liga) {
 		
 		this.vConsultaPrincipal = vConsultaPrincipal;
@@ -79,20 +76,28 @@ public class VConsultarLiga extends JDialog {
 		JButton btnPartidos = new JButton("Partidos");
 		
 		//AÑADIR DATOS A LA TABLA
-		String titulos[] = { "PUESTO","NOMBRE EQUIPO","PJ","PG","PE","PE","GA","GE","PTS" };
-		String informacion[][] = obtenerDatosClasi();
+		String titulos[] = { "PUESTO","COD_EQ","NOMBRE EQUIPO","PJ","PG","PE","PE","GA","GE","PTS" };
+		//String informacion[][] = obtenerDatosClasi();
 		
+		clasificacion = datosLiga.tabla(liga.getCodL());
+		
+		JScrollPane scrollPane = new JScrollPane();
 		//CREAR LA TABLA CON LOS DATOS CREADOS
 		tablaClasificacion = new JTable();
-		tablaClasificacion.setModel(new DefaultTableModel(informacion,titulos));
+		tablaClasificacion.setModel(new DefaultTableModel(clasificacion,titulos));
+		
+		scrollPane.setViewportView(tablaClasificacion);
+		//getContentPane().add(scrollPane);
 		
 		GroupLayout gl_contentPanel = new GroupLayout(contentPanel);
 		gl_contentPanel.setHorizontalGroup(
 			gl_contentPanel.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_contentPanel.createSequentialGroup()
-					.addGap(30)
+					.addGap(18)
+					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
-						.addComponent(tablaClasificacion, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 513, Short.MAX_VALUE)
+						//.addComponent(tablaClasificacion, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 513, Short.MAX_VALUE)
 						.addGroup(gl_contentPanel.createSequentialGroup()
 							.addComponent(lblNombre)
 							.addPreferredGap(ComponentPlacement.RELATED)
@@ -108,15 +113,20 @@ public class VConsultarLiga extends JDialog {
 		gl_contentPanel.setVerticalGroup(
 			gl_contentPanel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPanel.createSequentialGroup()
-					.addGap(50)
-					.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblNombre)
-						.addComponent(textNombre, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblPais)
-						.addComponent(textPais, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnPartidos))
-					.addGap(18)
-					.addComponent(tablaClasificacion, GroupLayout.DEFAULT_SIZE, 256, Short.MAX_VALUE)
+					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_contentPanel.createSequentialGroup()
+							.addGap(50)
+							.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
+								.addComponent(lblNombre)
+								.addComponent(textNombre, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblPais)
+								.addComponent(textPais, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(btnPartidos))
+							.addGap(18))
+							//.addComponent(tablaClasificacion, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+						.addGroup(gl_contentPanel.createSequentialGroup()
+							.addGap(140)
+							.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
 					.addContainerGap())
 		);
 		contentPanel.setLayout(gl_contentPanel);
@@ -134,22 +144,14 @@ public class VConsultarLiga extends JDialog {
 	
 	private String[][] obtenerDatosClasi() {
 		
-		clasificacion = datosLiga.tablaClasificacion(liga.getCodL());
+		clasificacion = datosLiga.tabla(liga.getCodL());
 		
-		String informacion[][] = new String[clasificacion.size()][9];
+		String informacion[][] = new String[25][9];
 		
-		for (int i = 0; i < informacion.length; i++) {
-			 informacion[i][0] = clasificacion.get(i).getPuesto() + ""; //EL +""; ES PARA HACER UN FAKE DE PARSEO A UN STRING
-			 informacion[i][1] = clasificacion.get(i).getNombreE() + "";
-			 informacion[i][2] = clasificacion.get(i).getpJugados() + "";
-			 informacion[i][3] = clasificacion.get(i).getpGanados() + "";
-			 informacion[i][4] = clasificacion.get(i).getpEmpatados() + "";
-			 informacion[i][5] = clasificacion.get(i).getpPerdidos() + "";
-			 informacion[i][6] = clasificacion.get(i).getgAFavor() + "";
-			 informacion[i][7] = clasificacion.get(i).getgEnContra() + "";
-			 informacion[i][8] = clasificacion.get(i).getPtsTotal() + "";
+		for (int i = 0; i < clasificacion.length; i++) {
+			
 		}
 		return informacion;
 	}
-	
+	*/
 }

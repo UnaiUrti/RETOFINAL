@@ -13,6 +13,6 @@ public interface LigaInterface {
 	
 	public Map<String, Liga> todasLiga();
 	
-	public ArrayList<Clasificacion> tablaClasificacion(String codLiga);
+	public String[][] tabla(String codLiga);
 	
 }

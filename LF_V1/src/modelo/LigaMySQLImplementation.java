@@ -165,7 +165,7 @@ public class LigaMySQLImplementation implements LigaInterface {
 		return ligas;
 		
 	}
-
+/*
 	public ArrayList<Clasificacion> tablaClasificacion(String codLiga) {
 		
 		ArrayList<Clasificacion> clasificacion = new ArrayList<>();
@@ -219,5 +219,63 @@ public class LigaMySQLImplementation implements LigaInterface {
 		
 		return clasificacion;
 	}	
+	*/
+	
+	public String[][] tabla(String codLiga) {
+
+		String[][] clasi= new String[20][10];
+		
+		ResultSet rs = null;
+		
+		this.openConnection();
+		
+		try {
+			stmt = con.prepareStatement(clasificacionLiga);
+	
+			stmt.setString(1, codLiga);
+			
+			rs = stmt.executeQuery();
+			
+			int i = 0;
+			
+			while(rs.next()) {
+				
+				clasi[i][0] = String.valueOf(rs.getInt("Puesto"));
+				clasi[i][1] = rs.getString("Cod_E");
+				clasi[i][2] = rs.getString("Nombre_E");
+				clasi[i][3] = String.valueOf(rs.getInt("P_jugados"));
+				clasi[i][4] = String.valueOf(rs.getInt("P_ganados"));
+				clasi[i][5] = String.valueOf(rs.getInt("P_empatados"));
+				clasi[i][6] = String.valueOf(rs.getInt("P_perdidos"));
+				clasi[i][7] = String.valueOf(rs.getInt("G_aFavor"));
+				clasi[i][8] = String.valueOf(rs.getInt("G_enContra"));
+				clasi[i][9] = String.valueOf(rs.getInt("Pts_total"));
+				
+				i++;
+					
+			}
+			
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		
+		if(rs!=null) {
+			try {
+				rs.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		try {
+			this.closeConnection();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return clasi;
+		
+	}
+	
 	
 }
