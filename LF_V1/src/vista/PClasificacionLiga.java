@@ -127,7 +127,8 @@ public class PClasificacionLiga extends JPanel {
 	
 	public void verPartidos() {
 		
-		
+		PVerPartidosJornada verPartidos = new PVerPartidosJornada(usuarioMenu, liga.getCodL());
+		usuarioMenu.cambiarJPanel(verPartidos);
 		
 	}
 	

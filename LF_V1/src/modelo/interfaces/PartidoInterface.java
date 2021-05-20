@@ -14,4 +14,12 @@ public interface PartidoInterface {
 	
 	public ArrayList<Partido> todosPartido();
 	
+	public String[][] partidosJornada(String codL, int jornada);
+	
+	public int[] jornadasLiga(String codL);
+	
+	public String[][] buscarPartido(String codP);
+	
+	public String[][] partidoGoles(String codP);
+	
 }
