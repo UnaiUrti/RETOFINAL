@@ -9,6 +9,7 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 import aplicacion.Main;
@@ -17,9 +18,13 @@ import modelo.LigaInterface;
 
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import java.awt.Rectangle;
+import java.awt.Font;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class VConsultarLiga2 extends JDialog {
 
@@ -50,28 +55,37 @@ public class VConsultarLiga2 extends JDialog {
 	    this.setLocation(x, y);
 		
 		JLabel lblLigaNombre = new JLabel("Nombre");
+		lblLigaNombre.setHorizontalAlignment(SwingConstants.CENTER);
 		lblLigaNombre.setBounds(28, 38, 117, 29);
 		contentPanel.add(lblLigaNombre);
 		
 		textNombreL = new JTextField();
+		textNombreL.setHorizontalAlignment(SwingConstants.CENTER);
 		textNombreL.setBounds(155, 38, 161, 29);
 		contentPanel.add(textNombreL);
 		textNombreL.setColumns(10);
+		textNombreL.setText(liga.getNombreL());
+		textNombreL.setEditable(false);
 		
 		JLabel lblLigaPais = new JLabel("Pais");
-		lblLigaPais.setBounds(361, 38, 117, 29);
+		lblLigaPais.setHorizontalAlignment(SwingConstants.CENTER);
+		lblLigaPais.setBounds(326, 38, 117, 29);
 		contentPanel.add(lblLigaPais);
 		
 		textPaisL = new JTextField();
+		textPaisL.setHorizontalAlignment(SwingConstants.CENTER);
 		textPaisL.setColumns(10);
 		textPaisL.setBounds(445, 38, 161, 29);
 		contentPanel.add(textPaisL);
+		textPaisL.setText(liga.getPaisL());
+		textPaisL.setEditable(false);
 		
-		String titulos[] = { "PUESTO","COD_EQ","NOMBRE EQUIPO","PJ","PG","PE","PE","GA","GE","PTS" };
+		String titulos[] = { "#","COD_EQ","EQUIPO","PJ","PG","PE","PE","GA","GE","PTS" };
 		clasificacion = datosLiga.tabla(liga.getCodL());
 	
 		DefaultTableModel model = new DefaultTableModel(clasificacion,titulos);
 		tablaClasificacion = new JTable(model);
+		tablaClasificacion.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		JScrollPane scrollPane = new JScrollPane(tablaClasificacion);
 		scrollPane.setBounds(28, 103, 690, 291);
 		scrollPane.setVisible(true);
@@ -81,6 +95,15 @@ public class VConsultarLiga2 extends JDialog {
 		tablaClasificacion.getColumnModel().getColumn(1).setMinWidth(0);
 		tablaClasificacion.getColumnModel().getColumn(1).setMaxWidth(0);
 		
+		tablaClasificacion.getColumnModel().getColumn(2).setMinWidth(180);
+		//tablaClasificacion.getColumnModel().getColumnCount()
+		DefaultTableCellRenderer alinear = new DefaultTableCellRenderer();
+		alinear.setHorizontalAlignment(SwingConstants.CENTER);
+		for (int i = 0; i < tablaClasificacion.getColumnCount(); i++) {
+			tablaClasificacion.getColumnModel().getColumn(i).setCellRenderer(alinear);
+		}
+		
+		
 		contentPanel.add(scrollPane);
 	
 		{
@@ -88,7 +111,12 @@ public class VConsultarLiga2 extends JDialog {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton okButton = new JButton("Siguiente");
+				JButton okButton = new JButton("Ver equipo");
+				okButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						verEquipo();
+					}
+				});
 				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
@@ -100,4 +128,14 @@ public class VConsultarLiga2 extends JDialog {
 			}
 		}
 	}
+	
+	private void verEquipo() {
+		
+		String codE = tablaClasificacion.getModel().getValueAt(tablaClasificacion.getSelectedRow(), 1).toString();
+		
+		VConsultarEquipo vConsultarEquipo = new VConsultarEquipo(this, codE);
+		vConsultarEquipo.setVisible(true);
+		
+	}
+	
 }

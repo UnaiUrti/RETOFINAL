@@ -32,8 +32,10 @@ public class VConsultarEquipo extends JDialog {
 
 	/**
 	 * Create the dialog.
+	 * @param vConsultarLiga 
+	 * @param codE 
 	 */
-	public VConsultarEquipo() {
+	public VConsultarEquipo(VConsultarLiga2 vConsultarLiga, String codE) {
 		setBounds(100, 100, 600, 439);
 		
 		Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();

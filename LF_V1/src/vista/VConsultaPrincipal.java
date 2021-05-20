@@ -38,7 +38,7 @@ public class VConsultaPrincipal extends JDialog {
 	private final JPanel contentPanel = new JPanel();
 	private LigaInterface datosLiga = Main.cargarLiga();
 	private JComboBox cmbLiga;
-	private Map<String, Liga> ligasMap;
+	private ArrayList<Liga> todasLigas;
 	private VAcceder vAcceder;
 
 	/**
@@ -47,7 +47,7 @@ public class VConsultaPrincipal extends JDialog {
 	public VConsultaPrincipal(VAcceder vAcceder) {
 		
 		this.vAcceder = vAcceder;
-		ligasMap = datosLiga.todasLiga();
+		todasLigas = datosLiga.todasLiga();
 		
 		setBounds(100, 100, 599, 430);
 		
@@ -129,10 +129,8 @@ public class VConsultaPrincipal extends JDialog {
 			JOptionPane.showMessageDialog(this, "Selecciona una liga");
 		} else {
 			int pos = cmbLiga.getSelectedIndex();
-
-			//PASAR EL MAP A UN ARRAYLIST PARA CONSEGUIR EL OBJETO LIGA DEL INDEX DEL COMBO BOX
-			ArrayList<Liga> ligasList = new ArrayList<>(ligasMap.values());
-			Liga liga = ligasList.get(pos);
+			
+			Liga liga = todasLigas.get(pos);
 			
 			VConsultarLiga2 vConsultarLiga2 = new VConsultarLiga2(this,liga);
 			
@@ -157,7 +155,7 @@ public class VConsultaPrincipal extends JDialog {
 	*/
 	private void cargarLiga() {
 		
-		for (Liga liga : ligasMap.values()) {
+		for (Liga liga : todasLigas) {
 			cmbLiga.addItem(liga.getNombreL());
 		}
 		cmbLiga.setSelectedIndex(-1);

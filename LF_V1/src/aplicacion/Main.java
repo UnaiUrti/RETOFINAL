@@ -1,4 +1,4 @@
-package aplicacion;
+	package aplicacion;
 
 import modelo.LigaInterface;
 import modelo.LigaMySQLImplementation;

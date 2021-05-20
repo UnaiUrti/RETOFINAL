@@ -11,7 +11,7 @@ public interface LigaInterface {
 	
 	public void bajaLiga(Liga liga);
 	
-	public Map<String, Liga> todasLiga();
+	public ArrayList<Liga> todasLiga();
 	
 	public String[][] tabla(String codLiga);
 	
