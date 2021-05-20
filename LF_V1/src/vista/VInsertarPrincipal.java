@@ -48,6 +48,11 @@ public class VInsertarPrincipal extends JDialog {
 		}
 		{
 			JButton btnNuevaLiga = new JButton("Nueva Liga");
+			btnNuevaLiga.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					insertarLiga();
+				}
+			});
 			btnNuevaLiga.setFont(new Font("Tahoma", Font.PLAIN, 13));
 			btnNuevaLiga.setBounds(74, 135, 120, 40);
 			contentPanel.add(btnNuevaLiga);
@@ -65,12 +70,22 @@ public class VInsertarPrincipal extends JDialog {
 		}
 		{
 			JButton btnNuevoJugador = new JButton("Nuevo Jugador");
+			btnNuevoJugador.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					insertarJugador();
+				}
+			});
 			btnNuevoJugador.setFont(new Font("Tahoma", Font.PLAIN, 13));
 			btnNuevoJugador.setBounds(378, 135, 120, 40);
 			contentPanel.add(btnNuevoJugador);
 		}
 		{
 			JButton btnNuevoPartido = new JButton("Nuevo Partido");
+			btnNuevoPartido.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					insertarPartido();
+				}
+			});
 			btnNuevoPartido.setFont(new Font("Tahoma", Font.PLAIN, 13));
 			btnNuevoPartido.setBounds(378, 211, 120, 40);
 			contentPanel.add(btnNuevoPartido);
@@ -81,17 +96,49 @@ public class VInsertarPrincipal extends JDialog {
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				JButton btnRetroceder = new JButton("RETROCEDER");
+				btnRetroceder.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						volverAtras();
+					}
+				});
 				btnRetroceder.setActionCommand("Cancel");
 				buttonPane.add(btnRetroceder);
 			}
 		}
 	}
 	
+	private void insertarLiga() {
+		VInsertarLiga liga = new VInsertarLiga(false);
+		this.dispose();
+		liga.setVisible(true);
+		
+	}
+	
 	private void insertarEquipo() {
-		VInsertarEquipo equipo = new VInsertarEquipo();
+		VInsertarEquipo equipo = new VInsertarEquipo(false);
 		this.dispose();
 		equipo.setVisible(true);
 		
 	}
+	
+	private void insertarJugador() {
+		VInsertarJugador jugador = new VInsertarJugador(false, null);
+		this.dispose();
+		jugador.setVisible(true);
+		
+	}
+	
+	private void insertarPartido() {
+		VInsertarPartido partido = new VInsertarPartido();
+		this.dispose();
+		partido.setVisible(true);
+		
+	}
 
+	private void volverAtras() {
+		this.dispose();
+		VInsertarPrincipal  ventanaInsertarPrincipal = new VInsertarPrincipal();
+		ventanaInsertarPrincipal.setVisible(true);
+		
+	}
 }

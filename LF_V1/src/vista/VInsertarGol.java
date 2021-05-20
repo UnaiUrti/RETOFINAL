@@ -54,12 +54,17 @@ public class VInsertarGol extends JDialog {
 
 	private int numGolL=1;
 	private int numGolV=1;
+	
+	private int golesLocal;
+	private int golesVisitante;
 
 	public VInsertarGol(int golesL, int golesV) {
 		setBounds(100, 100, 600, 430);
 		
-		int golesLocal=golesL;
-		int golesVisitante=golesV;
+		golesLocal=golesL;
+		System.out.println(golesLocal);
+		golesVisitante=golesV;
+		System.out.println(golesVisitante);
 		
 		Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
 	    int x = (int) ((dimension.getWidth() - this.getWidth()) / 2);
@@ -99,8 +104,15 @@ public class VInsertarGol extends JDialog {
 		btnAlta.setBounds(74, 304, 57, 23);
 		btnAlta.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				altaGol(golesLocal, golesVisitante);
+				if(golesLocal>0) {
+					golesLocal--;
+					System.out.println(golesLocal);
+				}else if (golesVisitante>0){
+					golesVisitante--;
+					System.out.println(golesVisitante);
 					
+				}
+				altaGol(golesLocal, golesVisitante);
 			}
 		});
 		contentPanel.setLayout(null);
@@ -118,19 +130,10 @@ public class VInsertarGol extends JDialog {
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
-			{
-				JButton btnVolver = new JButton("Cancel");
-				btnVolver.setActionCommand("Cancel");
-				buttonPane.add(btnVolver);
-			}
 		}
 		cargarEquipo(golesLocal, golesVisitante);
 		cargarNumGol(golesLocal, golesVisitante);
-		if(golesLocal>0) {
-			cargarDorsalL();
-		}else if(golesVisitante>0) {
-			cargarDorsalV();
-		}
+		cargarDorsal(golesLocal, golesVisitante);
 	}
 	
 	private void altaGol(int golesLocal, int golesVisitante) {
@@ -150,40 +153,24 @@ public class VInsertarGol extends JDialog {
 			cmbGoleador.removeAllItems();
 			textMinuto.setText("");
 			
-			if(golesLocal>0) {
-				golesLocal--;
-			}else if (golesVisitante>0){
-				golesVisitante--;
-			}
+			
 			
 			cargarEquipo(golesLocal, golesVisitante);
 			cargarNumGol(golesLocal, golesVisitante);
-			if(golesLocal>0) {
-				cargarDorsalL();
-			}else if(golesVisitante>0) {
-				cargarDorsalV();
-			}
-			
+			cargarDorsal(golesLocal, golesVisitante);
 		}
 
 	}
 
-	private void cargarDorsalL() {
+	private void cargarDorsal(int golesLocal, int golesVisitante) {
 		
-		dorsales = datosJugador.todosJugador(equipos[0].getCodE());
-
-		Collections.sort(dorsales);
 		
-		for (Jugador jugador : dorsales) {
-			cmbGoleador.addItem(jugador.getDorsal());
+		if(golesLocal>0) {
+			dorsales = datosJugador.todosJugador(equipos[0].getCodE());
+		}else if(golesVisitante>0) {
+			dorsales = datosJugador.todosJugador(equipos[1].getCodE());
 		}
-
-	}
-	
-	private void cargarDorsalV() {
-
-		dorsales = datosJugador.todosJugador(equipos[1].getCodE());
-
+		
 		Collections.sort(dorsales);
 		
 		for (Jugador jugador : dorsales) {
@@ -198,6 +185,8 @@ public class VInsertarGol extends JDialog {
 			textEquipo.setText(equipos[0].getNombreE());
 		}else if (golesVisitante>0){
 			textEquipo.setText(equipos[1].getNombreE());
+		}else {
+			this.dispose();
 		}
 	}
 	
@@ -206,11 +195,12 @@ public class VInsertarGol extends JDialog {
 		if(golesLocal>0) {
 			textGol.setText(Integer.toString(numGolL));
 			numGolL++;
+			
 		}else if(golesVisitante>0) {
 			textGol.setText(Integer.toString(numGolV));
 			numGolV++;
+			
 		}
-		
 	}
 	
 	private String buscarGoleador(int goleador) {
@@ -225,5 +215,4 @@ public class VInsertarGol extends JDialog {
 		
 		return codigoGoleador;
 	}
-
 }

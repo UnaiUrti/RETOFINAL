@@ -182,7 +182,12 @@ public class VInsertarPartido extends JDialog {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton btnVolver = new JButton("Cancel");
+				JButton btnVolver = new JButton("RETROCEDER");
+				btnVolver.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						volverAtras();
+					}
+				});
 				btnVolver.setActionCommand("Cancel");
 				buttonPane.add(btnVolver);
 			}
@@ -217,10 +222,7 @@ public class VInsertarPartido extends JDialog {
 	
 	private void cargarEquiposL() {
 		
-		if(cmbLiga.getSelectedIndex()==-1) {
-			JOptionPane.showMessageDialog(this, "Debes elegir una liga");
-		}
-		else {
+		if(cmbLiga.getSelectedIndex()!=-1) {
 			int pos=cmbLiga.getSelectedIndex();
 			String codigoLiga = ligas.get(pos).getCodL();
 			
@@ -231,12 +233,10 @@ public class VInsertarPartido extends JDialog {
 			}
 		}
 	}
-private void cargarEquiposV() {
+
+	private void cargarEquiposV() {
 		
-		if(cmbLiga.getSelectedIndex()==-1) {
-			JOptionPane.showMessageDialog(this, "Debes elegir una liga");
-		}
-		else {
+		if(cmbLiga.getSelectedIndex()!=-1) {
 			int pos=cmbLiga.getSelectedIndex();
 			String codigoLiga = ligas.get(pos).getCodL();
 			
@@ -246,5 +246,12 @@ private void cargarEquiposV() {
 				cmbEquipoV.addItem(equipo.getNombreE());
 			}
 		}
+	}
+
+	private void volverAtras() {
+		this.dispose();
+		VInsertarPrincipal  ventanaInsertarPrincipal = new VInsertarPrincipal();
+		ventanaInsertarPrincipal.setVisible(true);
+		
 	}
 }

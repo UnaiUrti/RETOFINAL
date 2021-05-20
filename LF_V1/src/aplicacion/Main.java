@@ -17,6 +17,8 @@ import vista.VInsertarEquipo;
 import vista.VInsertarJugador;
 import vista.VInsertarLiga;
 import vista.VInsertarPartido;
+import vista.VInsertarPrincipal;
+import vista.VModoAdmin;
 import vista.VPrincipal;
 
 public class Main {
@@ -38,10 +40,18 @@ public class Main {
 		ventanaJugador.setVisible(true);
 		*/
 		
-		
+		/*
 		VInsertarPartido  ventanaPartido = new VInsertarPartido();
 		ventanaPartido.setVisible(true);
+		*/
 		
+		/*
+		VInsertarPrincipal  ventanaInsertarPrincipal = new VInsertarPrincipal();
+		ventanaInsertarPrincipal.setVisible(true);
+		*/
+		
+		VModoAdmin  ventanaAdmin = new VModoAdmin();
+		ventanaAdmin.setVisible(true);
 		
 		/*
 		VPrincipal ventanaPrincipal = new VPrincipal(datosUsuario, datosLiga);

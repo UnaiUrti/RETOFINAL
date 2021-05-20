@@ -45,7 +45,7 @@ public class VInsertarEquipo extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public VInsertarEquipo() {
+	public VInsertarEquipo(boolean altaOculto) {
 		setBounds(100, 100, 673, 479);
 		
 		Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
@@ -102,7 +102,12 @@ public class VInsertarEquipo extends JDialog {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton cancelButton = new JButton("Volver");
+				JButton cancelButton = new JButton("RETROCEDER");
+				cancelButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						volverAtras();
+					}
+				});
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
 			}
@@ -110,6 +115,11 @@ public class VInsertarEquipo extends JDialog {
 		
 		cargarLigas();
 		
+		if(altaOculto) {
+			btnAlta.setEnabled(false);
+		}else {
+			btnModificar.setEnabled(false);
+		}
 	}
 	
 
@@ -136,6 +146,13 @@ public class VInsertarEquipo extends JDialog {
 			comboLiga.addItem(liga.getNombreL());
 		}
 		
+		
+	}
+	
+	private void volverAtras() {
+		this.dispose();
+		VInsertarPrincipal  ventanaInsertarPrincipal = new VInsertarPrincipal();
+		ventanaInsertarPrincipal.setVisible(true);
 		
 	}
 

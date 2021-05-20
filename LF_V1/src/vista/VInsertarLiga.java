@@ -37,7 +37,7 @@ public class VInsertarLiga extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public VInsertarLiga() {
+	public VInsertarLiga(boolean altaOculto) {
 		setBounds(100, 100, 681, 455);
 		
 		Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
@@ -92,10 +92,21 @@ public class VInsertarLiga extends JDialog {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton btnVolver = new JButton("Cancel");
+				JButton btnVolver = new JButton("RETROCEDER");
+				btnVolver.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						volverAtras();
+					}
+				});
 				btnVolver.setActionCommand("Cancel");
 				buttonPane.add(btnVolver);
 			}
+		}
+		
+		if(altaOculto) {
+			btnAlta.setEnabled(false);
+		}else {
+			btnModificar.setEnabled(false);
 		}
 	}
 	
@@ -107,6 +118,13 @@ public class VInsertarLiga extends JDialog {
 		JOptionPane.showMessageDialog(this, "Equipo dado de alta correctamente");
 		textNombre.setText("");
 		textPais.setText("");
+		
+	}
+	
+	private void volverAtras() {
+		this.dispose();
+		VInsertarPrincipal  ventanaInsertarPrincipal = new VInsertarPrincipal();
+		ventanaInsertarPrincipal.setVisible(true);
 		
 	}
 }

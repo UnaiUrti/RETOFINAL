@@ -58,7 +58,7 @@ public class VInsertarJugador extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public VInsertarJugador() {
+	public VInsertarJugador(boolean altaOculto, Jugador jugador) {
 		setBounds(100, 100, 600, 430);
 
 		Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
@@ -77,7 +77,7 @@ public class VInsertarJugador extends JDialog {
 			@Override
 			public void focusLost(FocusEvent e) {
 				cmbEquipo.removeAllItems();
-				buscarEquipos();
+				cargarEquipos();
 			}
 		});
 		cmbLiga.setBounds(118, 105, 107, 22);
@@ -143,7 +143,12 @@ public class VInsertarJugador extends JDialog {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton btnVolver = new JButton("Cancel");
+				JButton btnVolver = new JButton("RETROCEDER");
+				btnVolver.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						volverAtras();
+					}
+				});
 				btnVolver.setActionCommand("Cancel");
 				buttonPane.add(btnVolver);
 			}
@@ -152,21 +157,21 @@ public class VInsertarJugador extends JDialog {
 		cargarLigas();
 		cmbLiga.setSelectedIndex(-1);
 		
+		if(altaOculto) {
+			btnAlta.setEnabled(false);
+			cmbLiga.setSelectedItem(buscarLiga(jugador));
+			cmbEquipo.setSelectedItem(buscarEquipo(jugador));
+			textNombre.setText(jugador.getNombreJ());
+			textDorsal.setText(Integer.toString(jugador.getDorsal()));
+			textPais.setText(jugador.getPaisJ());
+			cmbPosicion.setSelectedItem(jugador.getPosicion());
+		}else {
+			btnModificar.setEnabled(false);
+		}
+		
 	}
 
 	private void altaJugador() {
-
-		/*
-		 * String pos= Integer.toString(comboLiga.getSelectedIndex()+1); String
-		 * codigoLiga = ""; String codLigNum;
-		 * 
-		 * for (Liga liga : ligas.values()) {
-		 * 
-		 * if(liga.getCodL().substring(2).equals("0")) { if(liga.getCodL().substring(3,
-		 * liga.getCodL().length()) == pos) { codigoLiga = liga.getCodL(); } } else
-		 * if(liga.getCodL().substring(2, liga.getCodL().length()) == pos) { codigoLiga
-		 * = liga.getCodL(); } }
-		 */
 
 		int pos=cmbEquipo.getSelectedIndex();
 		String codigoEquipo = equipos.get(pos).getCodE();
@@ -192,10 +197,7 @@ public class VInsertarJugador extends JDialog {
 	
 	private void cargarEquipos() {
 		
-		if(cmbLiga.getSelectedIndex()==-1) {
-			JOptionPane.showMessageDialog(this, "Debes elegir una liga");
-		}
-		else {
+		if(cmbLiga.getSelectedIndex()!=-1) {
 			int pos=cmbLiga.getSelectedIndex();
 			String codigoLiga = ligas.get(pos).getCodL();
 			
@@ -207,8 +209,38 @@ public class VInsertarJugador extends JDialog {
 		}
 	}
 	
-	private void buscarEquipos() {
-		cargarEquipos();
+	private void volverAtras() {
+		this.dispose();
+		VInsertarPrincipal  ventanaInsertarPrincipal = new VInsertarPrincipal();
+		ventanaInsertarPrincipal.setVisible(true);
 		
+	}
+	
+	private String buscarLiga(Jugador jugador) {
+		String nombreLiga = "";
+		
+		for (Equipo equipo : equipos) {
+			if(equipo.getCodE().equals(jugador.getCodE())) {
+				for (Liga liga : ligas) {
+					if(equipo.getCodL().equals(liga.getCodL())) {
+						nombreLiga = liga.getNombreL();
+					}
+				}
+			}
+		}
+		
+		return nombreLiga;
+	}
+	
+	private String buscarEquipo(Jugador jugador) {
+		String nombreEquipo = "";
+		
+		for (Equipo equipo : equipos) {
+			if(equipo.getCodE().equals(jugador.getCodE())) {
+				nombreEquipo = equipo.getNombreE();
+			}
+		}
+		
+		return nombreEquipo;
 	}
 }

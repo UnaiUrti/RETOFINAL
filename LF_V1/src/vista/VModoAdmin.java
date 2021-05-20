@@ -120,14 +120,14 @@ public class VModoAdmin extends JDialog {
 	}
 	
 	private void modificar() {
-		VModificarPrincipal modificar = new VModificarPrincipal();
+		VBaja modificar = new VBaja(true);
 		this.dispose();
 		modificar.setVisible(true);
 		
 	}
 	
 	private void baja() {
-		VBaja baja = new VBaja();
+		VBaja baja = new VBaja(false);
 		this.dispose();
 		baja.setVisible(true);
 		
