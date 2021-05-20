@@ -5,7 +5,9 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Map;
+import java.util.ResourceBundle;
 import java.util.TreeMap;
 import modelo.interfaces.EquipoInterface;
 import modelo.entidades.Equipo;
@@ -16,19 +18,38 @@ public class EquipoMySQLImplementation implements EquipoInterface {
 	private Connection con;
 	private PreparedStatement stmt;
 
+	/* CONDFIGURACION */
+	private String driver;
+	private String url;
+	private String user;
+	private String passwd;
+	private ResourceBundle configFile;
+
 	// SENTENCIAS SQL
 	private final String altaEquipo = "{CALL altaEquipo( ? , ? )}";
 	private final String modificaEquipo = "UPDATE equipo SET Nombre_E=? , Cod_L=? WHERE Cod_E=?";
 	private final String bajaEquipo = "DELETE FROM equipo WHERE Cod_E=?";
-	private final String buscarEquipo = "SELECT * FROM equipo WHERE Cod_E=?";
-	private final String listarEquipos = "SELECT * FROM equipo";
+	private final String listarEquipos = "SELECT * FROM equipo WHERE Cod_L=?";
+	private final String listarTodosEquipos = "SELECT * FROM equipo";
+
+	/* CONEXION CON EL ARCHIVO DE CONFIGURACION */
+	public EquipoMySQLImplementation() {
+		this.configFile = ResourceBundle.getBundle("modelo.config");
+		this.driver = this.configFile.getString("driver");
+		this.url = this.configFile.getString("url");
+		this.user = this.configFile.getString("user");
+		this.passwd = this.configFile.getString("passwd");
+	}
 
 	// CONEXION CON LA BD
 	public void openConnection() {
 		try {
-			String url = "jdbc:mysql://localhost:3306/liga_futbol?serverTimezone=Europe/Madrid&useSSL=false";
-			// con = DriverManager.getConnection(url+"?" +"user=root&password=abcd*1234");
-			con = DriverManager.getConnection(url, "root", "abcd*1234");
+
+			// CONEXION XAMPP
+			con = DriverManager.getConnection(this.url, this.user, this.passwd);
+			// String url =
+			// "jdbc:mysql://localhost:3306/liga_futbol?serverTimezone=Europe/Madrid&useSSL=false";
+			// con = DriverManager.getConnection(url, "root", "abcd*1234");
 
 		} catch (SQLException e) {
 			System.out.println("Error al intentar abrir la BD");
@@ -71,16 +92,16 @@ public class EquipoMySQLImplementation implements EquipoInterface {
 	}
 
 	@Override
-	public void modificarEquipo(Equipo equipo) {
+	public void modificarEquipo(String nombreEquipo, String codLiga, String codEquipo) {
 
 		this.openConnection();
 
 		try {
 			stmt = con.prepareStatement(modificaEquipo);
 
-			stmt.setString(3, equipo.getCodE());
-			stmt.setString(1, equipo.getNombreE());
-			stmt.setString(2, equipo.getCodL());
+			stmt.setString(3, codEquipo);
+			stmt.setString(1, nombreEquipo);
+			stmt.setString(2, codLiga);
 
 			stmt.executeUpdate();
 
@@ -120,25 +141,28 @@ public class EquipoMySQLImplementation implements EquipoInterface {
 
 	}
 
-	public Equipo buscarEquipo(String codE) {
+	@Override
+	public ArrayList<Equipo> todosEquipo(String codLiga) {
 
-		Equipo equipo = new Equipo();
-		;
+		ArrayList<Equipo> equipos = new ArrayList<>();
+		Equipo equipo = null;
+
 		ResultSet rs = null;
+
 		this.openConnection();
 
 		try {
-			stmt = con.prepareStatement(buscarEquipo);
 
-			stmt.setString(1, codE);
-
+			stmt = con.prepareStatement(listarEquipos);
+			stmt.setString(1, codLiga);
 			rs = stmt.executeQuery();
 
-			if (rs.next()) {
-
+			while (rs.next()) {
+				equipo = new Equipo();
 				equipo.setCodE(rs.getString("Cod_E"));
 				equipo.setNombreE(rs.getString("Nombre_E"));
 				equipo.setCodL(rs.getString("Cod_L"));
+				equipos.add(equipo);
 			}
 
 		} catch (SQLException e1) {
@@ -159,14 +183,14 @@ public class EquipoMySQLImplementation implements EquipoInterface {
 			e.printStackTrace();
 		}
 
-		return equipo;
+		return equipos;
 
 	}
 
 	@Override
-	public Map<String, Equipo> todosEquipo() {
+	public ArrayList<Equipo> listarTodosEquipo() {
 
-		Map<String, Equipo> equipos = new TreeMap<>();
+		ArrayList<Equipo> equipos = new ArrayList<>();
 		Equipo equipo = null;
 
 		ResultSet rs = null;
@@ -175,8 +199,7 @@ public class EquipoMySQLImplementation implements EquipoInterface {
 
 		try {
 
-			stmt = con.prepareStatement(listarEquipos);
-
+			stmt = con.prepareStatement(listarTodosEquipos);
 			rs = stmt.executeQuery();
 
 			while (rs.next()) {
@@ -184,7 +207,7 @@ public class EquipoMySQLImplementation implements EquipoInterface {
 				equipo.setCodE(rs.getString("Cod_E"));
 				equipo.setNombreE(rs.getString("Nombre_E"));
 				equipo.setCodL(rs.getString("Cod_L"));
-				equipos.put(equipo.getCodE(), equipo);
+				equipos.add(equipo);
 			}
 
 		} catch (SQLException e1) {

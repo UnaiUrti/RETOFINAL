@@ -35,7 +35,7 @@ public class PAcceder extends JPanel {
 		this.ventanaPrincipal = ventanaPrincipal;
 		usuarios = datosUsuario.todosUsuarios();
 		
-		this.setBounds(246, 11, 612, 364);
+		this.setBounds(246, 11, 697, 403);
 		setLayout(null);
 		
 		JLabel lblLogin = new JLabel("Login");
@@ -46,23 +46,23 @@ public class PAcceder extends JPanel {
 		
 		JLabel lblNomUsu = new JLabel("Nombre de Usuario:");
 		lblNomUsu.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblNomUsu.setBounds(57, 135, 188, 43);
+		lblNomUsu.setBounds(85, 135, 188, 43);
 		add(lblNomUsu);
 		
 		textUsuario = new JTextField();
 		textUsuario.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		textUsuario.setColumns(10);
-		textUsuario.setBounds(255, 148, 238, 21);
+		textUsuario.setBounds(312, 148, 238, 21);
 		add(textUsuario);
 		
 		JLabel lblContra = new JLabel("Contrase\u00F1a: ");
 		lblContra.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblContra.setBounds(57, 197, 188, 43);
+		lblContra.setBounds(85, 197, 188, 43);
 		add(lblContra);
 		
 		textContraseña = new JPasswordField();
 		textContraseña.setEchoChar('*');
-		textContraseña.setBounds(255, 212, 238, 20);
+		textContraseña.setBounds(312, 212, 238, 20);
 		add(textContraseña);
 		
 		JButton btnAcceder = new JButton("ACCEDER");
@@ -71,7 +71,7 @@ public class PAcceder extends JPanel {
 				accederUsuario();
 			}
 		});
-		btnAcceder.setBounds(294, 304, 111, 34);
+		btnAcceder.setBounds(318, 304, 111, 34);
 		add(btnAcceder);
 		
 		JButton btnLimpiar = new JButton("LIMPIAR");
@@ -80,7 +80,7 @@ public class PAcceder extends JPanel {
 				limpiarPantalla();
 			}
 		});
-		btnLimpiar.setBounds(432, 304, 111, 34);
+		btnLimpiar.setBounds(478, 304, 111, 34);
 		add(btnLimpiar);
 		
 	}
@@ -118,21 +118,18 @@ public class PAcceder extends JPanel {
 	}
 	
 	private void modoAdmin() {
-		/*
-		VModoAdmin modoAdmin = new VModoAdmin();
-		this.setVisible(false);
-		modoAdmin.setVisible(true);
-		*/
+		
+		ventanaPrincipal.dispose();
+		VAdminMenu adminMenu = new VAdminMenu();
+		adminMenu.setVisible(true);
+
 	}
 	
 	private void consultaPrincipal() {
 		
 		ventanaPrincipal.dispose();
-		VConsultaMenu consultaMenu = new VConsultaMenu();
-		consultaMenu.setVisible(true);
-		//this.setVisible(false);
-		
-		
+		VUsuarioMenu usuarioMenu = new VUsuarioMenu();
+		usuarioMenu.setVisible(true);
 		
 	}
 	

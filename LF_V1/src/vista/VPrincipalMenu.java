@@ -32,7 +32,7 @@ public class VPrincipalMenu extends JFrame {
 	public VPrincipalMenu() {
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 884, 425);
+		setBounds(100, 100, 965, 487);
 		
 		Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
 	    int x = (int) ((dimension.getWidth() - this.getWidth()) / 2);
@@ -45,7 +45,7 @@ public class VPrincipalMenu extends JFrame {
 		
 		layeredPane = new JLayeredPane();
 		layeredPane.setBorder(new LineBorder(new Color(0, 0, 0)));
-		layeredPane.setBounds(246, 11, 612, 364);
+		layeredPane.setBounds(230, 23, 697, 403);
 		contentPane.add(layeredPane);
 		layeredPane.setLayout(new CardLayout(0, 0));
 		

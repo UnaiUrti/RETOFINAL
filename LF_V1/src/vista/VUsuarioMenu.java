@@ -20,15 +20,15 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.CardLayout;
 
-public class VConsultaMenu extends JFrame {
+public class VUsuarioMenu extends JFrame {
 
 	private JPanel contentPane;
 	private JLayeredPane layeredPane;
 
-	public VConsultaMenu() {
+	public VUsuarioMenu() {
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 884, 425);
+		setBounds(100, 100, 965, 487);
 		
 		Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
 	    int x = (int) ((dimension.getWidth() - this.getWidth()) / 2);
@@ -43,7 +43,7 @@ public class VConsultaMenu extends JFrame {
 		layeredPane = new JLayeredPane();
 		layeredPane.setBorder(new LineBorder(new Color(0, 0, 0)));
 		contentPane.add(layeredPane);
-		layeredPane.setBounds(246, 11, 612, 364);
+		layeredPane.setBounds(230, 23, 697, 403);
 		layeredPane.setLayout(new CardLayout(0, 0));
 		
 		
@@ -55,26 +55,31 @@ public class VConsultaMenu extends JFrame {
 		contentPane.add(lblUsuario);
 		
 		JButton btnSalir = new JButton("SALIR");
+		btnSalir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				salir();
+			}
+		});
 		btnSalir.setBounds(29, 289, 192, 41);
 		contentPane.add(btnSalir);
 		
-		JButton btnSiguiente = new JButton("SIGUIENTE");
-		btnSiguiente.addActionListener(new ActionListener() {
+		JButton btnInicio = new JButton("INICIO");
+		btnInicio.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				siguientePanel();
 			}
 		});
-		btnSiguiente.setBounds(29, 149, 192, 41);
-		contentPane.add(btnSiguiente);
-		
-		JButton btnAtras = new JButton("ATRAS");
-		btnAtras.setBounds(29, 219, 192, 41);
-		contentPane.add(btnAtras);
+		btnInicio.setBounds(29, 219, 192, 41);
+		contentPane.add(btnInicio);
+	}
+	
+	private void salir() {
+		this.dispose();
 	}
 	
 	public void siguientePanel() {
-		PConsultaPrincipal consultaPrincipal = new PConsultaPrincipal();
-		cambiarJPanel(consultaPrincipal);
+		PSeleccionarLiga seleccionarLiga = new PSeleccionarLiga(this);
+		cambiarJPanel(seleccionarLiga);
 	}
 	
 	public void cambiarJPanel(JPanel panel) {

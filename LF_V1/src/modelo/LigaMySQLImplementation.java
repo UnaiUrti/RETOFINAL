@@ -25,18 +25,30 @@ public class LigaMySQLImplementation implements LigaInterface {
 	private ResourceBundle configFile;
 	
 	//SENTENCIAS SQL
-	private final String altaLiga = "INSERT INTO liga VALUES(?, ?, ?)";
+	private final String altaLiga="{CALL altaLiga( ? , ? )}";
 	private final String modificaLiga = "UPDATE liga SET Nombre_L=?, Pais_L=? WHERE Cod_L=?";
 	private final String bajaLiga = "DELETE FROM liga WHERE Cod_L=?";
 	private final String listarLigas = "SELECT * FROM liga";
 	private final String clasificacionLiga = "{CALL calcular_clasificacion(?)}";
 	
+	/*CONEXION CON EL ARCHIVO DE CONFIGURACION*/
+	public LigaMySQLImplementation() {
+		this.configFile = ResourceBundle.getBundle("modelo.config");
+		this.driver = this.configFile.getString("driver");
+		this.url = this.configFile.getString("url");
+		this.user = this.configFile.getString("user");
+		this.passwd = this.configFile.getString("passwd");
+	}
+	
 	//CONEXION CON LA BD
 	public void openConnection() {
 		try {
-			String url = "jdbc:mysql://localhost:3306/liga_futbol?serverTimezone=Europe/Madrid&useSSL=false";
-			//con = DriverManager.getConnection(url+"?" +"user=root&password=abcd*1234");
-			con = DriverManager.getConnection(url, "root", "abcd*1234");
+			
+			//CONEXION XAMPP
+			con = DriverManager.getConnection(this.url, this.user, this.passwd);
+			//String url = "jdbc:mysql://localhost:3306/liga_futbol?serverTimezone=Europe/Madrid&useSSL=false";
+			//con = DriverManager.getConnection(url, "root", "abcd*1234");
+			
 			
 		} catch (SQLException e) {
 			System.out.println("Error al intentar abrir la BD");
@@ -54,16 +66,15 @@ public class LigaMySQLImplementation implements LigaInterface {
 	}
 	
 	@Override
-	public void altaLiga(Liga liga) {
+	public void altaLiga(String nombreLiga, String paisLiga) {
 		
 		this.openConnection();
 		
 		try {
 			stmt = con.prepareStatement(altaLiga);
 			
-			stmt.setString(1, liga.getCodL());
-			stmt.setString(2, liga.getNombreL());
-			stmt.setString(3, liga.getPaisL());
+			stmt.setString(1, nombreLiga);
+			stmt.setString(2, paisLiga);
 			
 			stmt.executeUpdate();
 			
@@ -80,16 +91,16 @@ public class LigaMySQLImplementation implements LigaInterface {
 	}
 
 	@Override
-	public void modificaLiga(Liga liga) {
+	public void modificaLiga(String nombreLiga, String paisLiga, String codLiga) {
 		
 		this.openConnection();
 		
 		try {
 			stmt = con.prepareStatement(modificaLiga);
 			
-			stmt.setString(3, liga.getCodL());
-			stmt.setString(1, liga.getNombreL());
-			stmt.setString(2, liga.getPaisL());
+			stmt.setString(3, codLiga);
+			stmt.setString(1, nombreLiga);
+			stmt.setString(2, paisLiga);
 			
 			stmt.executeUpdate();
 			
