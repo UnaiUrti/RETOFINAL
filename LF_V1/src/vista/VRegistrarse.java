@@ -9,10 +9,9 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import aplicacion.Main;
 import modelo.Usuario;
 import modelo.UsuarioInterface;
-import modelo.UsuarioMySQLImplementation;
-
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
@@ -33,14 +32,16 @@ public class VRegistrarse extends JDialog {
 	private JTextField textUsuario;
 	private JTextField textContraseña;
 	private JTextField textRepContraseña;
-	private UsuarioInterface datosUsuario;
+	private UsuarioInterface datosUsuario = Main.cargarUsuario();
+	private VPrincipal vPrincipal;
 
 	/**
 	 * Create the dialog.
 	 */
-	public VRegistrarse(UsuarioInterface datosUsuario) {
+	public VRegistrarse(VPrincipal vPrincipal) {
 		
-		this.datosUsuario = datosUsuario;
+		super(vPrincipal);
+		this.vPrincipal = vPrincipal;
 		
 		setBounds(100, 100, 602, 430);
 		
@@ -141,9 +142,8 @@ public class VRegistrarse extends JDialog {
 	}
 	
 	private void volverVPrincipal() {
-		VPrincipal volverVPrincipal = new VPrincipal(datosUsuario);
 		this.dispose();
-		volverVPrincipal.setVisible(true);
+		vPrincipal.setVisible(true);
 	}
 	
 }

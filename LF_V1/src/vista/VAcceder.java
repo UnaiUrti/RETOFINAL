@@ -9,6 +9,7 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import aplicacion.Main;
 import modelo.Usuario;
 import modelo.UsuarioInterface;
 
@@ -30,15 +31,17 @@ public class VAcceder extends JDialog {
 	private final JPanel contentPanel = new JPanel();
 	private JTextField textUsuario;
 	private JTextField textContraseña;
-	private UsuarioInterface datosUsuario;
+	private UsuarioInterface datosUsuario = Main.cargarUsuario();
 	private Map<String, Usuario> usuarios;
+	private VPrincipal vPrincipal;
 	
 	/**
 	 * Create the dialog.
 	 */
-	public VAcceder(UsuarioInterface datosUsuario) {
+	public VAcceder(VPrincipal vPrincipal) {
 		
-		this.datosUsuario = datosUsuario;
+		super(vPrincipal);
+		this.vPrincipal = vPrincipal;
 		usuarios = datosUsuario.todosUsuarios();
 		
 		setBounds(100, 100, 604, 429);
@@ -133,21 +136,20 @@ public class VAcceder extends JDialog {
 	}
 	
 	private void modoAdmin() {
-		VModoAdmin modoAdmin = new VModoAdmin(datosUsuario);
-		this.dispose();
+		VModoAdmin modoAdmin = new VModoAdmin();
+		this.setVisible(false);
 		modoAdmin.setVisible(true);
 	}
 	
 	private void consultaPrincipal() {
-		VConsultaPrincipal consultaPrincipal = new VConsultaPrincipal(datosUsuario);
-		this.dispose();
+		VConsultaPrincipal consultaPrincipal = new VConsultaPrincipal(this);
+		this.setVisible(false);
 		consultaPrincipal.setVisible(true);
 	}
 	
 	private void volverVPrincipal() {
-		VPrincipal volverVPrincipal = new VPrincipal(datosUsuario);
 		this.dispose();
-		volverVPrincipal.setVisible(true);
+		vPrincipal.setVisible(true);
 	}
 	
 }

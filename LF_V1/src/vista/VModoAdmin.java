@@ -22,14 +22,11 @@ public class VModoAdmin extends JDialog {
 	 */
 	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
-	private UsuarioInterface datosUsuario;
-
+	
 	/**
 	 * Create the dialog.
 	 */
-	public VModoAdmin(UsuarioInterface datosUsuario) {
-		
-		this.datosUsuario = datosUsuario;
+	public VModoAdmin() {
 		
 		setBounds(100, 100, 604, 441);
 		

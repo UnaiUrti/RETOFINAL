@@ -17,7 +17,6 @@ import java.awt.Toolkit;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JTable;
-import javax.swing.JSeparator;
 import javax.swing.table.DefaultTableModel;
 
 public class VConsultarLiga extends JDialog {
