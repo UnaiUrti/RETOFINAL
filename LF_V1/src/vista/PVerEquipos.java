@@ -50,18 +50,14 @@ public class PVerEquipos extends JPanel {
 		setLayout(null);
 		this.setBounds(230, 23, 697, 403);
 		
-		JLabel lblNombre = new JLabel("Equipo: ");
-		lblNombre.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNombre.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblNombre.setBounds(206, 11, 79, 33);
-		add(lblNombre);
-		
 		textNombreE = new JTextField();
+		textNombreE.setHorizontalAlignment(SwingConstants.CENTER);
+		textNombreE.setFont(new Font("Tahoma", Font.PLAIN, 30));
 		textNombreE.setText((String) null);
 		textNombreE.setEditable(false);
 		textNombreE.setColumns(10);
 		textNombreE.setText(datosEquipo.buscarEquipo(codE).getNombreE());
-		textNombreE.setBounds(293, 19, 132, 20);
+		textNombreE.setBounds(146, 11, 390, 39);
 		add(textNombreE);
 		
 		String titulosPartido[] = { "FECHA","EQUIPO L","GOLES L","GOLES V","EQUIPO V" };
@@ -75,7 +71,7 @@ public class PVerEquipos extends JPanel {
 			}
 		};
 		JScrollPane scrollPartido = new JScrollPane(tablaPartidos);
-		scrollPartido.setBounds(52, 55, 596, 77);
+		scrollPartido.setBounds(51, 61, 596, 66);
 		add(scrollPartido);
 		
 		//PARA QUE NO SE PUEDA MOVER LA CABECERA DEL JTABLE DE PARTIDOS
@@ -104,7 +100,7 @@ public class PVerEquipos extends JPanel {
 			}
 		};	
 		JScrollPane scrollJugador = new JScrollPane(tablaJugadores);
-		scrollJugador.setBounds(52, 143, 316, 249);
+		scrollJugador.setBounds(52, 175, 350, 217);
 		add(scrollJugador);
 		
 		JButton btnVerJugador = new JButton("VER JUGADOR");
@@ -113,7 +109,7 @@ public class PVerEquipos extends JPanel {
 				verJugador();
 			}
 		});
-		btnVerJugador.setBounds(455, 248, 142, 39);
+		btnVerJugador.setBounds(490, 234, 142, 39);
 		add(btnVerJugador);
 		
 		JButton btnVolver = new JButton("VOLVER");
@@ -122,8 +118,14 @@ public class PVerEquipos extends JPanel {
 				volver();
 			}
 		});
-		btnVolver.setBounds(455, 298, 142, 33);
+		btnVolver.setBounds(490, 312, 142, 39);
 		add(btnVolver);
+		
+		JLabel lblJugadores = new JLabel("JUGADORES");
+		lblJugadores.setHorizontalAlignment(SwingConstants.CENTER);
+		lblJugadores.setFont(new Font("Tahoma", Font.PLAIN, 25));
+		lblJugadores.setBounds(107, 138, 262, 26);
+		add(lblJugadores);
 		
 		//PARA QUE NO SE PUEDA MOVER LA CABECERA DEL JTABLE DE JUGADORES
 		tablaJugadores.getTableHeader().setReorderingAllowed(false);
@@ -153,7 +155,7 @@ public class PVerEquipos extends JPanel {
 			JOptionPane.showMessageDialog(this, "Debes seleccionar un jugador");
 		} else {
 			Jugador jugador = datosJugador.buscarJugador(jugadores[tablaJugadores.getSelectedRow()][3]);
-			PVerJugadores verJugadores = new PVerJugadores(jugador, textNombreE.getText());
+			PVerJugadores verJugadores = new PVerJugadores(usuarioMenu,codE, liga, jugador, textNombreE.getText());
 			usuarioMenu.cambiarJPanel(verJugadores);
 		}
 		

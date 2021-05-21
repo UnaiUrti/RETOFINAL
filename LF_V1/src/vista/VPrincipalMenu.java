@@ -33,28 +33,35 @@ public class VPrincipalMenu extends JFrame {
 	private JButton btnSalir;
 
 	public VPrincipalMenu() {
-		
+
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 965, 487);
-		
-		ImageIcon icono = new ImageIcon("Recursos/balon de furbo.png");
+
+		// CAMBIAR EL ICONO DEL JFRAME
+		ImageIcon icono = new ImageIcon("Recursos/futboldehonor.png");
 		this.setIconImage(icono.getImage());
-		
+
+		// CALCULAR DONDE ESTA EL CENTRO DE LA PANTALLA
 		Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
-	    int x = (int) ((dimension.getWidth() - this.getWidth()) / 2);
-	    int y = (int) ((dimension.getHeight() - this.getHeight()) / 2);
-	    this.setLocation(x, y);
-		
+		int x = (int) ((dimension.getWidth() - this.getWidth()) / 2);
+		int y = (int) ((dimension.getHeight() - this.getHeight()) / 2);
+		this.setLocation(x, y);
+
 		contentPane = new JPanel();
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
+
 		layeredPane = new JLayeredPane();
 		layeredPane.setBorder(new LineBorder(new Color(0, 0, 0)));
 		layeredPane.setBounds(230, 23, 697, 403);
 		contentPane.add(layeredPane);
 		layeredPane.setLayout(new CardLayout(0, 0));
-		
+
+		// EN EL LBLIMAGEN CREAMOS UN ICONO CON LA IMAGEN DE RECURSOS
+		JLabel lblImagen = new JLabel("");
+		lblImagen.setIcon(new ImageIcon("Recursos/futLiga.jpg"));
+		layeredPane.add(lblImagen);
+
 		btnAcceder = new JButton("INICIAR SESION");
 		btnAcceder.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -63,7 +70,7 @@ public class VPrincipalMenu extends JFrame {
 		});
 		btnAcceder.setBounds(28, 149, 192, 41);
 		contentPane.add(btnAcceder);
-		
+
 		btnRegistrarse = new JButton("REGISTRARSE");
 		btnRegistrarse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -72,14 +79,14 @@ public class VPrincipalMenu extends JFrame {
 		});
 		btnRegistrarse.setBounds(28, 231, 192, 41);
 		contentPane.add(btnRegistrarse);
-		
+
 		lblTitulo = new JLabel("FutLiga");
 		lblTitulo.setToolTipText("");
 		lblTitulo.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTitulo.setFont(new Font("Dialog", Font.PLAIN, 40));
 		lblTitulo.setBounds(28, 40, 184, 73);
 		contentPane.add(lblTitulo);
-		
+
 		btnSalir = new JButton("SALIR");
 		btnSalir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -89,29 +96,29 @@ public class VPrincipalMenu extends JFrame {
 		btnSalir.setBounds(28, 307, 192, 41);
 		contentPane.add(btnSalir);
 	}
-	
+
 	public void registrarse() {
 		PRegistrar registrarse = new PRegistrar();
 		cambiarJPanel(registrarse);
 	}
-	
+
 	public void salir() {
 		this.dispose();
 	}
-	
+
 	public void accederUsuario() {
 		PAcceder acceder = new PAcceder(this);
 		cambiarJPanel(acceder);
 	}
-	
+
 	public void cambiarJPanel(JPanel panel) {
-		//REMUEVE TODOS LOS COMPONENTES
+		// REMUEVE TODOS LOS COMPONENTES
 		layeredPane.removeAll();
-		//AÑADE EL COMPONENTE PANEL
+		// AÑADE EL COMPONENTE PANEL
 		layeredPane.add(panel);
+		// VUELVE A "PINTAR" EL PANEL
 		layeredPane.repaint();
+		// VOLVEMOS A VALIDAR LOS COMPONENTES DEL JPANEL YA QUE HAN SIDO REMOVIDOS O SE HAN AÑADIDO NUEVOS COMPONENTES
 		layeredPane.revalidate();
 	}
-	
-	
 }

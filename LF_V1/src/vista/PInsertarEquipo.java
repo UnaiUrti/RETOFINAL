@@ -19,6 +19,7 @@ import modelo.interfaces.LigaInterface;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.SwingConstants;
 
 public class PInsertarEquipo extends JPanel {
 	
@@ -38,28 +39,29 @@ public class PInsertarEquipo extends JPanel {
 		this.setBounds(246, 11, 697, 403);
 		
 		JLabel lblTitulo = new JLabel("Insertar Equipo");
-		lblTitulo.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblTitulo.setBounds(55, 46, 157, 61);
+		lblTitulo.setHorizontalAlignment(SwingConstants.CENTER);
+		lblTitulo.setFont(new Font("Tahoma", Font.PLAIN, 25));
+		lblTitulo.setBounds(239, 51, 241, 61);
 		add(lblTitulo);
 		
 		JLabel lblLiga = new JLabel("Liga:");
-		lblLiga.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblLiga.setBounds(115, 139, 81, 24);
+		lblLiga.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblLiga.setBounds(215, 137, 81, 24);
 		add(lblLiga);
 		
 		JLabel lblNombre = new JLabel("Nombre:");
-		lblNombre.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblNombre.setBounds(115, 211, 72, 14);
+		lblNombre.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblNombre.setBounds(215, 204, 93, 24);
 		add(lblNombre);
 		
 		comboLiga = new JComboBox();
 		comboLiga.setSelectedIndex(-1);
-		comboLiga.setBounds(208, 142, 142, 22);
+		comboLiga.setBounds(306, 142, 142, 22);
 		add(comboLiga);
 		
 		textNombre = new JTextField();
 		textNombre.setColumns(10);
-		textNombre.setBounds(208, 210, 142, 20);
+		textNombre.setBounds(306, 210, 142, 20);
 		add(textNombre);
 		
 		JButton btnAlta = new JButton("Alta");
@@ -68,7 +70,7 @@ public class PInsertarEquipo extends JPanel {
 				altaEquipo();
 			}
 		});
-		btnAlta.setBounds(416, 342, 89, 23);
+		btnAlta.setBounds(407, 331, 120, 34);
 		add(btnAlta);
 		
 		JButton btnModificar = new JButton("Modificar");
@@ -77,7 +79,7 @@ public class PInsertarEquipo extends JPanel {
 				modificarEquipo();
 			}
 		});
-		btnModificar.setBounds(537, 342, 89, 23);
+		btnModificar.setBounds(537, 331, 120, 34);
 		add(btnModificar);
 		
 		cargarLigas();

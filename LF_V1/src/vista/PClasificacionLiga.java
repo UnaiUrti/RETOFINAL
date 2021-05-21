@@ -33,11 +33,8 @@ public class PClasificacionLiga extends JPanel {
 	private JButton btnVerEquipo;
 	private JButton btnVerPartidos;
 	private JButton btnVolver;
+	private JLabel lblNewLabel;
 
-	
-	/**
-	 * Create the panel.
-	 */
 	public PClasificacionLiga(VUsuarioMenu usuarioMenu, Liga liga) {
 		
 		this.usuarioMenu = usuarioMenu;
@@ -47,8 +44,9 @@ public class PClasificacionLiga extends JPanel {
 		this.setBounds(230, 23, 697, 403);
 		
 		JLabel lblLigaNombre = new JLabel("Liga");
+		lblLigaNombre.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lblLigaNombre.setHorizontalAlignment(SwingConstants.CENTER);
-		lblLigaNombre.setBounds(27, 29, 117, 29);
+		lblLigaNombre.setBounds(30, 69, 117, 29);
 		add(lblLigaNombre);
 		
 		textNombreL = new JTextField();
@@ -57,12 +55,13 @@ public class PClasificacionLiga extends JPanel {
 		textNombreL.setEditable(false);
 		textNombreL.setColumns(10);
 		textNombreL.setText(liga.getNombreL());
-		textNombreL.setBounds(133, 29, 161, 29);
+		textNombreL.setBounds(135, 73, 161, 29);
 		add(textNombreL);
 		
 		JLabel lblLigaPais = new JLabel("Pais");
+		lblLigaPais.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lblLigaPais.setHorizontalAlignment(SwingConstants.CENTER);
-		lblLigaPais.setBounds(323, 29, 117, 29);
+		lblLigaPais.setBounds(331, 73, 117, 29);
 		add(lblLigaPais);
 		
 		textPaisL = new JTextField();
@@ -71,24 +70,30 @@ public class PClasificacionLiga extends JPanel {
 		textPaisL.setEditable(false);
 		textPaisL.setColumns(10);
 		textPaisL.setText(liga.getPaisL());
-		textPaisL.setBounds(432, 29, 161, 29);
+		textPaisL.setBounds(437, 73, 161, 29);
 		add(textPaisL);
 		
-
+		//JTABLE DE CLASIFICACION
 		String titulos[] = { "#","COD_EQ","EQUIPO","PJ","PG","PE","PE","GA","GE","PTS" };
 		clasificacion = datosLiga.tablaClasificacion(liga.getCodL());
 		
+		
 		DefaultTableModel model = new DefaultTableModel(clasificacion,titulos);
+		
+		//CREAMOS EL JTABLE CON LOS DATOS DE MODEL Y CON UN METODO PARA QUE NO SE PUEDA EDITAR LAS CELDAS DE LA TABLA
 		tablaClasificacion = new JTable(model) {
 			public boolean isCellEditable(int row, int column) {
 				return false;
 			}
 		};
 		tablaClasificacion.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		
+		//DESABILITAMOS EL PODER MOVER LAS COLUMNAS
 		tablaClasificacion.getTableHeader().setReorderingAllowed(false);
-		//tablaClasificacion.setEnabled(false);
+
+		//AÑADIMOS EL SCROLLPANE PARA QUE SE VEA LA TABLA
 		JScrollPane scrollPane = new JScrollPane(tablaClasificacion);
-		scrollPane.setBounds(26, 101, 636, 230);
+		scrollPane.setBounds(27, 115, 636, 230);
 		scrollPane.setVisible(true);
 		tablaClasificacion.setVisible(true);
 		
@@ -97,7 +102,7 @@ public class PClasificacionLiga extends JPanel {
 		tablaClasificacion.getColumnModel().getColumn(1).setMaxWidth(0);
 
 		tablaClasificacion.getColumnModel().getColumn(2).setMinWidth(180);
-		// tablaClasificacion.getColumnModel().getColumnCount()
+		//METODO PARA CENTRAR EL TEXTO DEL JTABLE
 		DefaultTableCellRenderer alinear = new DefaultTableCellRenderer();
 		alinear.setHorizontalAlignment(SwingConstants.CENTER);
 		for (int i = 0; i < tablaClasificacion.getColumnCount(); i++) {
@@ -112,7 +117,7 @@ public class PClasificacionLiga extends JPanel {
 				verEquipo();
 			}
 		});
-		btnVerEquipo.setBounds(263, 356, 131, 34);
+		btnVerEquipo.setBounds(404, 356, 131, 34);
 		add(btnVerEquipo);
 		
 		btnVerPartidos = new JButton("VER PARTIDOS");
@@ -121,7 +126,7 @@ public class PClasificacionLiga extends JPanel {
 				verPartidos();
 			}
 		});
-		btnVerPartidos.setBounds(404, 356, 131, 34);
+		btnVerPartidos.setBounds(263, 356, 131, 34);
 		add(btnVerPartidos);
 		
 		btnVolver = new JButton("VOLVER");
@@ -132,6 +137,12 @@ public class PClasificacionLiga extends JPanel {
 		});
 		btnVolver.setBounds(545, 356, 117, 34);
 		add(btnVolver);
+		
+		lblNewLabel = new JLabel("CLASIFICACION");
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 30));
+		lblNewLabel.setBounds(125, 21, 441, 34);
+		add(lblNewLabel);
 		
 	}
 	
@@ -144,7 +155,7 @@ public class PClasificacionLiga extends JPanel {
 	
 	private void verPartidos() {
 		
-		PVerPartidosJornada verPartidos = new PVerPartidosJornada(usuarioMenu, liga.getCodL());
+		PVerPartidosJornada verPartidos = new PVerPartidosJornada(usuarioMenu, liga, liga.getCodL());
 		usuarioMenu.cambiarJPanel(verPartidos);
 		
 	}

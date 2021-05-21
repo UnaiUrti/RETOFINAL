@@ -9,10 +9,15 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 import controlador.Main;
+import modelo.entidades.Liga;
 import modelo.interfaces.PartidoInterface;
 
 import javax.swing.JTextField;
 import java.awt.Rectangle;
+import java.awt.Font;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class PVerPartido extends JPanel {
 	
@@ -20,22 +25,25 @@ public class PVerPartido extends JPanel {
 	private String codP;
 	private String[][] partido;
 	private String[][] goles;
-	//private String[][] golL;
-	//private String[][] golV;
 	private PartidoInterface datosPartido=Main.cargarPartido();
 	private JTable tablaPartido;
 	private JTable tablaGoles;
-	//private JTable tablaGolL;
-	//private JTable tablaGolV;
+	private VUsuarioMenu usuarioMenu;
+	private Liga liga;
+	private String codL;
 	
-	public PVerPartido(String codP) {
-
+	public PVerPartido(VUsuarioMenu usuarioMenu, Liga liga, String codL, String codP) {
+		
+		this.usuarioMenu = usuarioMenu;
+		this.liga = liga;
+		this.codL = codL;
 		this.codP = codP;
 		
 		setLayout(null);
 		this.setBounds(230, 23, 697, 403);
 		
 		JLabel lblFecha = new JLabel("FECHA");
+		lblFecha.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lblFecha.setHorizontalAlignment(SwingConstants.CENTER);
 		lblFecha.setBounds(159, 35, 111, 31);
 		add(lblFecha);
@@ -45,6 +53,7 @@ public class PVerPartido extends JPanel {
 		textFecha.setBounds(263, 37, 167, 26);
 		add(textFecha);
 		textFecha.setColumns(10);
+		textFecha.setEditable(false);
 	
 		String titulosPartido[] = {"FECHA","EQUIPO L","GOLES L","GOLES V","EQUIPO V" };
 		partido = datosPartido.buscarPartido(codP);
@@ -81,8 +90,23 @@ public class PVerPartido extends JPanel {
 			}
 		};
 		JScrollPane scrollGoles = new JScrollPane(tablaGoles);
-		scrollGoles.setBounds(new Rectangle(110, 174, 457, 167));
+		scrollGoles.setBounds(new Rectangle(67, 205, 569, 136));
 		add(scrollGoles);
+		
+		JLabel lblNewLabel = new JLabel("GOLES");
+		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 25));
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel.setBounds(215, 163, 268, 31);
+		add(lblNewLabel);
+		
+		JButton btnVolver = new JButton("VOLVER");
+		btnVolver.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				volver();
+			}
+		});
+		btnVolver.setBounds(544, 355, 130, 37);
+		add(btnVolver);
 		
 		tablaGoles.getTableHeader().setReorderingAllowed(false);
 		
@@ -92,6 +116,13 @@ public class PVerPartido extends JPanel {
 			tablaGoles.getColumnModel().getColumn(i).setCellRenderer(alinearGoles);
 		}
 
+		
+	}
+	
+	private void volver() {
+		
+		PVerPartidosJornada verPartidosJornada = new PVerPartidosJornada(usuarioMenu,liga, codL);
+		usuarioMenu.cambiarJPanel(verPartidosJornada);
 		
 	}
 	

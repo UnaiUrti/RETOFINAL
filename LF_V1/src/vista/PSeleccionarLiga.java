@@ -16,6 +16,7 @@ import javax.swing.JComboBox;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.SwingConstants;
 
 public class PSeleccionarLiga extends JPanel {
 
@@ -33,16 +34,19 @@ public class PSeleccionarLiga extends JPanel {
 		setLayout(null);
 		this.setBounds(230, 23, 697, 403);
 		
-		JLabel lblTitulo = new JLabel("CONSULTAR LIGA");
+		JLabel lblTitulo = new JLabel("ELIGE UNA LIGA");
+		lblTitulo.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTitulo.setFont(new Font("Tahoma", Font.PLAIN, 30));
-		lblTitulo.setBounds(218, 38, 239, 37);
+		lblTitulo.setBounds(209, 38, 276, 37);
 		add(lblTitulo);
 		
 		JLabel lblLiga = new JLabel("Liga:");
-		lblLiga.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblLiga.setBounds(199, 149, 44, 25);
+		lblLiga.setHorizontalAlignment(SwingConstants.CENTER);
+		lblLiga.setFont(new Font("Tahoma", Font.PLAIN, 24));
+		lblLiga.setBounds(197, 137, 66, 51);
 		add(lblLiga);
 		
+		//METEDOS DATOS AL ARRAY DE LIGA
 		todasLigas = datosLiga.todasLiga();
 		
 		cmbLiga = new JComboBox();

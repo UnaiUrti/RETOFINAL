@@ -26,6 +26,7 @@ import java.awt.event.FocusEvent;
 import java.awt.event.ActionEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.ItemEvent;
+import javax.swing.SwingConstants;
 
 public class PInsertarJugador extends JPanel {
 
@@ -52,13 +53,14 @@ public class PInsertarJugador extends JPanel {
 		this.setBounds(246, 11, 697, 403);
 
 		JLabel lblInsertarJugador = new JLabel("Insertar Jugador");
-		lblInsertarJugador.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblInsertarJugador.setBounds(59, 51, 158, 25);
+		lblInsertarJugador.setHorizontalAlignment(SwingConstants.CENTER);
+		lblInsertarJugador.setFont(new Font("Tahoma", Font.PLAIN, 25));
+		lblInsertarJugador.setBounds(232, 37, 236, 52);
 		add(lblInsertarJugador);
 
 		JLabel lblLiga = new JLabel("Liga: ");
 		lblLiga.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblLiga.setBounds(105, 114, 60, 19);
+		lblLiga.setBounds(105, 109, 60, 28);
 		add(lblLiga);
 
 		cmbLiga = new JComboBox();
@@ -82,7 +84,7 @@ public class PInsertarJugador extends JPanel {
 
 		JLabel lblEquipo = new JLabel("Equipo: ");
 		lblEquipo.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblEquipo.setBounds(105, 153, 60, 19);
+		lblEquipo.setBounds(105, 153, 60, 22);
 		add(lblEquipo);
 
 		cmbEquipo = new JComboBox();
@@ -91,7 +93,7 @@ public class PInsertarJugador extends JPanel {
 
 		JLabel lblNombre = new JLabel("Nombre: ");
 		lblNombre.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblNombre.setBounds(105, 216, 62, 19);
+		lblNombre.setBounds(103, 211, 62, 28);
 		add(lblNombre);
 
 		textNombre = new JTextField();
@@ -101,7 +103,7 @@ public class PInsertarJugador extends JPanel {
 
 		JLabel lblPais = new JLabel("Pais: ");
 		lblPais.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblPais.setBounds(105, 246, 46, 19);
+		lblPais.setBounds(105, 246, 46, 22);
 		add(lblPais);
 
 		textPais = new JTextField();
@@ -111,7 +113,7 @@ public class PInsertarJugador extends JPanel {
 
 		JLabel lblDorsal = new JLabel("Dorsal: ");
 		lblDorsal.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblDorsal.setBounds(396, 216, 50, 19);
+		lblDorsal.setBounds(396, 216, 50, 23);
 		add(lblDorsal);
 
 		textDorsal = new JTextField();
@@ -121,7 +123,7 @@ public class PInsertarJugador extends JPanel {
 
 		JLabel lblPosicion = new JLabel("Posicion: ");
 		lblPosicion.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblPosicion.setBounds(396, 250, 60, 19);
+		lblPosicion.setBounds(396, 250, 60, 22);
 		add(lblPosicion);
 
 		cmbPosicion = new JComboBox();
@@ -135,7 +137,7 @@ public class PInsertarJugador extends JPanel {
 				altaJugador();
 			}
 		});
-		btnAlta.setBounds(482, 338, 57, 23);
+		btnAlta.setBounds(467, 338, 85, 33);
 		add(btnAlta);
 
 		JButton btnModificar = new JButton("MODIFICAR");
@@ -144,7 +146,7 @@ public class PInsertarJugador extends JPanel {
 				modificarJugador();
 			}
 		});
-		btnModificar.setBounds(562, 338, 91, 23);
+		btnModificar.setBounds(562, 338, 107, 33);
 		add(btnModificar);
 
 		cargarLigas();

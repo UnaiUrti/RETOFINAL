@@ -25,13 +25,14 @@ public class VAdminMenu extends JFrame {
 
 	private JPanel contentPane;
 	private JLayeredPane layeredPane;
+	private JLabel lblImagen;
 
 	public VAdminMenu() {
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 965, 487);
 		
-		ImageIcon icono = new ImageIcon("Recursos/balon de furbo.png");
+		ImageIcon icono = new ImageIcon("Recursos/futboldehonor.png");
 		this.setIconImage(icono.getImage());
 		
 		Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
@@ -49,6 +50,10 @@ public class VAdminMenu extends JFrame {
 		contentPane.add(layeredPane);
 		layeredPane.setBounds(230, 23, 697, 403);
 		layeredPane.setLayout(new CardLayout(0, 0));
+		
+		lblImagen = new JLabel("");
+		lblImagen.setIcon(new ImageIcon("Recursos/campoDeFutbol.jpg"));
+		layeredPane.add(lblImagen);
 		
 		JLabel lblAdmin = new JLabel("Admin");
 		lblAdmin.setToolTipText("");

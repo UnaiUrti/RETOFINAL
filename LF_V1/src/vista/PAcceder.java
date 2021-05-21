@@ -41,7 +41,7 @@ public class PAcceder extends JPanel {
 		JLabel lblLogin = new JLabel("Login");
 		lblLogin.setHorizontalAlignment(SwingConstants.CENTER);
 		lblLogin.setFont(new Font("Tahoma", Font.PLAIN, 40));
-		lblLogin.setBounds(34, 46, 166, 55);
+		lblLogin.setBounds(246, 38, 166, 55);
 		add(lblLogin);
 		
 		JLabel lblNomUsu = new JLabel("Nombre de Usuario:");

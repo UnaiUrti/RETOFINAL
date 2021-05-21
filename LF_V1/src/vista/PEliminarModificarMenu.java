@@ -24,6 +24,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.ItemEvent;
+import javax.swing.SwingConstants;
 
 public class PEliminarModificarMenu extends JPanel {
 
@@ -46,8 +47,9 @@ public class PEliminarModificarMenu extends JPanel {
 		this.setBounds(246, 11, 697, 403);
 
 		JLabel lblEliminarbaja = new JLabel("Eliminar/Baja");
-		lblEliminarbaja.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblEliminarbaja.setBounds(58, 36, 135, 44);
+		lblEliminarbaja.setHorizontalAlignment(SwingConstants.CENTER);
+		lblEliminarbaja.setFont(new Font("Tahoma", Font.PLAIN, 25));
+		lblEliminarbaja.setBounds(238, 38, 216, 44);
 		add(lblEliminarbaja);
 
 		JLabel lblLiga = new JLabel("Liga:");
@@ -116,7 +118,7 @@ public class PEliminarModificarMenu extends JPanel {
 				baja();
 			}
 		});
-		btnBaja.setBounds(369, 336, 100, 30);
+		btnBaja.setBounds(369, 345, 124, 35);
 		add(btnBaja);
 
 		JButton btnModificar = new JButton("MODIFICAR");
@@ -125,7 +127,7 @@ public class PEliminarModificarMenu extends JPanel {
 				modificar();
 			}
 		});
-		btnModificar.setBounds(503, 336, 135, 30);
+		btnModificar.setBounds(503, 345, 149, 35);
 		add(btnModificar);
 
 		if (bajaOculto) {

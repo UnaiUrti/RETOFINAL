@@ -14,6 +14,7 @@ import modelo.entidades.Liga;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.SwingConstants;
 
 public class PInsertarLiga extends JPanel {
 	
@@ -30,8 +31,9 @@ public class PInsertarLiga extends JPanel {
 		this.setBounds(246, 11, 697, 403);
 		
 		JLabel lblInsertarLiga = new JLabel("Insertar Liga");
-		lblInsertarLiga.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblInsertarLiga.setBounds(54, 41, 160, 36);
+		lblInsertarLiga.setHorizontalAlignment(SwingConstants.CENTER);
+		lblInsertarLiga.setFont(new Font("Tahoma", Font.PLAIN, 25));
+		lblInsertarLiga.setBounds(236, 42, 214, 49);
 		add(lblInsertarLiga);
 		
 		JLabel lblNombre = new JLabel("Nombre:");
@@ -60,7 +62,7 @@ public class PInsertarLiga extends JPanel {
 				altaLiga();
 			}
 		});
-		btnAlta.setBounds(389, 327, 89, 23);
+		btnAlta.setBounds(389, 327, 122, 36);
 		add(btnAlta);
 		
 		JButton btnModificar = new JButton("Modificar");
@@ -69,7 +71,7 @@ public class PInsertarLiga extends JPanel {
 				modificarLiga();
 			}
 		});
-		btnModificar.setBounds(521, 327, 89, 23);
+		btnModificar.setBounds(521, 327, 122, 36);
 		add(btnModificar);
 		
 		

@@ -15,6 +15,7 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.util.Map;
 import java.awt.event.ActionEvent;
+import javax.swing.SwingConstants;
 
 public class PRegistrar extends JPanel {
 	
@@ -36,8 +37,9 @@ public class PRegistrar extends JPanel {
 		setLayout(null);
 		
 		JLabel lblRegistrarse = new JLabel("Resigtrarse");
+		lblRegistrarse.setHorizontalAlignment(SwingConstants.CENTER);
 		lblRegistrarse.setFont(new Font("Tahoma", Font.PLAIN, 30));
-		lblRegistrarse.setBounds(57, 35, 203, 51);
+		lblRegistrarse.setBounds(247, 41, 203, 51);
 		add(lblRegistrarse);
 		
 		JLabel lblNombreUsuario = new JLabel("Nombre de usuario:");

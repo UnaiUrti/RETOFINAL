@@ -20,6 +20,7 @@ import javax.swing.JComboBox;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.SwingConstants;
 
 public class PInsertarGol extends JPanel {
 
@@ -50,13 +51,14 @@ public class PInsertarGol extends JPanel {
 		this.setBounds(246, 11, 697, 403);
 
 		JLabel lblInsertarGol = new JLabel("Insertar Gol");
-		lblInsertarGol.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblInsertarGol.setBounds(68, 53, 105, 25);
+		lblInsertarGol.setHorizontalAlignment(SwingConstants.CENTER);
+		lblInsertarGol.setFont(new Font("Tahoma", Font.PLAIN, 25));
+		lblInsertarGol.setBounds(231, 46, 202, 43);
 		add(lblInsertarGol);
 
 		JLabel lblEquipo = new JLabel("Equipo: ");
 		lblEquipo.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblEquipo.setBounds(153, 129, 52, 19);
+		lblEquipo.setBounds(153, 122, 80, 33);
 		add(lblEquipo);
 
 		textEquipo = new JTextField();
@@ -67,7 +69,7 @@ public class PInsertarGol extends JPanel {
 
 		JLabel lblGol = new JLabel("Gol num");
 		lblGol.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblGol.setBounds(397, 133, 54, 19);
+		lblGol.setBounds(397, 122, 65, 33);
 		add(lblGol);
 
 		textGol = new JTextField();
@@ -78,7 +80,7 @@ public class PInsertarGol extends JPanel {
 
 		JLabel lblGoleador = new JLabel("Goleador (dorsal):");
 		lblGoleador.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblGoleador.setBounds(153, 214, 117, 19);
+		lblGoleador.setBounds(153, 207, 128, 33);
 		add(lblGoleador);
 
 		cmbGoleador = new JComboBox();
@@ -87,7 +89,7 @@ public class PInsertarGol extends JPanel {
 
 		JLabel lblMinuto = new JLabel("Minuto (entre 0 - 90):");
 		lblMinuto.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblMinuto.setBounds(153, 270, 143, 19);
+		lblMinuto.setBounds(153, 263, 156, 33);
 		add(lblMinuto);
 
 		textMinuto = new JTextField();
@@ -109,7 +111,7 @@ public class PInsertarGol extends JPanel {
 				altaGol();
 			}
 		});
-		btnAlta.setBounds(537, 348, 57, 23);
+		btnAlta.setBounds(537, 348, 105, 33);
 		add(btnAlta);
 
 		cargarEquipo();

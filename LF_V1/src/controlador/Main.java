@@ -19,10 +19,8 @@ import vista.VPrincipalMenu;
 public class Main {
 
 	public static void main(String[] args) {
-		
 		VPrincipalMenu ventanaPrincipal = new VPrincipalMenu();
 		ventanaPrincipal.setVisible(true);
-		
 	}
 	
 	public static UsuarioInterface cargarUsuario() {

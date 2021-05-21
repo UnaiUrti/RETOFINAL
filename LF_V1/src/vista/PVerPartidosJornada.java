@@ -10,6 +10,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 import controlador.Main;
+import modelo.entidades.Liga;
 import modelo.interfaces.PartidoInterface;
 
 
@@ -19,6 +20,7 @@ import java.awt.event.ItemEvent;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Font;
 
 public class PVerPartidosJornada extends JPanel {
 
@@ -29,9 +31,11 @@ public class PVerPartidosJornada extends JPanel {
 	private PartidoInterface datosPartido=Main.cargarPartido();
 	private String codL;
 	private VUsuarioMenu usuarioMenu;
+	private Liga liga;
 	
-	public PVerPartidosJornada(VUsuarioMenu usuarioMenu, String codL) {
+	public PVerPartidosJornada(VUsuarioMenu usuarioMenu, Liga liga, String codL) {
 
+		this.liga = liga;
 		this.usuarioMenu = usuarioMenu;
 		this.codL = codL;
 		
@@ -39,13 +43,14 @@ public class PVerPartidosJornada extends JPanel {
 		this.setBounds(230, 23, 697, 403);
 		
 		JLabel lblJornada = new JLabel("JORNADA");
+		lblJornada.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lblJornada.setHorizontalAlignment(SwingConstants.CENTER);
-		lblJornada.setBounds(215, 36, 131, 44);
+		lblJornada.setBounds(475, 36, 131, 55);
 		add(lblJornada);
 		
 		cbJornada = new JComboBox();
 		cbJornada.setSelectedIndex(-1);
-		cbJornada.setBounds(338, 47, 53, 22);
+		cbJornada.setBounds(589, 51, 53, 22);
 		add(cbJornada);
 		
 		jornadasL = datosPartido.jornadasLiga(codL);
@@ -66,7 +71,7 @@ public class PVerPartidosJornada extends JPanel {
 			}
 		};
 		JScrollPane scrollPartidos = new JScrollPane(tablaPartidos);
-		scrollPartidos.setLocation(45, 91);
+		scrollPartidos.setLocation(35, 102);
 		scrollPartidos.setSize(607, 238);
 		add(scrollPartidos);
 		
@@ -85,8 +90,23 @@ public class PVerPartidosJornada extends JPanel {
 				verPartido();
 			}
 		});
-		btnVerPartido.setBounds(496, 351, 146, 41);
+		btnVerPartido.setBounds(350, 351, 146, 41);
 		add(btnVerPartido);
+		
+		JLabel lblNewLabel = new JLabel("PARTIDOS");
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 30));
+		lblNewLabel.setBounds(166, 29, 331, 61);
+		add(lblNewLabel);
+		
+		JButton btnVolver = new JButton("VOLVER");
+		btnVolver.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				volver();
+			}
+		});
+		btnVolver.setBounds(506, 351, 146, 41);
+		add(btnVolver);
 		
 		tablaPartidos.getColumnModel().getColumn(0).setMinWidth(100);
 		tablaPartidos.getColumnModel().getColumn(1).setMinWidth(150);
@@ -94,7 +114,7 @@ public class PVerPartidosJornada extends JPanel {
 		tablaPartidos.getColumnModel().getColumn(3).setMinWidth(20);
 		tablaPartidos.getColumnModel().getColumn(4).setMinWidth(150);
 		
-		//ITEM CAHNGED
+		//EVENTO QUE OCURRE CADA VEZ QUE EL ITEM SELECCIONADO CAMBIA
 		cbJornada.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
 				partidosJornada(modelPartidos, titulos);
@@ -103,10 +123,31 @@ public class PVerPartidosJornada extends JPanel {
 		
 	}
 	
+	private void volver() {
+		
+		PClasificacionLiga clasificacionLiga = new PClasificacionLiga(usuarioMenu, liga);
+		usuarioMenu.cambiarJPanel(clasificacionLiga);
+		
+	}
+	
 	private void partidosJornada(DefaultTableModel model, String titulos[]) {
+		
 		partidos = datosPartido.partidosJornada(codL,jornadasL[cbJornada.getSelectedIndex()]);
 		model.setDataVector(partidos, titulos);
 		tablaPartidos.setModel(model);
+		
+		DefaultTableCellRenderer alinearPartidos = new DefaultTableCellRenderer();
+		alinearPartidos.setHorizontalAlignment(SwingConstants.CENTER);
+		for (int i = 0; i < tablaPartidos.getColumnCount(); i++) {
+			tablaPartidos.getColumnModel().getColumn(i).setCellRenderer(alinearPartidos);
+		}
+		
+		tablaPartidos.getColumnModel().getColumn(0).setMinWidth(100);
+		tablaPartidos.getColumnModel().getColumn(1).setMinWidth(150);
+		tablaPartidos.getColumnModel().getColumn(2).setMinWidth(20);
+		tablaPartidos.getColumnModel().getColumn(3).setMinWidth(20);
+		tablaPartidos.getColumnModel().getColumn(4).setMinWidth(150);
+		
 	}
 	
 	private void verPartido() {
@@ -117,7 +158,7 @@ public class PVerPartidosJornada extends JPanel {
 			JOptionPane.showMessageDialog(this, "Debes seleccionar un partido");
 		} else {
 			String codP = partidos[tablaPartidos.getSelectedRow()][5];
-			PVerPartido verPartido = new PVerPartido(codP);
+			PVerPartido verPartido = new PVerPartido(usuarioMenu, liga, codL,codP);
 			usuarioMenu.cambiarJPanel(verPartido);
 		}
 		
